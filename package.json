@@ -4,11 +4,7 @@
   "description": "P06 - Création d'un site web accessible",
   "main": "index.js",
   "scripts": {
-    "sass --watch ./sass/main.scss:./css/style.css"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GitDrinou/SandrineBrival_6_04032021.git"
+    "sass": "sass --watch ./sass/main.scss:./css/style.css"
   },
   "author": "Sandrine BRIVAL",
   "license": "ISC"

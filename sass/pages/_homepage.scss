@@ -1,0 +1,71 @@
+
+
+.b-photographers {
+    margin-top: 5rem;
+}
+
+
+
+.photographer { 
+    text-align: center;  
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    &_photo {
+        width: 12.5rem;
+        height: 12.5rem;
+        object-fit: cover;
+        border-radius: 50%; 
+        margin-bottom: 1rem;
+    }
+    &_name {
+        font-size: 2.25rem;
+        padding-bottom: 0.5rem;
+        color: $primary;
+    }
+    &_city {
+        font-size: 0.9rem;
+        padding-bottom: 0.3rem;
+        color: $primary;
+    }
+    &_desc {
+        font-size: 0.7rem;
+        padding-bottom: 0.3rem;
+    }
+    &_price {
+        font-size: 0.6rem;
+        padding-bottom: 1rem;
+        color: $font-photographer-price;
+    }
+    &_tagg {
+        width: 100%; 
+        height: 3.125rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;        
+        flex-wrap: wrap;
+    }
+} 
+
+.space-card {
+    padding: 3.2rem; 
+}
+
+.photographer_tagg_link > a {
+    border-radius:0.7rem;
+    border: 0.03rem solid $border-tagg_off;
+    padding: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: $primary;
+    text-decoration: none;
+    margin: 0 0.3rem;
+    &:hover, &:focus {
+        color: $font-link-hover;
+        background-color: $primary;
+        cursor: pointer;
+    }
+}

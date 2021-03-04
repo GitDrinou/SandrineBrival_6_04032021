@@ -1,0 +1,6 @@
+@mixin title ($marge, $size, $weight) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $primary;
+    margin: $marge;
+}

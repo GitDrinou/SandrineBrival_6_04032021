@@ -1,0 +1,24 @@
+
+.header-banner {
+    width: 70%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 20rem auto;
+
+    &_logo {
+        margin: 2.5rem 0 0 1.25rem;
+        width: 12.5rem;
+        height: 3.125rem;
+    }
+}
+
+.title-home {
+    @include title ($marge:-2.8rem 3.25rem 0 0, $size: 2.25rem, $weight: 400);
+    position: absolute;
+    right: 1.125rem;
+    top: 6rem;
+}
+
+.title-photographer {
+    @include title($marge : 0 0 0 3rem, $size : 4rem, $weight: 400);
+}
