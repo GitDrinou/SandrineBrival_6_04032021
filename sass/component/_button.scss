@@ -1,0 +1,19 @@
+.btn-contact {
+    background-color: $primary;
+    padding: 1.1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: normal;
+    color: $font-link-hover;
+    border-radius: 0.3rem;
+    position: absolute;
+    top: 0.3rem;
+    border: none;
+    outline: none;
+    &:hover {
+        background-color: $secondary;
+        border: none;
+        outline: none;
+        color: $font-button-hover;
+    }
+}
