@@ -14,7 +14,7 @@
         outline: none;
         border: none;
         cursor: pointer;
-        width: 170px;
+        width: 10.625rem;
         text-align: left;
         position: relative;
     }
@@ -46,7 +46,8 @@
         border: none;
         cursor: pointer; 
         text-align: left;
-        border-top: 0.06rem solid $font-link-hover;
+        border-top: 0.06rem solid $font-link-hover;        
+        width: 10.625rem;
     }
 
 }

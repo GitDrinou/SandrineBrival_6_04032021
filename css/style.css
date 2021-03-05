@@ -59,7 +59,7 @@ img {
   outline: none;
   border: none;
   cursor: pointer;
-  width: 170px;
+  width: 10.625rem;
   text-align: left;
   position: relative;
 }
@@ -92,6 +92,7 @@ img {
   cursor: pointer;
   text-align: left;
   border-top: 0.06rem solid #FFFFFF;
+  width: 10.625rem;
 }
 
 .visible {
