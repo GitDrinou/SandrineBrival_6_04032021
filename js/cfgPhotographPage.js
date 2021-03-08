@@ -16,29 +16,45 @@ const photographerPicture = document.querySelector(".idPicture");
 const photographerWorks = document.querySelector(".b-works");
 const requestURL = "./js/json/FishEyeDataFR.json";
 const request = new XMLHttpRequest();
-const idWorker = document.URL.substring(document.URL.indexOf("id")+3,document.URL.length);
+let myIndexId = document.URL.indexOf("id")+3;
+let myIndexFilt = document.URL.indexOf("&filt=")+6;
+const idWorker = document.URL.substring(myIndexId,document.URL.indexOf("&"));
+const numFilter = document.URL.substring(myIndexFilt,document.URL.length);
+
+console.log(numFilter);
 
 let photographer;
-let myArrayMediaFilter = new Array();
-
+let myChoice;
+let url = new URL(document.URL);
+let myFilter = url.search;
 
 
 // Part 3 : Events Click -----------------------------------------------
 dropFilterSelected.addEventListener('click', function(e) {
     e.preventDefault();
     toggleFilter();
-    moveToFirst(this.innerHTML);
+    moveToFirst(this.innerHTML);   
 });
 
 dropFilterItems.forEach(item => {
     item.addEventListener('click', function(e) {  
-        e.preventDefault();        toggleFilter();
-        moveToFirst(this.innerHTML); 
-        filterBy(document.querySelector(".filter-dropdown_link--content").textContent);
-               
+        e.preventDefault();       
+        toggleFilter();
+        moveToFirst(this.innerHTML);  
+        
+        if (dropFilterSelected.textContent == "Popularité") {
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=1");
+        } 
+        if (dropFilterSelected.textContent == "Date") {
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=2");
+        }
+        if (dropFilterSelected.textContent == "Titre") {
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=3");
+        }  
     });
 });
-
+ 
+        
 request.open("GET", requestURL);
 request.responseType = "json";
 request.send();
@@ -67,7 +83,7 @@ function toggleFilter () {
 function moveToFirst (valItem) {
    if(valItem=="Popularité") {
     dropFilterSelected.textContent = "Popularité";
-    dropFilterItem1.innerHTML = "Date";
+    dropFilterItem1.textContent = "Date";
     dropFilterItem2.textContent = "Titre";
    }
    if(valItem=="Date") {
@@ -81,71 +97,6 @@ function moveToFirst (valItem) {
     dropFilterItem2.textContent = "Popularité";
    }
 }
-
-function filterBy(filter) {  
-    let medias = photographer["media"]; 
-    myArrayMediaFilter = myArrayMediaFilter.splice(0,myArrayMediaFilter.lengh);
-    for (let i=0; i < medias.length; i++) {
-        if(medias[i].photographerId == idWorker) {
-            if(filter === "Popularité" && (!(filter === "Date" || filter === "Titre"))) {
-                myArrayMediaFilter.push(medias[i].likes);
-                myArrayMediaFilter.sort((a, b) => b - a);
-            } 
-            if(filter === "Date" && (!(filter === "Titre" || filter === "Popularité"))) {
-                myArrayMediaFilter.push(medias[i].date);
-                myArrayMediaFilter.sort((a, b) => a - b);
-            }  
-            if(filter === "Titre" && (!(filter === "Popularité" || filter === "Date"))) {
-                myArrayMediaFilter.push(medias[i].text);
-                myArrayMediaFilter.sort();
-            }    
-        }
-    }
-    /**
-     * let myList = document.createElement("ul");
-     * for (let j=0; j < myArrayMediaFilter.length; j++) {
-     *   let myWorks = document.createElement("li");
-     *   if ((myArrayMediaFilter[j].image !== null) && (myArrayMediaFilter[j].video == null)){    
-     *       let myMediaImage = document.createElement("img");            
-     *       myMediaImage.src = "images/Medias/" + idWorker + "/" + myArrayMediaFilter[j].image;
-     *       myMediaImage.classList.add("vignette");
-     *       myWorks.appendChild(myMediaImage);
-     *   }
-     *   if ((myArrayMediaFilter[j].video !== null) && (myArrayMediaFilter[j].image == null)){  
-     *       let myMediaVideo = document.createElement("video");
-     *       myMediaVideo.src = "images/Medias/" + idWorker + "/" + myArrayMediaFilter[j].video;
-     *       myMediaVideo.classList.add("vignette");
-     *       myWorks.appendChild(myMediaVideo);
-     *   }
-     *
-     *   let myPictureInfo = document.createElement("div");
-     *   let myPictureText = document.createElement("span");
-     *   let myPicturePrice = document.createElement("span");
-     *   let myPictureLikes = document.createElement("span");
-     * 
-     *
-     *   myPictureText.textContent = myArrayMediaFilter[j].text;
-     *   myPicturePrice.textContent = myArrayMediaFilter[j].price + " €";
-     *   myPictureLikes.innerHTML = myArrayMediaFilter[j].likes + " <i class='fas fa-heart'></i>";
-     * 
-     *   myPictureInfo.classList.add("b-pictureInfo");
-     *   myPictureText.classList.add("mediaText");
-     *   myPicturePrice.classList.add("mediaPrice");
-     *   myPictureLikes.classList.add("mediaLikes");
-     * 
-     *   myPictureInfo.appendChild(myPictureText);
-     *   myPictureInfo.appendChild(myPicturePrice);
-     *   myPictureInfo.appendChild(myPictureLikes);
-     * 
-     *   myWorks.appendChild(myPictureInfo);
-     *   myList.appendChild(myWorks);
-     *   photographerWorks.appendChild(myList); 
-     *
-     * 
-     * } 
-     */              
-}
-
 
 
 // Display medias and ID of photographer
@@ -190,13 +141,65 @@ function showAllDatas(obj) {
     } 
     
     // Medias --------------------------------------------
-    //let photographerWork = obj["media"];
-    //    
-    //for (let k=0; k < photographerWork.length; k++) {
-    //    if (photographerWork[k].photographerId == idWorker) {
-    //        // Filter by 
-    //    }            
-    //}
+    let photographerWork = obj["media"]; 
+    if(numFilter == 1) {
+        photographerWork.sort(function (a, b) {
+            return b.likes - a.likes;
+        });
+    }  
+    else if (numFilter == 2) {
+        photographerWork.sort(function (a, b) {
+            return a.date - b.date;
+        });
+        console.log(photographerWork);
+    }   
+    else if (numFilter == 3) {
+        photographerWork.sort(function (a, b) {
+            return a.text - b.text;
+        });
+    }    
+    console.log(photographerWork);
+
+    let myList = document.createElement("ul");
+    for (let k=0; k < photographerWork.length; k++) {
+        if (photographerWork[k].photographerId == idWorker) {
+            
+
+            let myWorks = document.createElement("li");
+            if ((photographerWork[k].image !== null) && (photographerWork[k].video == null)){    
+                let myMediaImage = document.createElement("img");            
+                myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerWork[k].image;
+                myMediaImage.classList.add("vignette");
+                myWorks.appendChild(myMediaImage);
+            }
+            if ((photographerWork[k].video !== null) && (photographerWork[k].image == null)){  
+                let myMediaVideo = document.createElement("video");
+                myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerWork[k].video;
+                myMediaVideo.classList.add("vignette");
+                myWorks.appendChild(myMediaVideo);
+            }
+            let myPictureInfo = document.createElement("div");
+            let myPictureText = document.createElement("span");
+            let myPicturePrice = document.createElement("span");
+            let myPictureLikes = document.createElement("span");
+
+            myPictureText.textContent = photographerWork[k].text;
+            myPicturePrice.textContent = photographerWork[k].price + " €";
+            myPictureLikes.innerHTML = photographerWork[k].likes + " <i class='fas fa-heart'></i>";
+
+            myPictureInfo.classList.add("b-pictureInfo");
+            myPictureText.classList.add("mediaText");
+            myPicturePrice.classList.add("mediaPrice");
+            myPictureLikes.classList.add("mediaLikes");
+
+            myPictureInfo.appendChild(myPictureText);
+            myPictureInfo.appendChild(myPicturePrice);
+            myPictureInfo.appendChild(myPictureLikes);
+
+            myWorks.appendChild(myPictureInfo);
+            myList.appendChild(myWorks);
+            photographerWorks.appendChild(myList); 
+        }            
+    }
     
 }
-
