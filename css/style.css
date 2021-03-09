@@ -304,6 +304,7 @@ img {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 .b-works > ul > li {
   width: 21.875rem;
@@ -334,6 +335,24 @@ img {
   font-weight: 500;
   font-style: normal;
   color: #901C1C;
+}
+
+.b-likes-price {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: row;
+  width: 23rem;
+  padding: 1rem;
+  justify-content: space-around;
+  background-color: #D3573C;
+}
+.b-likes-price_content {
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: normal;
 }
 
 /*# sourceMappingURL=style.css.map */

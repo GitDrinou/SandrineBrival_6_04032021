@@ -67,7 +67,7 @@
       "photographerId": 82,
       "image": "Fashion_Yellow_Beach.jpg",
       "tags": ["fashion"],
-      "text": "Yellow Beach",
+      "title": "Yellow Beach",
       "likes": 62,
       "date": "2011-12-08",
       "price": 55
@@ -77,7 +77,7 @@
       "photographerId": 82,
       "image": "Fashion_Urban_Jungle.jpg",
       "tags": ["fashion"],
-      "text": "Urban Jungle",
+      "title": "Urban Jungle",
       "likes": 11,
       "date": "2011-11-06",
       "price": 55
@@ -87,7 +87,7 @@
       "photographerId": 82,
       "image": "Fashion_Pattern_on_Pattern.jpg",
       "tags": ["fashion"],
-      "text": "Pattern on Pattern",
+      "title": "Pattern on Pattern",
       "likes": 72,
       "date": "2013-08-12",
       "price": 55
@@ -97,7 +97,7 @@
       "photographerId": 82,
       "image": "Event_WeddingGazebo.jpg",
       "tags": ["events"],
-      "text": "Wedding",
+      "title": "Wedding",
       "likes": 69,
       "date": "2018-02-22",
       "price": 55
@@ -107,7 +107,7 @@
       "photographerId": 82,
       "image": "Event_Sparklers.jpg",
       "tags": ["events"],
-      "text": "Sparkles",
+      "title": "Sparkles",
       "likes": 2,
       "date": "2020-05-25",
       "price": 55
@@ -117,7 +117,7 @@
       "photographerId": 82,
       "image": "Event_18thAnniversary.jpg",
       "tags": ["events"],
-      "text": "Happy 18th",
+      "title": "Happy 18th",
       "likes": 33,
       "date": "2019-06-12",
       "price": 55
@@ -127,7 +127,7 @@
       "photographerId": 82,
       "video": "Art_Wooden_Horse_Sculpture.mp4",
       "tags": ["art"],
-      "text": "Wooden Horse",
+      "title": "Wooden Horse",
       "likes": 24,
       "date": "2011-12-08",
       "price": 100
@@ -137,7 +137,7 @@
       "photographerId": 82,
       "image": "Art_Triangle_Man.jpg",
       "tags": ["art"],
-      "text": "Triangle Man",
+      "title": "Triangle Man",
       "likes": 88,
       "date": "2007-05-07",
       "price": 55
@@ -147,7 +147,7 @@
       "photographerId": 82,
       "image": "Art_Purple_light.jpg",
       "tags": ["art"],      
-      "text": "Purple Light",
+      "title": "Purple Light",
       "likes": 24,
       "date": "2018-05-05",
       "price": 55
@@ -157,7 +157,7 @@
       "photographerId": 82,
       "image": "Art_Mine.jpg",
       "tags": ["art"],      
-      "text": "My Art",
+      "title": "My Art",
       "likes": 75,
       "date": "2019-11-25",
       "price": 55
@@ -168,7 +168,7 @@
       "photographerId": 925,
       "image": "Sport_2000_with_8.jpg",
       "tags": ["sport"],
-      "text": "With 8",
+      "title": "With 8",
       "likes": 52,
       "date": "2013-02-30",
       "price": 70
@@ -178,7 +178,7 @@
       "photographerId": 925,
       "image": "Fashion_Wings.jpg",
       "tags": ["fashion"],
-      "text": "Wings",
+      "title": "Wings",
       "likes": 58,
       "date": "2018-07-17",
       "price": 70
@@ -188,7 +188,7 @@
       "photographerId": 925,
       "image": "Fashion_Melody_Red_on_Stripes.jpg",
       "tags": ["fashion"],
-      "text": "Melody Red",
+      "title": "Melody Red",
       "likes": 11,
       "date": "2019-08-12",
       "price": 70
@@ -198,7 +198,7 @@
       "photographerId": 925,
       "image": "Event_VentureConference.jpg",
       "tags": ["events"],
-      "text": "Conference",
+      "title": "Conference",
       "likes": 2,
       "date": "2019-01-02",
       "price": 70
@@ -208,7 +208,7 @@
       "photographerId": 925,
       "image": "Event_ProductPitch.jpg",
       "tags": ["events"],
-      "text": "Pitch",
+      "title": "Pitch",
       "likes": 3,
       "date": "2019-05-20",
       "price": 70
@@ -218,7 +218,7 @@
       "photographerId": 925,
       "image": "Event_KeyboardCheck.jpg",
       "tags": ["events"],
-      "text": "B&W Music",
+      "title": "B&W Music",
       "likes": 52,
       "date": "2019-07-18",
       "price": 70
@@ -228,7 +228,7 @@
       "photographerId": 925,
       "image": "Event_Emcee.jpg",
       "tags": ["events"],
-      "text": "EMCEE",
+      "title": "EMCEE",
       "likes": 23,
       "date": "2018-02-22",
       "price": 70
@@ -238,7 +238,7 @@
       "photographerId": 925,
       "image": "Animals_Majesty.jpg",
       "tags": ["animals"],
-      "text": "Majesty",
+      "title": "Majesty",
       "likes": 52,
       "date": "2017-03-13",
       "price": 70
@@ -248,7 +248,7 @@
       "photographerId": 925,
       "video": "Animals_Puppiness.mp4",
       "tags": ["animals"],
-      "text": "Puppiness",
+      "title": "Puppiness",
       "likes": 52,
       "date": "2016-06-12",
       "price": 70
@@ -259,7 +259,7 @@
       "photographerId": 527,
       "video": "Travel_Rock_Mountains.mp4",
       "tags": ["travel"],
-      "text": "Rock Mountain",
+      "title": "Rock Mountain",
       "likes": 23,
       "date": "2017-03-18",
       "price": 45
@@ -269,7 +269,7 @@
       "photographerId": 527,
       "image": "Travel_Outdoor_Baths.jpg",
       "tags": ["travel"],
-      "text": "Outdoor",
+      "title": "Outdoor",
       "likes": 101,
       "date": "2017-04-03",
       "price": 45
@@ -279,7 +279,7 @@
       "photographerId": 527,
       "image": "Travel_Road_into_Hill.jpg",
       "tags": ["travel"],
-      "text": "Into Hill",
+      "title": "Into Hill",
       "likes": 99,
       "date": "2018-04-30",
       "price": 45
@@ -289,7 +289,7 @@
       "photographerId": 527,
       "image": "Travel_Bridge_into_Forest.jpg",
       "tags": ["travel"],
-      "text": "Bridge into Forest",
+      "title": "Bridge into Forest",
       "likes": 34,
       "date": "2016-04-05",
       "price": 45
@@ -299,7 +299,7 @@
       "photographerId": 527,
       "image": "Travel_Boat_Wanderer.jpg",
       "tags": ["travel"],
-      "text": "Boat",
+      "title": "Boat",
       "likes": 23,
       "date": "2017-03-18",
       "price": 45
@@ -309,7 +309,7 @@
       "photographerId": 527,
       "image": "Portrait_Sunkissed.jpg",
       "tags": ["portrait"],
-      "text": "Sunkissed",
+      "title": "Sunkissed",
       "likes": 66,
       "date": "2018-05-24",
       "price": 45
@@ -319,7 +319,7 @@
       "photographerId": 527,
       "image": "Portrait_Shaw.jpg",
       "tags": ["portait"],
-      "text": "Shaw",
+      "title": "Shaw",
       "likes": 52,
       "date": "2017-04-21",
       "price": 45
@@ -329,7 +329,7 @@
       "photographerId": 527,
       "image": "Portrait_Alexandra.jpg",
       "tags": ["portait"],
-      "text": "Alexandra",
+      "title": "Alexandra",
       "likes": 95,
       "date": "2018-11-02",
       "price": 45
@@ -339,7 +339,7 @@
       "photographerId": 527,
       "image": "Portrait_AfternoonBreak.jpg",
       "tags": ["portait"],
-      "text": "In the afternoon",
+      "title": "In the afternoon",
       "likes": 25,
       "date": "2019-01-02",
       "price": 45
@@ -350,7 +350,7 @@
       "photographerId": 243,
       "image": "Travel_Lonesome.jpg",
       "tags": ["travel"],
-      "text": "Lonesome",
+      "title": "Lonesome",
       "likes": 88,
       "date": "2019-02-03",
       "price": 45
@@ -360,7 +360,7 @@
       "photographerId": 243,
       "image": "Travel_HillsideColor.jpg",
       "tags": ["travel"],
-      "text": "Side Color",
+      "title": "Side Color",
       "likes": 85,
       "date": "2019-04-03",
       "price": 45
@@ -370,7 +370,7 @@
       "photographerId": 243,
       "image": "Portrait_Wednesday.jpg",
       "tags": ["portait"],
-      "text": "Wednesday",
+      "title": "Wednesday",
       "likes": 34,
       "date": "2019-04-07",
       "price": 45
@@ -380,7 +380,7 @@
       "photographerId": 243,
       "image": "Portrait_Nora.jpg",
       "tags": ["portait"],
-      "text": "Nora",
+      "title": "Nora",
       "likes": 63,
       "date": "2019-04-07",
       "price": 45
@@ -390,7 +390,7 @@
       "photographerId": 243,
       "image": "Portrait_Background.jpg",
       "tags": ["portait"],
-      "text": "Background",
+      "title": "Background",
       "likes": 55,
       "date": "2019-06-20",
       "price": 45
@@ -400,7 +400,7 @@
       "photographerId": 243,
       "image": "Event_SeasideWedding.jpg",
       "tags": ["events"],
-      "text": "Seaside Wedding",
+      "title": "Seaside Wedding",
       "likes": 25,
       "date": "2019-06-21",
       "price": 45
@@ -410,7 +410,7 @@
       "photographerId": 243,
       "image": "Event_PintoWedding.jpg",
       "tags": ["events"],
-      "text": "Pinto Wedding",
+      "title": "Pinto Wedding",
       "likes": 52,
       "date": "2019-06-25",
       "price": 45
@@ -420,7 +420,7 @@
       "photographerId": 243,
       "image": "Event_BenevidesWedding.jpg",
       "tags": ["events"],
-      "text": "Benevides Wedding",
+      "title": "Benevides Wedding",
       "likes": 77,
       "date": "2019-06-28",
       "price": 45
@@ -430,7 +430,7 @@
       "photographerId": 243,
       "video": "Animals_Wild_Horses_in_the_mountains.mp4",
       "tags": ["animals"],
-      "text": "Wild Horses",
+      "title": "Wild Horses",
       "likes": 142,
       "date": "2019-08-23",
       "price": 60
@@ -440,7 +440,7 @@
       "photographerId": 243,
       "image": "Animals_Rainbow.jpg",
       "tags": ["animals"],
-      "text": "Rainbow",
+      "title": "Rainbow",
       "likes": 59,
       "date": "2019-07-02",
       "price": 60
@@ -451,7 +451,7 @@
       "photographerId": 195,
       "image": "Travel_Tower.jpg",
       "tags": ["travel"],
-      "text": "Tower",
+      "title": "Tower",
       "likes": 25,
       "date": "2019-04-03",
       "price": 60
@@ -461,7 +461,7 @@
       "photographerId": 195,
       "image": "Travel_SunsetonCanals.jpg",
       "tags": ["travel"],
-      "text": "Sunset on Canals",
+      "title": "Sunset on Canals",
       "likes": 53,
       "date": "2019-05-06",
       "price": 60
@@ -471,7 +471,7 @@
       "photographerId": 195,
       "image": "Travel_OpenMountain.jpg",
       "tags": ["travel"],
-      "text": "Open Mountains",
+      "title": "Open Mountains",
       "likes": 33,
       "date": "2019-05-12",
       "price": 60
@@ -481,7 +481,7 @@
       "photographerId": 195,
       "image": "Travel_Bike_and_Stair.jpg",
       "tags": ["travel"],
-      "text": "Bike and Stair",
+      "title": "Bike and Stair",
       "likes": 53,
       "date": "2019-06-20",
       "price": 60
@@ -491,7 +491,7 @@
       "photographerId": 195,
       "image": "Travel_Adventure_Door.jpg",
       "tags": ["travel"],
-      "text": "Adventure Door",
+      "title": "Adventure Door",
       "likes": 63,
       "date": "2019-06-26",
       "price": 60
@@ -501,7 +501,7 @@
       "photographerId": 195,
       "image": "Architecture_Contrast.jpg",
       "tags": ["architecture"],
-      "text": "Contrast",
+      "title": "Contrast",
       "likes": 52,
       "date": "2019-06-30",
       "price": 60
@@ -511,7 +511,7 @@
       "photographerId": 195,
       "image": "Architecture_On_a_hill.jpg",
       "tags": ["architecture"],
-      "text": "On a Hill",
+      "title": "On a Hill",
       "likes": 63,
       "date": "2019-07-20",
       "price": 60
@@ -521,7 +521,7 @@
       "photographerId": 195,
       "image": "Architecture_Dome.jpg",
       "tags": ["architecture"],
-      "text": "Architecture Dome",
+      "title": "Architecture Dome",
       "likes": 88,
       "date": "2020-01-05",
       "price": 60
@@ -531,7 +531,7 @@
       "photographerId": 195,
       "video": "Architecture_coverr_circle_empty_highway_in_buenos_aires_587740985637.mp4",
       "tags": ["architecture"],
-      "text": "Cover Circle",
+      "title": "Cover Circle",
       "likes": 57,
       "date": "2020-01-20",
       "price": 65
@@ -541,7 +541,7 @@
       "photographerId": 195,
       "image": "Architecture_Corner_Room.jpg",
       "tags": ["architecture"],
-      "text": "Corner Room",
+      "title": "Corner Room",
       "likes": 54,
       "date": "2020-05-05",
       "price": 60
@@ -552,7 +552,7 @@
       "photographerId": 930,
       "video": "Sport_Tricks_in_the_air.mp4",
       "tags": ["sport"],
-      "text": "Tricks in the air",
+      "title": "Tricks in the air",
       "likes": 150,
       "date": "2018-02-30",
       "price": 70
@@ -562,7 +562,7 @@
       "photographerId": 930,
       "image": "Sport_Next_Hold.jpg",
       "tags": ["sport"],
-      "text": "Next Hold",
+      "title": "Next Hold",
       "likes": 101,
       "date": "2018-03-05",
       "price": 65
@@ -572,7 +572,7 @@
       "photographerId": 930,
       "image": "sport_water_tunnel.jpg",
       "tags": ["sport"],
-      "text": "Water Tunnel",
+      "title": "Water Tunnel",
       "likes": 103,
       "date": "2018-03-10",
       "price": 70
@@ -582,7 +582,7 @@
       "photographerId": 930,
       "image": "Sport_Sky_Cross.jpg",
       "tags": ["sport"],
-      "text": "Sky Cross",
+      "title": "Sky Cross",
       "likes": 77,
       "date": "2018-04-16",
       "price": 50
@@ -592,7 +592,7 @@
       "photographerId": 930,
       "image": "Sport_Race_End.jpg",
       "tags": ["sport"],
-      "text": "Race End",
+      "title": "Race End",
       "likes": 88,
       "date": "2018-04-22",
       "price": 65
@@ -602,7 +602,7 @@
       "photographerId": 930,
       "image": "Sport_Jump.jpg",
       "tags": ["sport"],
-      "text": "Jump",
+      "title": "Jump",
       "likes": 95,
       "date": "2018-04-27",
       "price": 70
@@ -612,7 +612,7 @@
       "photographerId": 930,
       "image": "Architecture_White_Light.jpg",
       "tags": ["architecture"],
-      "text": "White Light",
+      "title": "White Light",
       "likes": 52,
       "date": "2018-05-03",
       "price": 75
@@ -622,7 +622,7 @@
       "photographerId": 930,
       "image": "Architecture_Water_on_Modern.jpg",
       "tags": ["architecture"],
-      "text": "Water on Modern",
+      "title": "Water on Modern",
       "likes": 55,
       "date": "2018-05-10",
       "price": 72
@@ -632,7 +632,7 @@
       "photographerId": 930,
       "image": "Architecture_Horseshoe.jpg",
       "tags": ["architecture"],
-      "text": "Horseshoe",
+      "title": "Horseshoe",
       "likes": 85,
       "date": "2018-05-15",
       "price": 71
@@ -642,7 +642,7 @@
       "photographerId": 930,
       "image": "Architecture_Cross_Bar.jpg",
       "tags": ["architecture"],
-      "text": "Cross Bar",
+      "title": "Cross Bar",
       "likes": 66,
       "date": "2018-05-20",
       "price": 58
@@ -652,7 +652,7 @@
       "photographerId": 930,
       "image": "Architecture_Connected_Curves.jpg",
       "tags": ["architecture"],
-      "text": "Connected Curves",
+      "title": "Connected Curves",
       "likes": 79,
       "date": "2018-05-21",
       "price": 80

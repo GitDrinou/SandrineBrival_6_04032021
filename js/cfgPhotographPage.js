@@ -21,40 +21,13 @@ let myIndexFilt = document.URL.indexOf("&filt=")+6;
 const idWorker = document.URL.substring(myIndexId,document.URL.indexOf("&"));
 const numFilter = document.URL.substring(myIndexFilt,document.URL.length);
 
-console.log(numFilter);
-
 let photographer;
-let myChoice;
-let url = new URL(document.URL);
-let myFilter = url.search;
+let myFilterMedias = new Array();
+let aggLikes = 0;
+let dayPrice;
 
 
-// Part 3 : Events Click -----------------------------------------------
-dropFilterSelected.addEventListener('click', function(e) {
-    e.preventDefault();
-    toggleFilter();
-    moveToFirst(this.innerHTML);   
-});
-
-dropFilterItems.forEach(item => {
-    item.addEventListener('click', function(e) {  
-        e.preventDefault();       
-        toggleFilter();
-        moveToFirst(this.innerHTML);  
-        
-        if (dropFilterSelected.textContent == "Popularité") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=1");
-        } 
-        if (dropFilterSelected.textContent == "Date") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=2");
-        }
-        if (dropFilterSelected.textContent == "Titre") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=3");
-        }  
-    });
-});
- 
-        
+       
 request.open("GET", requestURL);
 request.responseType = "json";
 request.send();
@@ -62,42 +35,6 @@ request.onload = function() {
     photographer = request.response;
     showAllDatas(photographer);
 }
-
-// Function display filter -------------------------------------------------------------------------
-function toggleFilter () {
-    if (!dropMenuItems.getAttribute('style') || dropMenuItems.getAttribute('style') === "display: none;" ) {
-        dropMenuItems.style.display = "block";
-        dropFilterSelected.setAttribute('aria-expanded', 'true');
-        dropFilterIcon.classList.remove("fa-chevron-down");
-        dropFilterIcon.classList.add("fa-chevron-up");
-    }
-    else {
-        dropMenuItems.style.display = 'none';
-        dropFilterSelected.setAttribute('aria-expanded', 'false');        
-        dropFilterIcon.classList.remove("fa-chevron-up");
-        dropFilterIcon.classList.add("fa-chevron-down");
-    }
-}
-
-// Function move the item selected to first level
-function moveToFirst (valItem) {
-   if(valItem=="Popularité") {
-    dropFilterSelected.textContent = "Popularité";
-    dropFilterItem1.textContent = "Date";
-    dropFilterItem2.textContent = "Titre";
-   }
-   if(valItem=="Date") {
-    dropFilterSelected.textContent = "Date";
-    dropFilterItem1.textContent = "Popularité";
-    dropFilterItem2.textContent = "Titre";
-   }
-   if(valItem=="Titre") {
-    dropFilterSelected.textContent = "Titre";
-    dropFilterItem1.textContent = "Date";
-    dropFilterItem2.textContent = "Popularité";
-   }
-}
-
 
 // Display medias and ID of photographer
 function showAllDatas(obj) {
@@ -137,69 +74,106 @@ function showAllDatas(obj) {
             photographerDetails.appendChild(mySlogan);
             photographerDetails.appendChild(myTagsList);
             photographerPicture.appendChild(myIDPicture);
+
+            dayPrice = photographerInfo[i].price;
         }
     } 
     
-    // Medias --------------------------------------------
-    let photographerWork = obj["media"]; 
-    if(numFilter == 1) {
-        photographerWork.sort(function (a, b) {
-            return b.likes - a.likes;
-        });
-    }  
-    else if (numFilter == 2) {
-        photographerWork.sort(function (a, b) {
-            return a.date - b.date;
-        });
-        console.log(photographerWork);
-    }   
-    else if (numFilter == 3) {
-        photographerWork.sort(function (a, b) {
-            return a.text - b.text;
-        });
-    }    
-    console.log(photographerWork);
-
-    let myList = document.createElement("ul");
+    // Medias - Fill the filter array --------------------------------------------
+    let photographerWork = obj["media"];     
+    myFilterMedias.splice(0,myFilterMedias.length);  
     for (let k=0; k < photographerWork.length; k++) {
         if (photographerWork[k].photographerId == idWorker) {
-            
+            myFilterMedias.push(
+                { 
+                    "id": photographerWork[k].id,
+                    "likes": photographerWork[k].likes,
+                    "date": photographerWork[k].date,
+                    "title": photographerWork[k].title
+                }
+            );  
+            aggLikes += photographerWork[k].likes;      
+        }           
+    }
 
-            let myWorks = document.createElement("li");
-            if ((photographerWork[k].image !== null) && (photographerWork[k].video == null)){    
-                let myMediaImage = document.createElement("img");            
-                myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerWork[k].image;
-                myMediaImage.classList.add("vignette");
-                myWorks.appendChild(myMediaImage);
+    // Meduas - order by filter selected    
+    if(numFilter == 1) { 
+        myFilterMedias.sort((a, b) => b.likes - a.likes); 
+    }  
+    if (numFilter == 2) { 
+        myFilterMedias.reverse((a, b) => a.date - b.date); 
+    }
+    if (numFilter == 3) { 
+        myFilterMedias.sort(function(a,b) {
+            string1 = a.title;
+            string2 = b.title;
+            return string1.toString().localeCompare(string2.toString());
+        });
+    }
+
+    // Medias - display the medias filtered      
+    let myList = document.createElement("ul");   
+    for (let m of myFilterMedias) {
+        for (let l=0; l < photographerWork.length; l++) {
+            if((m.id === photographerWork[l].id) && (photographerWork[l].photographerId == idWorker)) {                            
+                let myWorks = document.createElement("li");
+                if ((photographerWork[l].image !== null) && (photographerWork[l].video == null)){    
+                    let myMediaImage = document.createElement("img");            
+                    myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerWork[l].image;
+                    myMediaImage.classList.add("vignette");
+                    myWorks.appendChild(myMediaImage);
+                }
+                if ((photographerWork[l].video !== null) && (photographerWork[l].image == null)){  
+                    let myMediaVideo = document.createElement("video");
+                    myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerWork[l].video;
+                    myMediaVideo.classList.add("vignette");
+                    myWorks.appendChild(myMediaVideo);
+                }
+
+                let myPictureInfo = document.createElement("div");
+                let myPictureText = document.createElement("span");
+                let myPicturePrice = document.createElement("span");
+                let myPictureLikes = document.createElement("span");
+
+                myPictureText.textContent = photographerWork[l].title;
+                myPicturePrice.textContent = photographerWork[l].price + " €";
+                myPictureLikes.innerHTML = photographerWork[l].likes + " <i class='fas fa-heart'></i>";
+
+                myPictureInfo.classList.add("b-pictureInfo");
+                myPictureText.classList.add("mediaText");
+                myPicturePrice.classList.add("mediaPrice");
+                myPictureLikes.classList.add("mediaLikes");
+
+                myPictureInfo.appendChild(myPictureText);
+                myPictureInfo.appendChild(myPicturePrice);
+                myPictureInfo.appendChild(myPictureLikes);
+
+                myWorks.appendChild(myPictureInfo);
+                myList.appendChild(myWorks);
+                photographerWorks.appendChild(myList); 
+               
             }
-            if ((photographerWork[k].video !== null) && (photographerWork[k].image == null)){  
-                let myMediaVideo = document.createElement("video");
-                myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerWork[k].video;
-                myMediaVideo.classList.add("vignette");
-                myWorks.appendChild(myMediaVideo);
-            }
-            let myPictureInfo = document.createElement("div");
-            let myPictureText = document.createElement("span");
-            let myPicturePrice = document.createElement("span");
-            let myPictureLikes = document.createElement("span");
-
-            myPictureText.textContent = photographerWork[k].text;
-            myPicturePrice.textContent = photographerWork[k].price + " €";
-            myPictureLikes.innerHTML = photographerWork[k].likes + " <i class='fas fa-heart'></i>";
-
-            myPictureInfo.classList.add("b-pictureInfo");
-            myPictureText.classList.add("mediaText");
-            myPicturePrice.classList.add("mediaPrice");
-            myPictureLikes.classList.add("mediaLikes");
-
-            myPictureInfo.appendChild(myPictureText);
-            myPictureInfo.appendChild(myPicturePrice);
-            myPictureInfo.appendChild(myPictureLikes);
-
-            myWorks.appendChild(myPictureInfo);
-            myList.appendChild(myWorks);
-            photographerWorks.appendChild(myList); 
-        }            
+        }           
     }
     
+    let myInfoLikesPrice = document.createElement("div");
+    let myAggrLikes = document.createElement("span");
+    let myDayPrice = document.createElement("span");
+
+    myAggrLikes.innerHTML = aggLikes + " <i class='fas fa-heart'></i>";
+    myDayPrice.textContent = dayPrice + "€ / jour";
+
+    myInfoLikesPrice.classList.add("b-likes-price");
+    myInfoLikesPrice.classList.add("b-likes-price_content");
+    myDayPrice.classList.add("b-likes-price_content");
+
+
+    myInfoLikesPrice.appendChild(myAggrLikes);
+    myInfoLikesPrice.appendChild(myDayPrice);
+    photographerWorks.appendChild(myInfoLikesPrice);    
+
+    console.log(myFilterMedias);   
+    console.log(aggLikes); 
+    console.log(dayPrice); 
 }
+
