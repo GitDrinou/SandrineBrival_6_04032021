@@ -1,3 +1,5 @@
+
+
 // Part 3 : Events Click -----------------------------------------------
 dropFilterSelected.addEventListener('click', function(e) {
     e.preventDefault();
@@ -12,13 +14,13 @@ dropFilterItems.forEach(item => {
         moveToFirst(this.innerHTML);  
         
         if (dropFilterSelected.textContent == "Popularité") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=1");
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular");
         } 
         if (dropFilterSelected.textContent == "Date") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=2");
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date");
         }
         if (dropFilterSelected.textContent == "Titre") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=3");
+            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title");
         }  
     });
 });
@@ -59,6 +61,16 @@ function moveToFirst (valItem) {
 }
 
 // display the right filter selected
-if (numFilter == 1) { dropFilterSelected.textContent = "Popularité"; }
-if (numFilter == 2) { dropFilterSelected.textContent = "Date"; }
-if (numFilter == 3) { dropFilterSelected.textContent = "Titre"; }
+if (numFilter == "Popular") { dropFilterSelected.textContent = "Popularité"; }
+if (numFilter == "Date") { dropFilterSelected.textContent = "Date"; }
+if (numFilter == "Title") { dropFilterSelected.textContent = "Titre"; }
+
+
+// Modal Medias
+/*myMedias.forEach(elt => {
+    elt.addEventListener('click', function(e) {  
+        e.preventDefault(); 
+        console.log("ok");
+    });
+});
+*/

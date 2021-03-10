@@ -14,6 +14,7 @@ const dropFilterSelected = document.getElementById("filter-selected");
 const photographerDetails = document.querySelector(".idDetails");
 const photographerPicture = document.querySelector(".idPicture");
 const photographerWorks = document.querySelector(".b-works");
+const myMedias = document.querySelectorAll(".medias-card");
 const requestURL = "./js/json/FishEyeDataFR.json";
 const request = new XMLHttpRequest();
 let myIndexId = document.URL.indexOf("id")+3;
@@ -23,10 +24,9 @@ const numFilter = document.URL.substring(myIndexFilt,document.URL.length);
 
 let photographer;
 let myFilterMedias = new Array();
+let myContentModalMedias = new Array();
 let aggLikes = 0;
 let dayPrice;
-
-
        
 request.open("GET", requestURL);
 request.responseType = "json";
@@ -97,13 +97,13 @@ function showAllDatas(obj) {
     }
 
     // Meduas - order by filter selected    
-    if(numFilter == 1) { 
+    if(numFilter == "Popular") { 
         myFilterMedias.sort((a, b) => b.likes - a.likes); 
     }  
-    if (numFilter == 2) { 
+    if (numFilter == "Date") { 
         myFilterMedias.reverse((a, b) => a.date - b.date); 
     }
-    if (numFilter == 3) { 
+    if (numFilter == "Title") { 
         myFilterMedias.sort(function(a,b) {
             string1 = a.title;
             string2 = b.title;
@@ -116,7 +116,9 @@ function showAllDatas(obj) {
     for (let m of myFilterMedias) {
         for (let l=0; l < photographerWork.length; l++) {
             if((m.id === photographerWork[l].id) && (photographerWork[l].photographerId == idWorker)) {                            
-                let myWorks = document.createElement("li");
+                let myWorks = document.createElement("li");                
+                myWorks.setAttribute("id",l);
+                myWorks.classList.add("medias-card");
                 if ((photographerWork[l].image !== null) && (photographerWork[l].video == null)){    
                     let myMediaImage = document.createElement("img");            
                     myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerWork[l].image;
@@ -134,7 +136,7 @@ function showAllDatas(obj) {
                 let myPictureText = document.createElement("span");
                 let myPicturePrice = document.createElement("span");
                 let myPictureLikes = document.createElement("span");
-
+                
                 myPictureText.textContent = photographerWork[l].title;
                 myPicturePrice.textContent = photographerWork[l].price + " €";
                 myPictureLikes.innerHTML = photographerWork[l].likes + " <i class='fas fa-heart'></i>";
@@ -150,8 +152,7 @@ function showAllDatas(obj) {
 
                 myWorks.appendChild(myPictureInfo);
                 myList.appendChild(myWorks);
-                photographerWorks.appendChild(myList); 
-               
+                photographerWorks.appendChild(myList);                
             }
         }           
     }
@@ -172,8 +173,59 @@ function showAllDatas(obj) {
     myInfoLikesPrice.appendChild(myDayPrice);
     photographerWorks.appendChild(myInfoLikesPrice);    
 
-    console.log(myFilterMedias);   
+    /*console.log(myFilterMedias);   
+    console.log(myContentModalMedias);
     console.log(aggLikes); 
     console.log(dayPrice); 
+    */
+
+    
+function mediasFactory() {
+    this.createMedias = function (filter) {
+        var medias;
+ 
+        if (filter === "Popular") {
+            medias = new popularFilter();
+        } else if (filter === "Date") {        
+            medias = new dateFilter();
+        } else if (filter === "Title") {
+            medias = new titleFilter();
+        }
+ 
+       medias.filter = filter;
+ 
+        medias.say = function () {
+            console.log(this.array);
+        }
+ 
+        return medias;
+    }
 }
+ 
+let popularFilter = function () {
+    this.array = myFilterMedias.sort((a, b) => b.likes - a.likes);
+};
+ 
+let dateFilter = function () {    
+   this.array = myFilterMedias.reverse((a, b) => a.date - b.date);
+};
+ 
+let titleFilter = function () {
+	this.array = myFilterMedias.sort(function(a,b) {
+            string1 = a.title;
+            string2 = b.title;
+            return string1.toString().localeCompare(string2.toString());
+        });
+};
+ 
+ let medias = [];
+let mymediasFactory = new mediasFactory();
+medias.push(mymediasFactory.createMedias("Popular"));
+
+console.log(medias);
+}
+
+
+
+
 

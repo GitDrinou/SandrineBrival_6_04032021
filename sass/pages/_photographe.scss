@@ -69,11 +69,13 @@
         flex-wrap: wrap;
         justify-content: space-between;
         margin-bottom: 2rem;
-        & > li {         
-            width: 21.875rem;
-            margin: 0 1.125rem 2rem 1.125rem;
-        }
     }
+}
+
+.medias-card {         
+    width: 21.875rem;
+    margin: 0 1.125rem 2rem 1.125rem;            
+    cursor: pointer;
 }
 
 .vignette {
@@ -118,4 +120,29 @@
         font-weight: 500;
         font-style: normal;
     }
+}
+
+//modal Medias
+.modalMedias {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    padding: 2rem;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    background-color: $tertiary;
+    &_content {
+        position: relative;
+        margin: auto;
+        padding: 0;
+        width: 90%;
+        max-width: 100%;
+    }    
+}
+
+.modal-slide {
+    display: none;
 }
