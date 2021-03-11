@@ -25,6 +25,8 @@ dropFilterItems.forEach(item => {
     });
 });
 
+
+
 // Function display filter -------------------------------------------------------------------------
 function toggleFilter () {
     if (!dropMenuItems.getAttribute('style') || dropMenuItems.getAttribute('style') === "display: none;" ) {
@@ -64,13 +66,3 @@ function moveToFirst (valItem) {
 if (numFilter == "Popular") { dropFilterSelected.textContent = "Popularité"; }
 if (numFilter == "Date") { dropFilterSelected.textContent = "Date"; }
 if (numFilter == "Title") { dropFilterSelected.textContent = "Titre"; }
-
-
-// Modal Medias
-/*myMedias.forEach(elt => {
-    elt.addEventListener('click', function(e) {  
-        e.preventDefault(); 
-        console.log("ok");
-    });
-});
-*/

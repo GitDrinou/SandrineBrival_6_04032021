@@ -30,20 +30,23 @@
     }
 }
 
-.idDetails_tagg_link > a {
-    border-radius:0.7rem;
-    border: 0.03rem solid $border-tagg_off;
-    padding: 0.4rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    font-style: normal;
-    color: $primary;
-    text-decoration: none;
-    margin: 0 0.3rem 0 0;
-    &:hover, &:focus {
-        color: $font-link-hover;
-        background-color: $primary;
-    }
+.idDetails_tagg_link {
+    cursor: pointer;
+    & > a {
+        border-radius:0.7rem;
+        border: 0.03rem solid $border-tagg_off;
+        padding: 0.4rem;
+        font-size: 1.125rem;
+        font-weight: 500;
+        font-style: normal;
+        color: $primary;
+        text-decoration: none;
+        margin: 0 0.3rem 0 0;
+        &:hover, &:focus {
+            color: $font-link-hover;
+            background-color: $primary;
+        }
+    }    
 }
 
 .idPicture {

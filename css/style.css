@@ -265,6 +265,9 @@ img {
   margin: 2rem 0 0 3rem;
 }
 
+.idDetails_tagg_link {
+  cursor: pointer;
+}
 .idDetails_tagg_link > a {
   border-radius: 0.7rem;
   border: 0.03rem solid #C4C4C4;
