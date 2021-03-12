@@ -14,13 +14,13 @@ dropFilterItems.forEach(item => {
         moveToFirst(this.innerHTML);  
         
         if (dropFilterSelected.textContent == "Popularité") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular");
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular"));
         } 
         if (dropFilterSelected.textContent == "Date") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date");
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date"));
         }
         if (dropFilterSelected.textContent == "Titre") {
-            document.location.href = document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title");
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title"));
         }  
     });
 });
@@ -63,6 +63,7 @@ function moveToFirst (valItem) {
 }
 
 // display the right filter selected
-if (numFilter == "Popular") { dropFilterSelected.textContent = "Popularité"; }
-if (numFilter == "Date") { dropFilterSelected.textContent = "Date"; }
-if (numFilter == "Title") { dropFilterSelected.textContent = "Titre"; }
+if (filterType == "Popular") { dropFilterSelected.textContent = "Popularité"; }
+if (filterType == "Date") { dropFilterSelected.textContent = "Date"; }
+if (filterType == "Title") { dropFilterSelected.textContent = "Titre"; }
+

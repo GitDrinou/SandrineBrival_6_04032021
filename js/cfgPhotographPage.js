@@ -21,15 +21,17 @@ const requestURL = "./js/json/FishEyeDataFR.json";
 let parsedUrl = new URL(window.location.href);
 const request = new XMLHttpRequest();
 const idWorker = parsedUrl.searchParams.get("id")
-const numFilter = parsedUrl.searchParams.get("filt");
-
+const filterType = parsedUrl.searchParams.get("filt");
+let filterTag = parsedUrl.searchParams.get("tag");
 
 
 let photographer;
 let myFilterMedias = [];
+let myTagFilterMedias = [];
 let myMediasTags = [];
 let myContentModalMedias = [];
 let aggLikes = 0;
+let lenTagArray = 0;
 let dayPrice;
        
 request.open("GET", requestURL);
@@ -109,7 +111,7 @@ function showAllDatas(obj) {
     // END >> Medias - Fill the filter array --------------------------------------------
 
     // Medias - order by filter selected      
-    switch (numFilter) {
+    switch (filterType) {
         case "Popular" : 
             myMediasFactory.createMedias("Popular");
             break;
@@ -127,24 +129,35 @@ function showAllDatas(obj) {
         item.addEventListener('click', function(e) {  
             let myItem = item.textContent;
             e.preventDefault();
-            // tableau Tag dans tableau
+            
+            // tableau           
             for (let i of myFilterMedias) {
                 for (let j=0; j < i.tag.length; j++) {
-                    console.log(myItem.toLocaleLowerCase === i.tag[j]);                    
+                    if (i.tag[j] == myItem) {
+                        myTagFilterMedias.push(
+                            { 
+                                "id": i.id,
+                                "likes": i.likes,
+                                "date": i.date,
+                                "title": i.title,
+                                "tag" : i.tag
+                        }); 
+                  
+                    }                   
                 }
-            }
-            
-        });
+            } 
 
+            if (myTagFilterMedias.length!=0) {
+                myFilterMedias = myTagFilterMedias;
+            }
+                    
+        });
     }); 
-console.log(myFilterMedias);
-    function TagFilter(arr, req) {
-        return arr.filter(function (el) {
-            console.log(el);
-          return el.toLowerCase().indexOf(req.toLowerCase()) !== -1;
-        })
-    }
+
+   console.log(myFilterMedias)
     
+    
+    //console.log(myFilterMedias);
 
     // Medias - display the medias filtered      
     let myList = document.createElement("ul");   
