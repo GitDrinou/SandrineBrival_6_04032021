@@ -13,6 +13,8 @@ function mediasFactory() {
             mediasFiltered = new dateFilter();
         } else if (filter === "Title") {
             mediasFiltered = new titleFilter();
+        } else if (filter === "Tag") {
+            mediasFiltered = new tagFilter();
         } 
         
         mediasFiltered.filter = filter; 
@@ -37,12 +39,17 @@ let titleFilter = function () {
         });
 };
 
+let tagFilter = function () {  
+    this.array = myTagFilterMedias;
+};
  
 let mediasFilt = [];
 let myMediasFactory = new mediasFactory();
 mediasFilt.push(myMediasFactory.createMedias("Popular")); 
 mediasFilt.push(myMediasFactory.createMedias("Date")); 
 mediasFilt.push(myMediasFactory.createMedias("Title"));
+mediasFilt.push(myMediasFactory.createMedias("Tag"));
+
 
 
 

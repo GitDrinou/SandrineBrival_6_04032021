@@ -42,7 +42,7 @@
         color: $primary;
         text-decoration: none;
         margin: 0 0.3rem 0 0;
-        &:hover, &:focus {
+        &:hover, &:focus, &:visited {
             color: $font-link-hover;
             background-color: $primary;
         }

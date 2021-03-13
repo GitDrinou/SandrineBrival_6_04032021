@@ -279,7 +279,7 @@ img {
   text-decoration: none;
   margin: 0 0.3rem 0 0;
 }
-.idDetails_tagg_link > a:hover, .idDetails_tagg_link > a:focus {
+.idDetails_tagg_link > a:hover, .idDetails_tagg_link > a:focus, .idDetails_tagg_link > a:visited {
   color: #FFFFFF;
   background-color: #901C1C;
 }

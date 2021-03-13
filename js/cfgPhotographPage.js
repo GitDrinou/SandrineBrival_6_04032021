@@ -45,39 +45,39 @@ request.onload = function() {
 // Display medias and ID of photographer
 function showAllDatas(obj) {
     let photographerInfo = obj["photographers"];
-    for (let i=0; i < photographerInfo.length; i++) {
-        if (photographerInfo[i].id == idWorker) {
+    for (let info of photographerInfo) {
+        if (info.id == idWorker) {
             let myH1 = document.createElement("h1");
             let myLocation = document.createElement("p");
             let mySlogan = document.createElement("p");
             let myIDPicture = document.createElement("img");
             let myTagsList = document.createElement("ul");
-            let listTags = photographerInfo[i].tags;
+            let listTags = info.tags;
 
-            for (let j=0; j < listTags.length; j++) {
+            for (let tag of listTags) {
                 let myTags = document.createElement("li");
                 let myTagsLink = document.createElement("a");
-                myTagsLink.textContent = listTags[j];
+                myTagsLink.textContent = tag;
                 myTags.classList.add("idDetails_tagg_link");
                 myTagsList.appendChild(myTags);
                 myTags.appendChild(myTagsLink);
 
                 myMediasTags.push(
                     { 
-                        "tag" : listTags[j]
+                        "tag" : tag
                     }
                 );  
             }
 
-            myH1.textContent = photographerInfo[i].name;
+            myH1.textContent = info.name;
             myH1.classList.add("title-photographer"); 
-            myLocation.textContent = photographerInfo[i].city + ", " + photographerInfo[i].country;
+            myLocation.textContent = info.city + ", " + info.country;
             myLocation.classList.add("idDetails_city");
-            mySlogan.textContent = photographerInfo[i].tagline;
+            mySlogan.textContent = info.tagline;
             mySlogan.classList.add("idDetails_slogan");
             myTagsList.classList.add("idDetails_tagg");
-            myIDPicture.src = "./images/IDPhotos/"+ photographerInfo[i].portrait;
-            myIDPicture.alt = "Vignette " + photographerInfo[i].name;
+            myIDPicture.src = "./images/IDPhotos/"+ info.portrait;
+            myIDPicture.alt = "Vignette " + info.name;
             myIDPicture.classList.add("photographer_photo");
 
             
@@ -87,25 +87,25 @@ function showAllDatas(obj) {
             photographerDetails.appendChild(myTagsList);
             photographerPicture.appendChild(myIDPicture);
 
-            dayPrice = photographerInfo[i].price;
+            dayPrice = info.price;
         }
     } 
     
     // Medias - Fill the filter array --------------------------------------------
     let photographerWork = obj["media"];     
     myFilterMedias.splice(0,myFilterMedias.length);  
-    for (let i=0; i < photographerWork.length; i++) {
-        if (photographerWork[i].photographerId == idWorker) {
+    for (let photographerMedia of photographerWork) {
+        if (photographerMedia.photographerId == idWorker) {
             myFilterMedias.push(
                 { 
-                    "id": photographerWork[i].id,
-                    "likes": photographerWork[i].likes,
-                    "date": photographerWork[i].date,
-                    "title": photographerWork[i].title,
-                    "tag" : photographerWork[i].tags
+                    "id": photographerMedia.id,
+                    "likes": photographerMedia.likes,
+                    "date": photographerMedia.date,
+                    "title": photographerMedia.title,
+                    "tag" : photographerMedia.tags
                 }
             );  
-            aggLikes += photographerWork[i].likes;      
+            aggLikes += photographerMedia.likes;      
         }           
     }
     // END >> Medias - Fill the filter array --------------------------------------------
@@ -127,55 +127,54 @@ function showAllDatas(obj) {
     const tagItems = document.querySelectorAll(".idDetails_tagg_link");
     tagItems.forEach(item => {
         item.addEventListener('click', function(e) {  
-            let myItem = item.textContent;
+            let myItem = (filterTag!="oof") ? item.textContent : filterTag;
             e.preventDefault();
             
             // tableau           
-            for (let i of myFilterMedias) {
-                for (let j=0; j < i.tag.length; j++) {
-                    if (i.tag[j] == myItem) {
-                        myTagFilterMedias.push(
-                            { 
-                                "id": i.id,
-                                "likes": i.likes,
-                                "date": i.date,
-                                "title": i.title,
-                                "tag" : i.tag
-                        }); 
-                  
+            for (let myMedia of myFilterMedias) {
+                for (let j=0; j < myMedia.tag.length; j++) {
+                    if (myItem == myMedia.tag[j] || filterTag == myMedia.tag[j]) {
+                        document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&tag=")),"&tag=" + myItem));
                     }                   
                 }
-            } 
-
-            if (myTagFilterMedias.length!=0) {
-                myFilterMedias = myTagFilterMedias;
-            }
-                    
+            }                  
         });
     }); 
 
-   console.log(myFilterMedias)
+    for (let tagMedia of myFilterMedias) {
+        if (filterTag !=null && filterTag !="off" && filterTag == tagMedia.tag) {
+            myTagFilterMedias.push(
+                { 
+                    "id": tagMedia.id,
+                    "likes": tagMedia.likes,
+                    "date": tagMedia.date,
+                    "title": tagMedia.title,
+                    "tag" : tagMedia.tag
+            }); 
+        }
+   }
+   if (filterTag !=null && filterTag !="off") {
+        myFilterMedias = myMediasFactory.createMedias("Tag").array;
+   }
     
-    
-    //console.log(myFilterMedias);
 
     // Medias - display the medias filtered      
     let myList = document.createElement("ul");   
-    for (let i of myFilterMedias) {
-        for (let j = 0; j < photographerWork.length; j++) {
-            if((i.id === photographerWork[j].id) && (photographerWork[j].photographerId == idWorker)) {                            
+    for (let filterMedia of myFilterMedias) {
+        for (let photographerMedia of photographerWork) {
+            if((filterMedia.id === photographerMedia.id) && (photographerMedia.photographerId == idWorker)) {                            
                 let myWorks = document.createElement("li");                
-                myWorks.setAttribute("id",j);
+                myWorks.setAttribute("id",filterMedia.id);
                 myWorks.classList.add("medias-card");
-                if ((photographerWork[j].image !== null) && (photographerWork[j].video == null)){    
+                if ((photographerMedia.image !== null) && (photographerMedia.video == null)){    
                     let myMediaImage = document.createElement("img");            
-                    myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerWork[j].image;
+                    myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerMedia.image;
                     myMediaImage.classList.add("vignette");
                     myWorks.appendChild(myMediaImage);
                 }
-                if ((photographerWork[j].video !== null) && (photographerWork[j].image == null)){  
+                if ((photographerMedia.video !== null) && (photographerMedia.image == null)){  
                     let myMediaVideo = document.createElement("video");
-                    myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerWork[j].video;
+                    myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerMedia.video;
                     myMediaVideo.classList.add("vignette");
                     myWorks.appendChild(myMediaVideo);
                 }
@@ -185,9 +184,9 @@ function showAllDatas(obj) {
                 let myPicturePrice = document.createElement("span");
                 let myPictureLikes = document.createElement("span");
                 
-                myPictureText.textContent = photographerWork[j].title;
-                myPicturePrice.textContent = photographerWork[j].price + " €";
-                myPictureLikes.innerHTML = photographerWork[j].likes + " <i class='fas fa-heart'></i>";
+                myPictureText.textContent = photographerMedia.title;
+                myPicturePrice.textContent = photographerMedia.price + " €";
+                myPictureLikes.innerHTML = photographerMedia.likes + " <i class='fas fa-heart'></i>";
 
                 myPictureInfo.classList.add("b-pictureInfo");
                 myPictureText.classList.add("mediaText");

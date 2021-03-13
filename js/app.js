@@ -14,13 +14,13 @@ dropFilterItems.forEach(item => {
         moveToFirst(this.innerHTML);  
         
         if (dropFilterSelected.textContent == "Popularité") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular"));
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular&tag=off"));
         } 
         if (dropFilterSelected.textContent == "Date") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date"));
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date&tag=off"));
         }
         if (dropFilterSelected.textContent == "Titre") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title"));
+            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title&tag=off"));
         }  
     });
 });
@@ -66,4 +66,6 @@ function moveToFirst (valItem) {
 if (filterType == "Popular") { dropFilterSelected.textContent = "Popularité"; }
 if (filterType == "Date") { dropFilterSelected.textContent = "Date"; }
 if (filterType == "Title") { dropFilterSelected.textContent = "Titre"; }
+
+
 
