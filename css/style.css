@@ -22,6 +22,11 @@ img {
   height: auto;
 }
 
+video {
+  width: 100%;
+  height: auto;
+}
+
 .btn-contact {
   background-color: #901C1C;
   padding: 1.1rem;
@@ -167,6 +172,80 @@ img {
   background-color: #901C1C;
 }
 
+.modal-lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding: 10px 62px 0px 62px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #FFFFFF;
+}
+
+.modalLight-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding: 0 0 0 0;
+  width: 80%;
+  max-width: 1200px;
+}
+
+.slide {
+  display: none;
+}
+
+.media-slide {
+  width: 100%;
+}
+
+.close-lightbox {
+  color: #901C1C;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+}
+.close-lightbox:hover, .close-lightbox:focus {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.previous,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  border: 2px dotted red;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.previous:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .b-photographers {
   margin-top: 5rem;
 }
@@ -279,7 +358,7 @@ img {
   text-decoration: none;
   margin: 0 0.3rem 0 0;
 }
-.idDetails_tagg_link > a:hover, .idDetails_tagg_link > a:focus, .idDetails_tagg_link > a:visited {
+.idDetails_tagg_link > a:hover, .idDetails_tagg_link > a:focus {
   color: #FFFFFF;
   background-color: #901C1C;
 }
@@ -358,30 +437,6 @@ img {
   font-size: 1.5rem;
   font-weight: 500;
   font-style: normal;
-}
-
-.modalMedias {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  padding: 2rem;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
-  background-color: #FFFFFF;
-}
-.modalMedias_content {
-  position: relative;
-  margin: auto;
-  padding: 0;
-  width: 90%;
-  max-width: 100%;
-}
-
-.modal-slide {
-  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

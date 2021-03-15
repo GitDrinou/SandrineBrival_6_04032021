@@ -1,33 +1,56 @@
 
+/**
+ * EVENT LISTENER - Click
+ * DOM Element : Filter button
+ * Description : 
+ * On click > display the list of filters .......   function toggleFilter()
+ *          > reorder the content on selection ..   function moceToFirst(element-content)
+ * -----------------------------------------------------------------------------------------------------
+ */
 
-// Part 3 : Events Click -----------------------------------------------
 dropFilterSelected.addEventListener('click', function(e) {
     e.preventDefault();
     toggleFilter();
     moveToFirst(this.innerHTML);   
 });
 
+/**
+ * EVENT LISTENER - Click
+ * DOM Element : filter list element
+ * Description : 
+ * On click > display the list of filters .......   function toggleFilter()
+ *          > reorder the content on selection ..   function moceToFirst(element-content)
+ *          > reload page and replace the value of the filter selected by the user
+ * -----------------------------------------------------------------------------------------------------
+ */
+
 dropFilterItems.forEach(item => {
     item.addEventListener('click', function(e) {  
         e.preventDefault();       
         toggleFilter();
         moveToFirst(this.innerHTML);  
-        
-        if (dropFilterSelected.textContent == "Popularité") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular&tag=off"));
-        } 
-        if (dropFilterSelected.textContent == "Date") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date&tag=off"));
+
+        switch (dropFilterSelected.textContent) {
+            case "Popularité" :
+                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular&tag=off"));
+                break;
+            case "Date" :
+                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date&tag=off"));
+                break;
+            case "Titre" :
+                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title&tag=off"));
+                break;
         }
-        if (dropFilterSelected.textContent == "Titre") {
-            document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title&tag=off"));
-        }  
     });
 });
 
+/**
+ * FUNCTION toggleFilter()
+ * Description : 
+ * display the filter menu with aria-expanded attribute
+ * -----------------------------------------------------------------------------------------------------
+ */
 
-
-// Function display filter -------------------------------------------------------------------------
 function toggleFilter () {
     if (!dropMenuItems.getAttribute('style') || dropMenuItems.getAttribute('style') === "display: none;" ) {
         dropMenuItems.style.display = "block";
@@ -43,29 +66,61 @@ function toggleFilter () {
     }
 }
 
-// Function move the item selected to first level
+/**
+ * FUNCTION moveToFirst()
+ * Parameter : element content (Popularité / Date / Titre)
+ * Description : 
+ * reorganize the menu according the user's choice
+ * -----------------------------------------------------------------------------------------------------
+ */
+
 function moveToFirst (valItem) {
-   if(valItem=="Popularité") {
-    dropFilterSelected.textContent = "Popularité";
-    dropFilterItem1.textContent = "Date";
-    dropFilterItem2.textContent = "Titre";
-   }
-   if(valItem=="Date") {
-    dropFilterSelected.textContent = "Date";
-    dropFilterItem1.textContent = "Popularité";
-    dropFilterItem2.textContent = "Titre";
-   }
-   if(valItem=="Titre") {
-    dropFilterSelected.textContent = "Titre";
-    dropFilterItem1.textContent = "Date";
-    dropFilterItem2.textContent = "Popularité";
-   }
+    switch (valItem) {
+        case "Popularité" :
+            dropFilterSelected.textContent = "Popularité";
+            dropFilterItem1.textContent = "Date";
+            dropFilterItem2.textContent = "Titre";
+            break;
+        case "Date" : 
+            dropFilterSelected.textContent = "Date";
+            dropFilterItem1.textContent = "Popularité";
+            dropFilterItem2.textContent = "Titre";
+            break;
+        case "Titre" :
+            dropFilterSelected.textContent = "Titre";
+            dropFilterItem1.textContent = "Date";
+            dropFilterItem2.textContent = "Popularité";
+            break;
+    }
 }
 
-// display the right filter selected
-if (filterType == "Popular") { dropFilterSelected.textContent = "Popularité"; }
-if (filterType == "Date") { dropFilterSelected.textContent = "Date"; }
-if (filterType == "Title") { dropFilterSelected.textContent = "Titre"; }
+/**
+ * FILTER SELECTED VALUE  
+ * Description : 
+ * according the URL parameter "filt", change the filter selected
+ * -----------------------------------------------------------------------------------------------------
+ */
+switch (filterType) {
+    case "Popular" : 
+        dropFilterSelected.textContent = "Popularité"; 
+        break;
+    case "Date" :
+        dropFilterSelected.textContent = "Date";
+        break;
+    case "Title" :
+        dropFilterSelected.textContent = "Titre";
+        break;
+}
 
+closeBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    closeLightbox();
+});
 
+function openLightbox() {
+    myLightModal.style.display= "block";
+}
 
+function closeLightbox() {
+    myLightModal.style.display = 'none';
+};
