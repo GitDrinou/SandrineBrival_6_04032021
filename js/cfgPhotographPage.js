@@ -20,7 +20,7 @@ const closeBtn = document.querySelector(".close-lightbox");
 const myContentLight = document.querySelector(".modalLight-content");
 const prevIcon = document.querySelector(".previous");
 const nextIcon = document.querySelector(".next");
-const requestURL = "./js/json/FishEyeDataFR.json";
+const requestURL = "../js/json/FishEyeDataFR.json";
 
 let parsedUrl = new URL(window.location.href);
 const request = new XMLHttpRequest();
@@ -98,7 +98,7 @@ function showAllDatas(obj) {
             mySlogan.textContent = info.tagline;
             mySlogan.classList.add("idDetails_slogan");
             myTagsList.classList.add("idDetails_tagg");
-            myIDPicture.src = "./images/IDPhotos/"+ info.portrait;
+            myIDPicture.src = "../images/IDPhotos/"+ info.portrait;
             myIDPicture.alt = "Vignette " + info.name;
             myIDPicture.classList.add("photographer_photo");
             
@@ -197,7 +197,7 @@ function showAllDatas(obj) {
                 myWorks.classList.add("medias-card");
                 if ((photographerMedia.image !== null) && (photographerMedia.video == null)){    
                     let myMediaImage = document.createElement("img");            
-                    myMediaImage.src = "images/Medias/" + idWorker + "/" + photographerMedia.image;
+                    myMediaImage.src = "../images/Medias/" + idWorker + "/" + photographerMedia.image;
                     myMediaImage.classList.add("vignette");
                     myMediaImage.setAttribute("id", cpt )
                     myMediaImage.setAttribute("alt", photographerMedia.title);
@@ -205,7 +205,7 @@ function showAllDatas(obj) {
                 }
                 if ((photographerMedia.video !== null) && (photographerMedia.image == null)){  
                     let myMediaVideo = document.createElement("video");
-                    myMediaVideo.src = "images/Medias/" + idWorker + "/" + photographerMedia.video;
+                    myMediaVideo.src = "../images/Medias/" + idWorker + "/" + photographerMedia.video;
                     myMediaVideo.classList.add("vignette");
                     myMediaVideo.setAttribute("id", cpt)
                     myWorks.appendChild(myMediaVideo);

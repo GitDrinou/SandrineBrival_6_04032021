@@ -51,7 +51,7 @@ function showPhotographers(obj) {
         }
 
         // Part 2.1.1 ----------------------------------------------
-        myIDPicLink.href = "photographer.html?id=" + photographers[i].id + "&filt=Popular&tag=off";
+        myIDPicLink.href = "pages/photographer.html?id=" + photographers[i].id + "&filt=Popular&tag=off";
         myIDPicture.src = "./images/IDPhotos/"+ photographers[i].portrait;
         myIDPicture.alt = photographers[i].name;
         myIDPicture.classList.add("photographer_photo");
