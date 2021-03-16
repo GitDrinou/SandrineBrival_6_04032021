@@ -200,7 +200,7 @@ function showAllDatas(obj) {
                     myMediaImage.src = "../images/Medias/" + idWorker + "/" + photographerMedia.image;
                     myMediaImage.classList.add("vignette");
                     myMediaImage.setAttribute("id", cpt )
-                    myMediaImage.setAttribute("alt", photographerMedia.title);
+                    myMediaImage.setAttribute("title", photographerMedia.title);
                     myWorks.appendChild(myMediaImage);
                 }
                 if ((photographerMedia.video !== null) && (photographerMedia.image == null)){  
@@ -208,6 +208,7 @@ function showAllDatas(obj) {
                     myMediaVideo.src = "../images/Medias/" + idWorker + "/" + photographerMedia.video;
                     myMediaVideo.classList.add("vignette");
                     myMediaVideo.setAttribute("id", cpt)
+                    myMediaVideo.setAttribute("title", photographerMedia.title);
                     myWorks.appendChild(myMediaVideo);
                 }
 
@@ -260,15 +261,17 @@ function showAllDatas(obj) {
     // PART 9 -----------------------------------------------------------------------  
     const mediaItems = document.querySelectorAll(".vignette");
     let slideIndex = 1;     
-
+    
     for(let media of mediaItems) {
         let myContentSlide = document.createElement("div");
+        let myInfoSlide = document.createElement("span");
         myContentSlide.classList.add("slide");
         switch (media.localName) {
             case "video" :
                 let myVideoSlide = document.createElement("video");
                 myVideoSlide.src = media.src;
                 myVideoSlide.classList.add("media-slide");
+                myVideoSlide.setAttribute("controls", true);
                 myContentSlide.appendChild(myVideoSlide);
                 break;
             case "img" :
@@ -278,7 +281,10 @@ function showAllDatas(obj) {
                 myContentSlide.appendChild(myImageSlide);
                 break;
         }
-        myContentLight.appendChild(myContentSlide);
+        myInfoSlide.textContent = media.title;
+        myInfoSlide.classList.add("mediaText");
+        myContentSlide.appendChild(myInfoSlide);
+        myContentLight.appendChild(myContentSlide);        
     }
     
     myLightModal.appendChild(myContentLight); 
@@ -290,7 +296,7 @@ function showAllDatas(obj) {
         media.addEventListener('click', function(e) {  
             e.preventDefault();
             openLightbox();
-            toSlide(media.getAttribute("id"));
+            toSlide(parseInt(media.getAttribute("id")));
         });
     }); 
 
@@ -303,15 +309,11 @@ function showAllDatas(obj) {
         e.preventDefault();
         changeSlide(1);
     })
-     /* 
-    onclick : prevIcon.changeSlide(-1);
-    onclieck : nextIcon.changeSlice(1);
-    */
 
     showSlide(slideIndex);  
 
     function changeSlide(n) {
-        showSlide(slideIndex += n);
+        showSlide(slideIndex += parseInt(n));
     };
     
     function toSlide(n) {
@@ -320,6 +322,8 @@ function showAllDatas(obj) {
 
     function showSlide(n) {
         let mediaSlides = document.querySelectorAll(".slide");
+        
+        //console.log(mediaSlides.length);
 
         if (n > mediaSlides.length) {
         slideIndex = 1;	
