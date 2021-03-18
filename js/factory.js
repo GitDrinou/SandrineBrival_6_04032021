@@ -50,8 +50,6 @@ mediasFilt.push(myMediasFactory.createMedias("Date"));
 mediasFilt.push(myMediasFactory.createMedias("Title"));
 mediasFilt.push(myMediasFactory.createMedias("Tag"));
 
+//console.log(mediasFilt);
 
-
-
-
-
+// New factory

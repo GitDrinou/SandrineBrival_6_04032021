@@ -117,10 +117,21 @@ closeBtn.addEventListener("click", function(e) {
     closeLightbox();
 });
 
+
+btnContact.addEventListener("click", function(e) {
+    e.preventDefault();
+    onpenContact();
+})
+
 function openLightbox() {
     myLightModal.style.display= "block";
+}
+function onpenContact() {
+    myContactModal.style.display= "block";
 }
 
 function closeLightbox() {
     myLightModal.style.display = 'none';
 };
+
+//console.log(document.querySelector(".title-photographer"));

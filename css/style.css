@@ -39,6 +39,7 @@ video {
   top: 0.3rem;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 .btn-contact:hover {
   background-color: #D3573C;
@@ -192,24 +193,25 @@ video {
   justify-content: center;
   margin: auto;
   padding: 0;
-  width: 80%;
-  max-width: 100%;
+  max-width: 80%;
 }
 
 .slide {
   display: none;
+  max-height: 90vh;
 }
 
 .media-slide {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
   padding-bottom: 0.75rem;
+  outline: none;
 }
 
 .close-lightbox {
   color: #901C1C;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 6rem;
   font-size: 3rem;
@@ -248,6 +250,25 @@ video {
 .previous:hover,
 .next:hover {
   color: #D3573C;
+}
+
+.modal-contact {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding: 1.35rem;
+  left: 25rem;
+  top: 5rem;
+  width: 600px;
+  height: auto;
+  overflow: auto;
+  background-color: #D3573C;
+}
+.modal-contact > h1 {
+  font-size: 4rem;
+  font-weight: 400;
+  color: #000000;
+  line-height: 5rem;
 }
 
 .b-photographers {
@@ -382,7 +403,6 @@ video {
 }
 
 .b-works {
-  border: 1px dashed black;
   margin-top: 4rem;
 }
 .b-works > ul {
