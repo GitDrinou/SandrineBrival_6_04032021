@@ -48,22 +48,25 @@
         <section id="formContact" class="modal-contact">
             <span class="close-form"><i class="fas fa-times"></i></span>
             <h1>Contactez-moi</h1>
-            <form action="">
+            <span class="photographerName"></span>
+            <form action="" id="frmContact">
                 <div>
-                    <label for="firstName">Prénom</label>
-                    <input type="text" id="firstName" name="firstName"/>
+                    <label for="fName">Prénom</label>
+                    <input type="text" name="fName" id="fName" required autofocus title="Entrez votre prénom">
                 </div>
                 <div>
-                    <label for="lastName">Noménom</label>
-                    <input type="text" id="lastName" name="lastName"/>
+                    <label for="lName">Nom</label>
+                    <input type="text" name="lName" id="lName" required>
                 </div>
                 <div>
-                    <label for="eMail">E-mail</label>
-                    <input type="email" id="eMail" name="eMail"/>
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" required>
                 </div>
-                
-                
-                
+                <div>
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Envoyer</button>                
             </form>
         </section>
         <script src="../js/cfgPhotographPage.js"></script>

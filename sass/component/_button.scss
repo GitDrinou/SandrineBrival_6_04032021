@@ -18,3 +18,23 @@
         color: $font-button-hover;
     }
 }
+
+.btn-submit {
+    background-color: $primary;
+    margin-top: 2rem;
+    padding: 1.1rem 2.2rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: normal;
+    color: $font-link-hover;
+    border-radius: 0.3rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    &:hover {
+        background-color: $secondary;
+        border: none;
+        outline: none;
+        color: $font-button-hover;
+    }
+}

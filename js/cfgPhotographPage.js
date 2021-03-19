@@ -22,7 +22,9 @@ const myContentLight = document.querySelector(".modalLight-content");
 const prevIcon = document.querySelector(".previous");
 const nextIcon = document.querySelector(".next");
 const btnContact = document.querySelector(".btn-contact");
+const frmPhotoName = document.querySelector(".photographerName");
 const myContactModal = document.getElementById("formContact"); 
+const closeBtnFrm = document.querySelector(".close-form");
 const requestURL = "../js/json/FishEyeDataFR.json";
 
 let cpt = 1;  
@@ -34,7 +36,7 @@ const idWorker = parsedUrl.searchParams.get("id")
 const filterType = parsedUrl.searchParams.get("filt");
 let filterTag = parsedUrl.searchParams.get("tag");
 
-let photographer;
+let photographer, myPhotographerObj;
 let myFilterMedias = [];
 let myTagFilterMedias = [];
 let myContentModalMedias = [];
@@ -123,7 +125,7 @@ let dayPrice;
  */
 
 function createFilterMedias(id,likes,date,title,tags,filter) {
-    function arrCreation() {
+    function arrMediasCreation() {
         myFilterMedias.push(
             { 
                 "id": id,
@@ -154,8 +156,6 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
         }
     }
 
-
-
     return {
         id,
         likes,
@@ -163,7 +163,7 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
         title,
         tags,
         filter,
-        arrCreation,
+        arrMediasCreation,
         arrFilteredBy
     }
 }
@@ -242,6 +242,39 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
     }
 }  
 
+/**
+ * FACTORY METHOD TOTAL LIKES
+ * Function : sumLikes
+ * Description : display the total of likes and price per day
+ * Parameters :
+ *      >> totalLikes : sum of likes for the photographer
+ *      >> pricePerDay : price per day
+ * --------------------------------------------------------------------------------------------------------
+ */
+
+ function sumLikes(total,price) {
+    function displayLikes() {
+        let infoLikes = document.createElement("div");
+        let totalLikes = document.createElement("span");
+        let pricePerDay = document.createElement("span");
+
+        totalLikes.innerHTML = total + " <i class='fas fa-heart'></i>";
+        pricePerDay.textContent = price + "€ / jour";
+
+        infoLikes.classList.add("b-likes-price");
+        infoLikes.classList.add("b-likes-price_content");
+        pricePerDay.classList.add("b-likes-price_content");
+
+        infoLikes.appendChild(totalLikes);
+        infoLikes.appendChild(pricePerDay);
+        photographerWorks.appendChild(infoLikes);
+    }
+    return {
+    total,
+    price,
+    displayLikes
+    }
+ }  
 
 /**
  * CALL JSON FILE
@@ -256,6 +289,7 @@ request.responseType = "json";
 request.send();
 request.onload = function() {
     photographer = request.response;
+    myPhotographerObj = photographer;
     showAllDatas(photographer);
 }
 
@@ -292,7 +326,7 @@ function showAllDatas(obj) {
     for (let photographerMedia of photographerWork) {
         if (photographerMedia.photographerId == idWorker) {
             const newArrByFilter = createFilterMedias(photographerMedia.id,photographerMedia.likes,photographerMedia.date,photographerMedia.title,photographerMedia.tags,filterType);
-            newArrByFilter.arrCreation();   
+            newArrByFilter.arrMediasCreation();   
             newArrByFilter.arrFilteredBy(filterType);  
         }           
     }
@@ -319,27 +353,19 @@ function showAllDatas(obj) {
     // PART 4 -----------------------------------------------------------------------   
     for (let tagMedia of myFilterMedias) {
         if (filterTag !=null && filterTag !="off" && filterTag == tagMedia.tag) {
-            myTagFilterMedias.push(
-                { 
-                    "id": tagMedia.id,
-                    "likes": tagMedia.likes,
-                    "date": tagMedia.date,
-                    "title": tagMedia.title,
-                    "tag" : tagMedia.tag
-            }); 
+            myTagFilterMedias.push(tagMedia);
         }
     }
     // End >> PART 4 -----------------------------------------------------------------------
 
     // PART 5 -----------------------------------------------------------------------   
     if (filterTag !=null && filterTag !="off") {
-     myFilterMedias = myMediasFactory.createMedias("Tag").array;
+        myFilterMedias = myTagFilterMedias;
     }
     // End >> PART 5 -----------------------------------------------------------------------
 
     // PART 6 -----------------------------------------------------------------------    
             
-
     for (let filterMedia of myFilterMedias) {       
         for (let photographerMedia of photographerWork) {
             if((filterMedia.id === photographerMedia.id) && (photographerMedia.photographerId == idWorker)) {  
@@ -353,27 +379,17 @@ function showAllDatas(obj) {
                 }
 
                 const newMedia = createPhotographerMedias(idWorker,typeMedia,sourceMedia,photographerMedia.title,photographerMedia.likes,photographerMedia.price,cpt);
-                newMedia.showListMedias();            
+                newMedia.showListMedias();     
+                
+                cpt ++;
             }
         }         
     }
     // End >> PART 5 -----------------------------------------------------------------------
 
     // PART 7 -----------------------------------------------------------------------      
-    let myInfoLikesPrice = document.createElement("div");
-    let myAggrLikes = document.createElement("span");
-    let myDayPrice = document.createElement("span");
-
-    myAggrLikes.innerHTML = aggLikes + " <i class='fas fa-heart'></i>";
-    myDayPrice.textContent = dayPrice + "€ / jour";
-
-    myInfoLikesPrice.classList.add("b-likes-price");
-    myInfoLikesPrice.classList.add("b-likes-price_content");
-    myDayPrice.classList.add("b-likes-price_content");
-
-    myInfoLikesPrice.appendChild(myAggrLikes);
-    myInfoLikesPrice.appendChild(myDayPrice);
-    photographerWorks.appendChild(myInfoLikesPrice);    
+    const newTotalLikes = sumLikes(aggLikes,dayPrice);
+    newTotalLikes.displayLikes();
 
     // End >> PART 7 -----------------------------------------------------------------------
 
@@ -443,8 +459,6 @@ function showAllDatas(obj) {
 
     function showSlide(n) {
         let mediaSlides = document.querySelectorAll(".slide");
-        
-        //console.log(mediaSlides.length);
 
         if (n > mediaSlides.length) {
         slideIndex = 1;	
@@ -459,5 +473,13 @@ function showAllDatas(obj) {
         }        
         
         mediaSlides[slideIndex - 1].style.display = 'block';    
+    }
+
+
+
+    // FORMULAIRE
+    for( let pInfo of photographerInfo)
+    if (pInfo.id == idWorker) {
+        frmPhotoName.textContent = pInfo.name;
     }
 }

@@ -48,6 +48,26 @@ video {
   color: #000000;
 }
 
+.btn-submit {
+  background-color: #901C1C;
+  margin-top: 2rem;
+  padding: 1.1rem 2.2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-style: normal;
+  color: #FFFFFF;
+  border-radius: 0.3rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.btn-submit:hover {
+  background-color: #D3573C;
+  border: none;
+  outline: none;
+  color: #000000;
+}
+
 .filter-dropdown {
   display: flex;
   position: absolute;
@@ -259,16 +279,63 @@ video {
   padding: 1.35rem;
   left: 25rem;
   top: 5rem;
-  width: 600px;
+  width: 40rem;
   height: auto;
   overflow: auto;
+  padding: 1.25rem 2rem;
+  border-radius: 0.3rem;
   background-color: #D3573C;
 }
-.modal-contact > h1 {
-  font-size: 4rem;
+.modal-contact > h1, .modal-contact .photographerName {
+  padding-bottom: 0.5rem;
+  font-size: 3.5rem;
   font-weight: 400;
   color: #000000;
-  line-height: 5rem;
+  line-height: 4rem;
+}
+
+.close-form {
+  color: #FFFFFF;
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 3rem;
+  font-weight: 400;
+  font-style: normal;
+}
+.close-form:hover, .close-form:focus {
+  color: #901C1C;
+  text-decoration: none;
+  cursor: pointer;
+  transform: rotate(90deg);
+  transition: all 300ms;
+}
+
+form {
+  margin-top: 1.5rem;
+}
+
+label {
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 2.8rem;
+}
+
+input {
+  height: 3.5rem;
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: normal;
+}
+
+textarea {
+  height: 8rem;
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .b-photographers {
