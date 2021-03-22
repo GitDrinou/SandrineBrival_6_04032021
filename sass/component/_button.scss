@@ -17,11 +17,17 @@
         outline: none;
         color: $font-button-hover;
     }
+
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        
+        bottom:0;
+        position: fixed;
+    }
 }
 
 .btn-submit {
     background-color: $primary;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     padding: 1.1rem 2.2rem;
     font-size: 1.25rem;
     font-weight: 700;

@@ -12,10 +12,13 @@
 body {
     font-family: "DM Sans", Arial, Helvetica, sans-serif;  
     box-sizing: inherit;
-    width: 1440px;
+    max-width: 1440px;
     margin: 1.25rem auto;
-    border: 1px solid red;   
     position: relative;
+        
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        max-width: map-get($breakpoints, mobile);
+    }
 }
 
 img {

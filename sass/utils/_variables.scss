@@ -11,3 +11,11 @@ $font-photographer-price : #757575;
 $font-photographer-slogan : #252525;
 
 $border-tagg_off : #C4C4C4;
+
+
+$breakpoints: (
+    min-mobile:300px,
+    mobile: 432px,
+    tablet: 1024px,
+    desktop: 1025px
+);

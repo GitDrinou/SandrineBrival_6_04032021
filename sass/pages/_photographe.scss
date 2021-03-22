@@ -4,7 +4,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     padding-right: 0.625rem;
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
+
 
 .idDetails {
     &_city {
@@ -28,6 +34,16 @@
         flex-wrap: wrap;
         margin: 2rem 0 0 3rem;
     }
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        width: 72%;
+        &_city, &_slogan,&_tagg{
+            font-size: 0.9rem;
+            margin: 0.3rem 0;
+        }
+        &_slogan {            
+            margin-bottom: 0.8rem;
+        }
+    }
 }
 
 .idDetails_tagg_link {
@@ -45,12 +61,31 @@
         &:hover, &:focus {
             color: $font-link-hover;
             background-color: $primary;
-        }
-    }    
+        }         
+    } 
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        & > a {
+            font-size: 0.9rem;
+            padding: 0.3rem;
+        } 
+    } 
 }
 
+@media screen and (max-width: map-get($breakpoints, mobile )) {
+   .idContact {
+       display: none;
+   }
+}
+
+
 .idPicture {
-    padding-top: 0.7rem;    
+    padding-top: 0.7rem;   
+    
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        position: absolute;
+        top: -2.5rem;
+        right: 0;
+    } 
 }
 
 .b-filter {
@@ -61,6 +96,10 @@
         font-weight: 700;
         font-style: normal;
     }
+    
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        display: none;
+    } 
 }
 
 .b-works {
@@ -78,12 +117,19 @@
     width: 21.875rem;
     margin: 0 1.125rem 2rem 1.125rem;            
     cursor: pointer;
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        width: 100%;
+    } 
 }
 
 .vignette {
     width: 21.875rem;
     height: 18.75rem;
     object-fit: cover;
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        height: 11.875rem;
+        width: 100%;
+    } 
 }
 
 .b-pictureInfo {
@@ -96,7 +142,7 @@
     font-size: 1.5rem;
     font-weight: 400;
     font-style: normal;
-    color: $primary;
+    color: $primary;       
 }
 
 .mediaPrice, .mediaLikes {
@@ -124,3 +170,14 @@
     }
 }
 
+@media screen and (max-width: map-get($breakpoints, mobile )) {
+    .mediaText, .mediaLikes {
+        font-size: 0.9rem;
+    }
+    .mediaPrice {
+        font-size: 0.75rem;
+        text-align: right;
+        padding: 0.2rem 1rem;
+    }
+
+} 

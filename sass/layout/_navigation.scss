@@ -21,6 +21,21 @@
         align-items: center;
         margin-top: -0.7rem;
     }
+    
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        grid-template-columns: auto;  
+
+        &_accessible {
+            display: none;
+        }
+            
+        &_tagg {
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 1.125rem;
+        }
+    }
+
 }
 
 .tagg_link > a {

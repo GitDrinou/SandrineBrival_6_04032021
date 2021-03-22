@@ -54,7 +54,7 @@ function showPhotographers(obj) {
         myIDPicLink.href = "pages/photographer.html?id=" + photographers[i].id + "&filt=Popular&tag=off";
         myIDPicture.src = "./images/IDPhotos/"+ photographers[i].portrait;
         myIDPicture.alt = photographers[i].name;
-        myIDPicture.classList.add("photographer_photo");
+        myIDPicture.classList.add("photographer_photo--home");
         myH2.textContent = photographers[i].name;
         myH2.classList.add("photographer_name");
         myLocation.textContent = photographers[i].city + ", " + photographers[i].country;

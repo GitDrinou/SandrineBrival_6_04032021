@@ -4,8 +4,6 @@
     margin-top: 5rem;
 }
 
-
-
 .photographer { 
     text-align: center;  
     font-weight: 400;
@@ -14,7 +12,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
-    &_photo {
+    &_photo, &_photo--home {
         width: 12.5rem;
         height: 12.5rem;
         object-fit: cover;
@@ -69,3 +67,23 @@
         cursor: pointer;
     }
 }
+
+
+@media screen and (max-width: map-get($breakpoints, mobile )) {
+    .b-photographers {
+        margin-top: 0;
+    }
+    .photographer {
+        justify-content: center;
+        &_photo {
+            width: 7.5rem;
+            height: 7.5rem;
+            object-fit: cover;
+        }
+        &_photo--home {
+            width: 15rem;
+            height: 15rem;
+            object-fit: cover;
+        }
+    }
+ }
