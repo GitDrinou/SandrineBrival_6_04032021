@@ -9,7 +9,7 @@
     }
 
     &_logo {
-        margin: 2.5rem 0 0 1.25rem;
+        margin: 2rem 0 0 1.25rem;
         width: 12.5rem;
         height: 3.125rem;
         outline: none;
@@ -20,9 +20,9 @@
     @include title ($marge:-2.8rem 3.25rem 0 0, $size: 2.25rem, $weight: 400);
     position: absolute;
     right: 1.125rem;
-    top: 6rem;
+    top: 5.5rem;
     @media screen and (max-width: map-get($breakpoints, mobile )) {
-        @include title ($marge:-2rem 1.125rem 0 0, $size: 0.875rem, $weight: 400);
+        @include title ($marge:-2.5rem 1.125rem 0 0, $size: 0.875rem, $weight: 400);
     }
 }
 
@@ -30,5 +30,6 @@
     @include title($marge : 0 0 0 3rem, $size : 4rem, $weight: 400);
     @media screen and (max-width: map-get($breakpoints, mobile )) {
         @include title($marge : 0, $size : 2rem, $weight: 400);
+        width: 70%;
     }
 }

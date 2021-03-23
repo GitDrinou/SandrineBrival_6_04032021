@@ -155,7 +155,11 @@ btnSubmit.addEventListener("click",(e) => {
 });
 
 function onpenContact() {
-    myContactModal.style.display= "block";    
+    myContactModal.style.display= "block"; 
+    firstName.value="";
+    lastName.value="";
+    mail.value="";
+    message.value="";   
 }
 
 closeBtnFrm.addEventListener("click", function(e) {

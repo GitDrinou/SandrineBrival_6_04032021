@@ -1,8 +1,10 @@
+
 .b-idPhotographer {
     position: relative;
     margin: 3.5rem 1.125rem 2.9rem 1.125rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding-right: 0.625rem;
     @media screen and (max-width: map-get($breakpoints, mobile )) {
         display: flex;
@@ -35,12 +37,15 @@
         margin: 2rem 0 0 3rem;
     }
     @media screen and (max-width: map-get($breakpoints, mobile )) {
-        width: 72%;
+        width: 80%;
         &_city, &_slogan,&_tagg{
             font-size: 0.9rem;
             margin: 0.3rem 0;
         }
         &_slogan {            
+            margin-bottom: 0.8rem;
+        }
+        &_tagg {            
             margin-bottom: 0.8rem;
         }
     }
@@ -66,16 +71,11 @@
     @media screen and (max-width: map-get($breakpoints, mobile )) {
         & > a {
             font-size: 0.9rem;
-            padding: 0.3rem;
+            padding: 0.2rem;
         } 
     } 
 }
 
-@media screen and (max-width: map-get($breakpoints, mobile )) {
-   .idContact {
-       display: none;
-   }
-}
 
 
 .idPicture {
@@ -105,11 +105,17 @@
 .b-works {
     margin-top: 4rem;
     & > ul {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content:space-between;
+        //display: flex;
+        //flex-direction: row;
+        //flex-wrap: wrap;
+        //justify-content:space-between;
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
         margin-bottom: 2rem;
+
+        @media screen and (max-width: map-get($breakpoints, mobile )) {
+            grid-template-columns: 1fr;
+        } 
     }
 }
 
@@ -117,8 +123,8 @@
     width: 21.875rem;
     margin: 0 1.125rem 2rem 1.125rem;            
     cursor: pointer;
-    @media screen and (max-width: map-get($breakpoints, mobile )) {
-        width: 100%;
+    @media screen and (max-width: map-get($breakpoints, mobile )) {        
+        width: 90%;
     } 
 }
 
@@ -167,6 +173,10 @@
         font-size: 1.5rem;
         font-weight: 500;
         font-style: normal;
+    }
+    
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        display: none;
     }
 }
 

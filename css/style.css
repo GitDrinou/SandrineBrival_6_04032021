@@ -40,10 +40,10 @@ video {
   color: #FFFFFF;
   border-radius: 0.3rem;
   position: absolute;
-  top: 0.3rem;
   border: none;
   outline: none;
   cursor: pointer;
+  z-index: 1;
 }
 .btn-contact:hover {
   background-color: #D3573C;
@@ -51,10 +51,23 @@ video {
   outline: none;
   color: #000000;
 }
+@media screen and (min-width: 1025px) {
+  .btn-contact {
+    position: absolute;
+    top: 9rem;
+    left: 40rem;
+  }
+}
 @media screen and (max-width: 432px) {
   .btn-contact {
-    bottom: 0;
     position: fixed;
+    bottom: 1.5rem;
+    left: 1rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    height: 3rem;
+    width: 92%;
+    background-color: #D3573C;
   }
 }
 
@@ -73,9 +86,17 @@ video {
 }
 .btn-submit:hover {
   background-color: #D3573C;
-  border: none;
+  border: 0.3rem solid #901C1C;
   outline: none;
   color: #000000;
+  padding: 0.8rem 1.9rem;
+}
+@media screen and (max-width: 432px) {
+  .btn-submit {
+    width: 60%;
+    padding: 1rem 2rem;
+    margin: 3rem 0 3rem 4rem;
+  }
 }
 
 .filter-dropdown {
@@ -148,7 +169,7 @@ video {
   }
 }
 .header-banner_logo {
-  margin: 2.5rem 0 0 1.25rem;
+  margin: 2rem 0 0 1.25rem;
   width: 12.5rem;
   height: 3.125rem;
   outline: none;
@@ -161,14 +182,14 @@ video {
   margin: -2.8rem 3.25rem 0 0;
   position: absolute;
   right: 1.125rem;
-  top: 6rem;
+  top: 5.5rem;
 }
 @media screen and (max-width: 432px) {
   .title-home {
     font-size: 0.875rem;
     font-weight: 400;
     color: #901C1C;
-    margin: -2rem 1.125rem 0 0;
+    margin: -2.5rem 1.125rem 0 0;
   }
 }
 
@@ -184,6 +205,7 @@ video {
     font-weight: 400;
     color: #901C1C;
     margin: 0;
+    width: 70%;
   }
 }
 
@@ -200,12 +222,14 @@ video {
   width: 10rem;
   margin: 0 auto;
   background-color: #D3573C;
+  visibility: hidden;
 }
 .navigation_tagg {
   width: 100%;
   height: 3.125rem;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   margin-top: -0.7rem;
@@ -365,22 +389,46 @@ video {
   height: auto;
   overflow: auto;
   padding: 1.25rem 2rem;
+  background-color: #FFFFFF;
+}
+.modal-contact_content {
   border-radius: 0.3rem;
+  padding: 1.125rem;
   background-color: #D3573C;
 }
-.modal-contact > h1, .modal-contact .photographerName {
+.modal-contact_content > h1, .modal-contact_content .photographerName {
   padding-bottom: 0.2rem;
   font-size: 3.5rem;
   font-weight: 400;
   color: #000000;
   line-height: 4rem;
 }
+@media screen and (max-width: 432px) {
+  .modal-contact {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    padding: 1.125rem;
+  }
+  .modal-contact_content {
+    padding: 1rem;
+    border-radius: 0.3rem;
+    background-color: #D3573C;
+  }
+  .modal-contact_content > h1, .modal-contact_content .photographerName {
+    font-size: 2.5rem;
+  }
+  .modal-contact_content .photographerName {
+    line-height: 3rem;
+  }
+}
 
 .close-form {
   color: #FFFFFF;
   position: absolute;
-  top: 1rem;
-  right: 2rem;
+  top: 2rem;
+  right: 3.5rem;
   font-size: 3rem;
   font-weight: 400;
   font-style: normal;
@@ -392,9 +440,21 @@ video {
   transform: rotate(90deg);
   transition: all 300ms;
 }
+@media screen and (max-width: 432px) {
+  .close-form {
+    top: 1.75rem;
+    right: 2.5rem;
+    font-size: 2rem;
+  }
+}
 
 form {
   margin-top: 1rem;
+}
+@media screen and (max-width: 432px) {
+  form {
+    margin-top: 2rem;
+  }
 }
 
 label {
@@ -402,6 +462,11 @@ label {
   font-weight: 400;
   font-style: normal;
   line-height: 2rem;
+}
+@media screen and (max-width: 432px) {
+  label {
+    line-height: 2.5rem;
+  }
 }
 
 input {
@@ -429,6 +494,11 @@ textarea {
   outline: none;
   border: none;
 }
+@media screen and (max-width: 432px) {
+  textarea {
+    height: 10rem;
+  }
+}
 
 .error {
   font-size: 1rem;
@@ -448,10 +518,8 @@ textarea {
 .photographer {
   text-align: center;
   font-weight: 400;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
 }
 .photographer_photo, .photographer_photo--home {
@@ -515,7 +583,7 @@ textarea {
   }
 
   .photographer {
-    justify-content: center;
+    grid-template-columns: 1fr;
   }
   .photographer_photo {
     width: 7.5rem;
@@ -531,8 +599,9 @@ textarea {
 .b-idPhotographer {
   position: relative;
   margin: 3.5rem 1.125rem 2.9rem 1.125rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-right: 0.625rem;
 }
 @media screen and (max-width: 432px) {
@@ -566,13 +635,16 @@ textarea {
 }
 @media screen and (max-width: 432px) {
   .idDetails {
-    width: 72%;
+    width: 80%;
   }
   .idDetails_city, .idDetails_slogan, .idDetails_tagg {
     font-size: 0.9rem;
     margin: 0.3rem 0;
   }
   .idDetails_slogan {
+    margin-bottom: 0.8rem;
+  }
+  .idDetails_tagg {
     margin-bottom: 0.8rem;
   }
 }
@@ -598,15 +670,10 @@ textarea {
 @media screen and (max-width: 432px) {
   .idDetails_tagg_link > a {
     font-size: 0.9rem;
-    padding: 0.3rem;
+    padding: 0.2rem;
   }
 }
 
-@media screen and (max-width: 432px) {
-  .idContact {
-    display: none;
-  }
-}
 .idPicture {
   padding-top: 0.7rem;
 }
@@ -637,11 +704,14 @@ textarea {
   margin-top: 4rem;
 }
 .b-works > ul {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
   margin-bottom: 2rem;
+}
+@media screen and (max-width: 432px) {
+  .b-works > ul {
+    grid-template-columns: 1fr;
+  }
 }
 
 .medias-card {
@@ -651,7 +721,7 @@ textarea {
 }
 @media screen and (max-width: 432px) {
   .medias-card {
-    width: 100%;
+    width: 90%;
   }
 }
 
@@ -703,6 +773,11 @@ textarea {
   font-size: 1.5rem;
   font-weight: 500;
   font-style: normal;
+}
+@media screen and (max-width: 432px) {
+  .b-likes-price {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 432px) {

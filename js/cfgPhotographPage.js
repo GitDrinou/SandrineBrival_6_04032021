@@ -36,7 +36,7 @@ const idWorker = parsedUrl.searchParams.get("id")
 const filterType = parsedUrl.searchParams.get("filt");
 let filterTag = parsedUrl.searchParams.get("tag");
 
-let photographer, myPhotographerObj;
+let photographer;
 let myFilterMedias = [];
 let myTagFilterMedias = [];
 let myContentModalMedias = [];
@@ -44,72 +44,6 @@ let aggLikes = 0;
 let lenTagArray = 0;
 let dayPrice;
 
-
-/**
- * FACTORY METHOD PHOTOGRAPHER
- * Function : createPhotographer
- * Description : display the photographer's info
- * Parameters :
- *      >> id : id Photographer
- *      >> type : type of medias (image or video)
- *      >> source : name of the media's file
- *      >> title : title's media
- *      >> likes : number of likes
- *      >> price : media's price
- *      >> counter : index for the slideshow
- * --------------------------------------------------------------------------------------------------------
- */
-
- function createPhotographer(id,tags,name,city,country,tagline,portrait,price) {
-    function displayPhotographer() {
-        let myH1 = document.createElement("h1");
-        let myLocation = document.createElement("p");
-        let mySlogan = document.createElement("p");
-        let myIDPicture = document.createElement("img");
-        let myTagsList = document.createElement("ul");
-        let listTags = tags;
-
-        for (let tag of listTags) {
-            let myTags = document.createElement("li");
-                let myTagsLink = document.createElement("a");
-                myTagsLink.textContent = tag;
-                myTags.classList.add("idDetails_tagg_link");
-                myTagsList.appendChild(myTags);
-                myTags.appendChild(myTagsLink);
-            }
-
-            myH1.textContent = name;
-            myH1.classList.add("title-photographer"); 
-            myLocation.textContent = city + ", " + country;
-            myLocation.classList.add("idDetails_city");
-            mySlogan.textContent = tagline;
-            mySlogan.classList.add("idDetails_slogan");
-            myTagsList.classList.add("idDetails_tagg");
-            myIDPicture.src = "../images/IDPhotos/"+ portrait;
-            myIDPicture.alt = "Vignette " + name;
-            myIDPicture.classList.add("photographer_photo");
-            
-            photographerDetails.appendChild(myH1);
-            photographerDetails.appendChild(myLocation);
-            photographerDetails.appendChild(mySlogan);
-            photographerDetails.appendChild(myTagsList);
-            photographerPicture.appendChild(myIDPicture);
-
-            dayPrice = price;
-    }
-
-    return {
-        id,
-        tags,
-        name,
-        city,
-        country,
-        tagline,
-        portrait,
-        price,
-        displayPhotographer
-    }
- }
 
 /**
  * FACTORY METHOD FILTER BY POPULARITY,DATE AND TITLE
@@ -289,7 +223,6 @@ request.responseType = "json";
 request.send();
 request.onload = function() {
     photographer = request.response;
-    myPhotographerObj = photographer;
     showAllDatas(photographer);
 }
 
@@ -334,9 +267,11 @@ function showAllDatas(obj) {
 
     // PART 3 -----------------------------------------------------------------------   
     const tagItems = document.querySelectorAll(".idDetails_tagg_link");
+    
     tagItems.forEach(item => {
         item.addEventListener('click', function(e) {  
-            let myItem = (filterTag!="oof") ? item.textContent : filterTag;
+            let valueTag = item.textContent;
+            let myItem = (filterTag=="off") ? valueTag.substring(1,valueTag.length) : filterTag;
             e.preventDefault();
        
             for (let myMedia of myFilterMedias) {

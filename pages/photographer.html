@@ -16,11 +16,9 @@
         </a>  
     </header> 
     <main>
+        <button name="contact" class="btn-contact">Contactez-moi</button>
         <section class="b-idPhotographer">
-            <div class="idDetails"></div>            
-            <div class="idContact">
-                <button name="contact" class="btn-contact">Contactez-moi</button>
-            </div>       
+            <div class="idDetails"></div>                 
             <div class="idPicture"></div>            
         </section> 
         <section class="b-filter">
@@ -46,34 +44,38 @@
             <a class="next"><i class="fas fa-chevron-right"></i></a>
         </section>
         <section id="formContact" class="modal-contact">
-            <span class="close-form"><i class="fas fa-times"></i></span>
-            <h1>Contactez-moi</h1>
-            <span class="photographerName"></span>
-            <form id="frmContact" novalidate>
-                <div>
-                    <label for="fName">Prénom</label>
-                    <input type="text" name="fName" id="fName" required autofocus title="Entrez votre prénom">
-                    <span class="error"></span>
-                </div>
-                <div>
-                    <label for="lName">Nom</label>
-                    <input type="text" name="lName" id="lName" requiredtitle="Entrez votre nom">
-                    <span class="error"></span>
-                </div>
-                <div>
-                    <label for="eMail">E-mail</label>
-                    <input type="email" name="eMail" id="eMail" required title="Entrez votre e-mail">
-                    <span class="error"></span>
-                </div>
-                <div>
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" required title="Entrez votre message"></textarea>
-                    <span class="error"></span>
-                </div>
-                <button type="button" class="btn-submit">Envoyer</button>                
-            </form>
+            <div class="modal-contact_content">
+                <span class="close-form"><i class="fas fa-times"></i></span>
+                <h1>Contactez-moi</h1>
+                <span class="photographerName"></span>
+                <form id="frmContact" novalidate>
+                    <div>
+                        <label for="fName">Prénom</label>
+                        <input type="text" name="fName" id="fName" required autofocus title="Entrez votre prénom">
+                        <span class="error"></span>
+                    </div>
+                    <div>
+                        <label for="lName">Nom</label>
+                        <input type="text" name="lName" id="lName" requiredtitle="Entrez votre nom">
+                        <span class="error"></span>
+                    </div>
+                    <div>
+                        <label for="eMail">E-mail</label>
+                        <input type="email" name="eMail" id="eMail" required title="Entrez votre e-mail">
+                        <span class="error"></span>
+                    </div>
+                    <div>
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" required title="Entrez votre message"></textarea>
+                        <span class="error"></span>
+                    </div>
+                    <button type="button" class="btn-submit">Envoyer</button>                
+                </form>
+            </div>            
         </section>
+        <script src="../js/factory.js"></script>
         <script src="../js/cfgPhotographPage.js"></script>
+        
         <script src="../js/app.js"></script>
        
     </main>

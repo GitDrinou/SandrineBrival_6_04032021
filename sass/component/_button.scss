@@ -7,22 +7,32 @@
     color: $font-link-hover;
     border-radius: 0.3rem;
     position: absolute;
-    top: 0.3rem;
     border: none;
     outline: none;
     cursor: pointer;
+    z-index: 1;
     &:hover {
         background-color: $secondary;
         border: none;
         outline: none;
         color: $font-button-hover;
-    }
-
+    }    
+    
+    @media screen and (min-width: map-get($breakpoints, desktop )) {
+        position: absolute;
+        top: 9rem;
+        left: 40rem;
+    } 
     @media screen and (max-width: map-get($breakpoints, mobile )) {
-        
-        bottom:0;
-        position: fixed;
-    }
+       position: fixed;
+       bottom:1.5rem;
+       left: 1rem;
+       font-size: 1rem;
+       padding: 0.5rem;
+       height: 3rem;
+       width: 92%;
+       background-color: $secondary;
+    } 
 }
 
 .btn-submit {
@@ -39,8 +49,15 @@
     cursor: pointer;
     &:hover {
         background-color: $secondary;
-        border: none;
+        border: 0.3rem solid $primary;
         outline: none;
-        color: $font-button-hover;
+        color: $font-button-hover;        
+        padding: 0.8rem 1.9rem;
+    }
+        
+    @media screen and (max-width: map-get($breakpoints, mobile )) {  
+       width: 60%;
+       padding: 1rem 2rem;
+       margin: 3rem 0 3rem 4rem;
     }
 }
