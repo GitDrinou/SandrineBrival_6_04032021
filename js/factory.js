@@ -1,4 +1,6 @@
 
+
+
 /**
  * FACTORY METHOD PHOTOGRAPHER
  * Function : createPhotographer
@@ -14,8 +16,19 @@
  * --------------------------------------------------------------------------------------------------------
  */
 
- function createPhotographer(id,tags,name,city,country,tagline,portrait,price) {
-    function homepagePhotographers() {
+class Photographer {
+    constructor(id,tags,name,city,country,tagline,portrait,price) {
+        this.id = id;
+        this.tags = tags;
+        this.name = name;
+        this.city = city;
+        this.country = country;
+        this.tagline = tagline;
+        this.portrait = portrait;
+        this.price = price;
+    }
+
+    getHomeInfo() {
         let myItem = document.createElement("li");
         let myIDPicLink = document.createElement("a");
         let myIDPicture = document.createElement("img");
@@ -25,29 +38,28 @@
         let myPrice = document.createElement("p");
 
         let myTagsList = document.createElement("ul")
-        let listTags = tags;
-
-        for (let tag of listTags) {
+        let listTags = this.tags;
+        
+        for (let tag in listTags) {
             let myTags = document.createElement("li");
             let myTagsLink = document.createElement("a");
-            myTagsLink.textContent = "#" + tag;
+            myTagsLink.textContent = "#" + listTags[tag];
             myTags.classList.add("photographer_tagg_link");
             myTagsList.appendChild(myTags);
             myTags.appendChild(myTagsLink);
-            console.log(listTags.find(element => element == filterTag));
         }
 
-        myIDPicLink.href = "pages/photographer.html?id=" + id + "&filt=Popular&tag=off";
-        myIDPicture.src = "./images/IDPhotos/"+ portrait;
-        myIDPicture.alt = name;
+        myIDPicLink.href = "pages/photographer.html?id=" + this.id + "&filt=Popular&tag=off";
+        myIDPicture.src = "./images/IDPhotos/"+ this.portrait;
+        myIDPicture.alt = "Photo de " + this.name + " - cliquez pour accéder à son travail.";
         myIDPicture.classList.add("photographer_photo--home");
-        myH2.textContent = name;
+        myH2.textContent = this.name;
         myH2.classList.add("photographer_name");
-        myLocation.textContent = city + ", " + country;
+        myLocation.textContent = this.city + ", " + this.country;
         myLocation.classList.add("photographer_city");
-        mySlogan.textContent = tagline;
+        mySlogan.textContent = this.tagline;
         mySlogan.classList.add("photographer_desc");
-        myPrice.textContent = price + "€/jour";
+        myPrice.textContent = this.price + "€/jour";
         myPrice.classList.add("photographer_price");
         myTagsList.classList.add("photographer_tagg");
 
@@ -63,55 +75,52 @@
         photographersList.appendChild(myItem);
     }
 
-    function displayPhotographer() {
+    getInfo() {
         let myH1 = document.createElement("h1");
         let myLocation = document.createElement("p");
         let mySlogan = document.createElement("p");
         let myIDPicture = document.createElement("img");
         let myTagsList = document.createElement("ul");
-        let listTags = tags;
+        let listTags = this.tags;
 
-        for (let tag of listTags) {
+        for (let tag in listTags) {
             let myTags = document.createElement("li");
-                let myTagsLink = document.createElement("a");
-                myTagsLink.textContent = "#" + tag;
-                myTags.classList.add("idDetails_tagg_link");
-                myTagsList.appendChild(myTags);
-                myTags.appendChild(myTagsLink);
-            }
+            let myTagsLink = document.createElement("a");
+            myTagsLink.textContent = "#" + listTags[tag];
+            myTags.classList.add("idDetails_tagg_link");
+            myTagsList.appendChild(myTags);
+            myTags.appendChild(myTagsLink);
+        }
 
-            myH1.textContent = name;
-            myH1.classList.add("title-photographer"); 
-            myLocation.textContent = city + ", " + country;
-            myLocation.classList.add("idDetails_city");
-            mySlogan.textContent = tagline;
-            mySlogan.classList.add("idDetails_slogan");
-            myTagsList.classList.add("idDetails_tagg");
-            myIDPicture.src = "../images/IDPhotos/"+ portrait;
-            myIDPicture.alt = "Vignette " + name;
-            myIDPicture.classList.add("photographer_photo");
-            
-            photographerDetails.appendChild(myH1);
-            photographerDetails.appendChild(myLocation);
-            photographerDetails.appendChild(mySlogan);
-            photographerDetails.appendChild(myTagsList);
-            photographerPicture.appendChild(myIDPicture);
+        myH1.textContent = this.name;
+        myH1.classList.add("title-photographer"); 
+        myLocation.textContent = this.city + ", " + this.country;
+        myLocation.classList.add("idDetails_city");
+        mySlogan.textContent = this.tagline;
+        mySlogan.classList.add("idDetails_slogan");
+        myTagsList.classList.add("idDetails_tagg");
+        myIDPicture.src = "../images/IDPhotos/"+ this.portrait;
+        myIDPicture.alt = "Vignette de " + this.name;
+        myIDPicture.classList.add("photographer_photo");
+        
+        photographerDetails.appendChild(myH1);
+        photographerDetails.appendChild(myLocation);
+        photographerDetails.appendChild(mySlogan);
+        photographerDetails.appendChild(myTagsList);
+        photographerPicture.appendChild(myIDPicture);
 
-            dayPrice = price;
-    }
-
-    
-
-    return {
-        id,
-        tags,
-        name,
-        city,
-        country,
-        tagline,
-        portrait,
-        price,
-        homepagePhotographers,
-        displayPhotographer
+        dayPrice = this.price;
     }
 }
+
+
+
+/*
+
+function Factory(type) {
+    switch(type) {
+        case "Home" : 
+            new HomePhographer;
+    }
+}
+*/

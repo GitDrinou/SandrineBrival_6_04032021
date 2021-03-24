@@ -47,33 +47,45 @@ let dayPrice;
 
 /**
  * FACTORY METHOD FILTER BY POPULARITY,DATE AND TITLE
- * Function : createByFilterMedias
+ * Class : FilterBy
  * Description : filtering medias by popularity, date, title according the URL parameters
- * Parameters :
+ * Constructor :
  *      >> id : id of the media
  *      >> likes : number of likes
  *      >> date : the date of the media
  *      >> title : the media's title
  *      >> tags : array of tags linked to the media
+ * Methods : 
+ *      >> getCreateArray() : create a new array of media's photographer
+ *      >> getMediasFilterBy() : filtered the previous new array by popularity, date or title according the URL parameters(selection's user)
  * --------------------------------------------------------------------------------------------------------
  */
 
-function createFilterMedias(id,likes,date,title,tags,filter) {
-    function arrMediasCreation() {
+class FilterBy {
+    constructor(id,likes,date,title,tags,filter) {
+        this.id = id;
+        this.likes = likes;
+        this.date = date;
+        this.title = title;
+        this.tags = tags;
+        this.filter = filter;
+    }
+
+    getCreateArray() {
         myFilterMedias.push(
             { 
-                "id": id,
-                "likes": likes,
-                "date": date,
-                "title": title,
-                "tag" : tags
+                "id": this.id,
+                "likes": this.likes,
+                "date": this.date,
+                "title": this.title,
+                "tag" : this.tags
             }
         );  
-        aggLikes += likes;
+        aggLikes += this.likes;
     }
-    
-    function arrFilteredBy(filter) {
-        switch (filter) {
+
+    getMediasFilterBy() {
+        switch (this.filter) {
             case "Popular" : 
                 myFilterMedias.sort((a, b) => b.likes - a.likes);
                 break;
@@ -82,32 +94,20 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
                 break;
             case "Title" :
                 myFilterMedias.sort(function(a,b) {
-                    string1 = a.title;
-                    string2 = b.title;
+                    let string1 = a.title;
+                    let string2 = b.title;
                     return string1.toString().localeCompare(string2.toString());
                 });
                 break;
         }
     }
-
-    return {
-        id,
-        likes,
-        date,
-        title,
-        tags,
-        filter,
-        arrMediasCreation,
-        arrFilteredBy
-    }
 }
-
 
 /**
  * FACTORY METHOD MEDIAS LIST
- * Function : createPhotographerMedias
+ * Class : Medias
  * Description : display the list of the photographer's medias
- * Parameters :
+ * Constructor :
  *      >> id : id Photographer
  *      >> type : type of medias (image or video)
  *      >> source : name of the media's file
@@ -115,28 +115,39 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
  *      >> likes : number of likes
  *      >> price : media's price
  *      >> counter : index for the slideshow
+ * Method : 
+ *      >> getMedias() : display the medias's photographer
  * --------------------------------------------------------------------------------------------------------
  */
+class Medias {
+    constructor(id,type,source,title,likes,price,counter) {
+        this.id = id;
+        this.type = type;
+        this.source = source;
+        this.title = title;
+        this.likes = likes;
+        this.price = price;
+        this.counter = counter;
+    }
 
- function createPhotographerMedias(id,type,source,title,likes,price,counter) {    
-    function showListMedias() { 
+    getMedias() {
         let mediaCard = document.createElement("li"); 
         mediaCard.classList.add("medias-card");
-        switch (type) {
+        switch (this.type) {
             case "image" :    
                 let mediaImage = document.createElement("img");            
-                mediaImage.src = "../images/Medias/" + id + "/" + source ;
+                mediaImage.src = "../images/Medias/" + this.id + "/" + this.source ;
                 mediaImage.classList.add("vignette");
-                mediaImage.setAttribute("id", counter);
-                mediaImage.setAttribute("title", title);
+                mediaImage.setAttribute("id", this.counter);
+                mediaImage.setAttribute("title", this.title);
                 mediaCard.appendChild(mediaImage);
                 break;
             case "video" :
                 let mediaVideo = document.createElement("video");
-                mediaVideo.src = "../images/Medias/" + id + "/" + source;
+                mediaVideo.src = "../images/Medias/" + this.id + "/" + this.source;
                 mediaVideo.classList.add("vignette");
-                mediaVideo.setAttribute("id", counter)
-                mediaVideo.setAttribute("title", title);
+                mediaVideo.setAttribute("id", this.counter)
+                mediaVideo.setAttribute("title", this.title);
                 mediaCard.appendChild(mediaVideo);
                 break;
         }
@@ -146,9 +157,9 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
         let mediaPrice = document.createElement("span");
         let mediaLikes = document.createElement("span");
                 
-        mediaTitle.textContent = title;
-        mediaPrice.textContent = price + " €";
-        mediaLikes.innerHTML = likes + " <i class='fas fa-heart'></i>";
+        mediaTitle.textContent = this.title;
+        mediaPrice.textContent = this.price + " €";
+        mediaLikes.innerHTML = this.likes + " <i class='fas fa-heart'></i>";
 
         mediaInfo.classList.add("b-pictureInfo");
         mediaTitle.classList.add("mediaText");
@@ -163,18 +174,7 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
         myList.appendChild(mediaCard);
         photographerWorks.appendChild(myList);
     }
-
-    return {
-        id,
-        type,
-        source,
-        title,
-        likes,
-        price,
-        counter,
-        showListMedias
-    }
-}  
+}
 
 /**
  * FACTORY METHOD TOTAL LIKES
@@ -185,15 +185,19 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
  *      >> pricePerDay : price per day
  * --------------------------------------------------------------------------------------------------------
  */
-
- function sumLikes(total,price) {
-    function displayLikes() {
+class Likes {
+    constructor(total,price) {
+        this.total = total;
+        this.price = price;
+    }
+    
+    getTotal() {
         let infoLikes = document.createElement("div");
         let totalLikes = document.createElement("span");
         let pricePerDay = document.createElement("span");
 
-        totalLikes.innerHTML = total + " <i class='fas fa-heart'></i>";
-        pricePerDay.textContent = price + "€ / jour";
+        totalLikes.innerHTML = this.total + " <i class='fas fa-heart'></i>";
+        pricePerDay.textContent = this.price + "€ / jour";
 
         infoLikes.classList.add("b-likes-price");
         infoLikes.classList.add("b-likes-price_content");
@@ -203,12 +207,8 @@ function createFilterMedias(id,likes,date,title,tags,filter) {
         infoLikes.appendChild(pricePerDay);
         photographerWorks.appendChild(infoLikes);
     }
-    return {
-    total,
-    price,
-    displayLikes
-    }
- }  
+}
+
 
 /**
  * CALL JSON FILE
@@ -247,8 +247,8 @@ function showAllDatas(obj) {
     let photographerInfo = obj["photographers"];
     for (let info of photographerInfo) {
         if (info.id == idWorker) {            
-            const newPhotographer = createPhotographer(idWorker,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
-            newPhotographer.displayPhotographer();             
+            const newPhotographer = new Photographer(idWorker,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
+            newPhotographer.getInfo();            
         }
     } 
     // End >> PART 1 -----------------------------------------------------------------------
@@ -258,9 +258,9 @@ function showAllDatas(obj) {
     myFilterMedias.splice(0,myFilterMedias.length);  
     for (let photographerMedia of photographerWork) {
         if (photographerMedia.photographerId == idWorker) {
-            const newArrByFilter = createFilterMedias(photographerMedia.id,photographerMedia.likes,photographerMedia.date,photographerMedia.title,photographerMedia.tags,filterType);
-            newArrByFilter.arrMediasCreation();   
-            newArrByFilter.arrFilteredBy(filterType);  
+            const newFilterBy = new FilterBy(photographerMedia.id,photographerMedia.likes,photographerMedia.date,photographerMedia.title,photographerMedia.tags,filterType);
+            newFilterBy.getCreateArray();
+            newFilterBy.getMediasFilterBy(); 
         }           
     }
     // End >> PART 2 -----------------------------------------------------------------------
@@ -313,8 +313,8 @@ function showAllDatas(obj) {
                     sourceMedia = photographerMedia.video;
                 }
 
-                const newMedia = createPhotographerMedias(idWorker,typeMedia,sourceMedia,photographerMedia.title,photographerMedia.likes,photographerMedia.price,cpt);
-                newMedia.showListMedias();     
+                const newMedias = new Medias(idWorker,typeMedia,sourceMedia,photographerMedia.title,photographerMedia.likes,photographerMedia.price,cpt);
+                newMedias.getMedias(); 
                 
                 cpt ++;
             }
@@ -323,8 +323,10 @@ function showAllDatas(obj) {
     // End >> PART 5 -----------------------------------------------------------------------
 
     // PART 7 -----------------------------------------------------------------------      
-    const newTotalLikes = sumLikes(aggLikes,dayPrice);
-    newTotalLikes.displayLikes();
+    
+    const newLikes = new Likes(aggLikes,dayPrice);
+    newLikes.getTotal(); 
+    
 
     // End >> PART 7 -----------------------------------------------------------------------
 

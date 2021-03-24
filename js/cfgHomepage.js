@@ -65,12 +65,11 @@ function showPhotographers(obj) {
     }
     
     myTagFilter.length > 0 ? photographers = myTagFilter : photographers = photographers;
-    console.log(myTagFilter.length)
-
+   
     // Part 2.1 ----------------------------------------------
     for (let info of photographers) {
-        const newPhotographers = createPhotographer(info.id,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
-        newPhotographers.homepagePhotographers();           
+        const newPhotographer = new Photographer(info.id,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
+        newPhotographer.getHomeInfo();         
     }
 
    // filter By Tags
