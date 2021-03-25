@@ -158,6 +158,21 @@
     color: $primary;
 }
 
+.fa-heart {
+    &:active {
+        transform: scale(0.5);
+        color: $secondary;
+        transition: all 350ms ease-in-out ;
+    }
+    @media screen and (max-width: map-get($breakpoints, mobile )) {
+        &:hover {
+            transform: scale(0.5);
+            color: $secondary;
+            transition: all 350ms;
+        }
+    } 
+}
+
 .b-likes-price {
     position: fixed;
     bottom: 1rem;

@@ -757,6 +757,19 @@ textarea {
   color: #901C1C;
 }
 
+.fa-heart:active {
+  transform: scale(0.5);
+  color: #D3573C;
+  transition: all 350ms ease-in-out;
+}
+@media screen and (max-width: 432px) {
+  .fa-heart:hover {
+    transform: scale(0.5);
+    color: #D3573C;
+    transition: all 350ms;
+  }
+}
+
 .b-likes-price {
   position: fixed;
   bottom: 1rem;

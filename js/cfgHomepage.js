@@ -68,7 +68,7 @@ function showPhotographers(obj) {
    
     // Part 2.1 ----------------------------------------------
     for (let info of photographers) {
-        const newPhotographer = new Photographer(info.id,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
+        const newPhotographer = new Photographer(info.id,info);
         newPhotographer.getHomeInfo();         
     }
 

@@ -25,6 +25,7 @@ const btnContact = document.querySelector(".btn-contact");
 const frmPhotoName = document.querySelector(".photographerName");
 const myContactModal = document.getElementById("formContact"); 
 const closeBtnFrm = document.querySelector(".close-form");
+
 const requestURL = "../js/json/FishEyeDataFR.json";
 
 let cpt = 1;  
@@ -46,28 +47,27 @@ let dayPrice;
 
 
 /**
- * FACTORY METHOD FILTER BY POPULARITY,DATE AND TITLE
- * Class : FilterBy
- * Description : filtering medias by popularity, date, title according the URL parameters
+ * CREATE NEW ARRAY MEDIAS FILTERED
+ * Class : ArrayFilterBy
+ * Description : creating a new array of medias filtered by popularity, date, title according the URL parameters
  * Constructor :
  *      >> id : id of the media
  *      >> likes : number of likes
  *      >> date : the date of the media
  *      >> title : the media's title
  *      >> tags : array of tags linked to the media
- * Methods : 
+ * Method : 
  *      >> getCreateArray() : create a new array of media's photographer
- *      >> getMediasFilterBy() : filtered the previous new array by popularity, date or title according the URL parameters(selection's user)
  * --------------------------------------------------------------------------------------------------------
  */
 
-class FilterBy {
-    constructor(id,likes,date,title,tags,filter) {
-        this.id = id;
-        this.likes = likes;
-        this.date = date;
-        this.title = title;
-        this.tags = tags;
+class ArrayFilterBy {
+    constructor(medias,filter) {
+        this.id = medias.id;
+        this.likes = medias.likes;
+        this.date = medias.date;
+        this.title = medias.title;
+        this.tags = medias.tags;
         this.filter = filter;
     }
 
@@ -83,28 +83,10 @@ class FilterBy {
         );  
         aggLikes += this.likes;
     }
-
-    getMediasFilterBy() {
-        switch (this.filter) {
-            case "Popular" : 
-                myFilterMedias.sort((a, b) => b.likes - a.likes);
-                break;
-            case "Date" :
-                myFilterMedias.reverse((a, b) => a.date - b.date);
-                break;
-            case "Title" :
-                myFilterMedias.sort(function(a,b) {
-                    let string1 = a.title;
-                    let string2 = b.title;
-                    return string1.toString().localeCompare(string2.toString());
-                });
-                break;
-        }
-    }
 }
 
 /**
- * FACTORY METHOD MEDIAS LIST
+ * MEDIAS LIST
  * Class : Medias
  * Description : display the list of the photographer's medias
  * Constructor :
@@ -120,13 +102,14 @@ class FilterBy {
  * --------------------------------------------------------------------------------------------------------
  */
 class Medias {
-    constructor(id,type,source,title,likes,price,counter) {
+    constructor(id,type,source,medias,counter) {
         this.id = id;
         this.type = type;
         this.source = source;
-        this.title = title;
-        this.likes = likes;
-        this.price = price;
+        this.medId = medias.id;
+        this.title = medias.title;
+        this.likes = medias.likes;
+        this.price = medias.price;
         this.counter = counter;
     }
 
@@ -138,7 +121,8 @@ class Medias {
                 let mediaImage = document.createElement("img");            
                 mediaImage.src = "../images/Medias/" + this.id + "/" + this.source ;
                 mediaImage.classList.add("vignette");
-                mediaImage.setAttribute("id", this.counter);
+                mediaImage.setAttribute("slide", this.counter);
+                mediaImage.setAttribute("id", this.medId);
                 mediaImage.setAttribute("title", this.title);
                 mediaCard.appendChild(mediaImage);
                 break;
@@ -146,7 +130,8 @@ class Medias {
                 let mediaVideo = document.createElement("video");
                 mediaVideo.src = "../images/Medias/" + this.id + "/" + this.source;
                 mediaVideo.classList.add("vignette");
-                mediaVideo.setAttribute("id", this.counter)
+                mediaVideo.setAttribute("slide", this.counter)
+                mediaVideo.setAttribute("id", this.medId);
                 mediaVideo.setAttribute("title", this.title);
                 mediaCard.appendChild(mediaVideo);
                 break;
@@ -159,7 +144,7 @@ class Medias {
                 
         mediaTitle.textContent = this.title;
         mediaPrice.textContent = this.price + " €";
-        mediaLikes.innerHTML = this.likes + " <i class='fas fa-heart'></i>";
+        mediaLikes.innerHTML = this.likes + " <i class='fas fa-heart' id=" + this.medId + "></i>";
 
         mediaInfo.classList.add("b-pictureInfo");
         mediaTitle.classList.add("mediaText");
@@ -177,12 +162,14 @@ class Medias {
 }
 
 /**
- * FACTORY METHOD TOTAL LIKES
- * Function : sumLikes
+ * FOR THE TOTAL LIKES
+ * class : Likes
  * Description : display the total of likes and price per day
  * Parameters :
  *      >> totalLikes : sum of likes for the photographer
  *      >> pricePerDay : price per day
+ * Method :
+ *      >> getTotal() : display the total of likes and the price per day
  * --------------------------------------------------------------------------------------------------------
  */
 class Likes {
@@ -224,20 +211,22 @@ request.send();
 request.onload = function() {
     photographer = request.response;
     showAllDatas(photographer);
+    updateLikes(photographer);
 }
 
 /**
  * FUNCTION showAllDatas(object JSON)
  * Description : 
- *      > PART 1 : display the photographer informations according the URL parameter "id" - use factory Method >> createPhotographer
- *      > PART 2 : create / filter array "myFilterMedias" to display the photographer's medias according the URL parameter "filt" 
- *      > PART 3 : reload page and replace the value of the tag utl parameter according the tag selected by the user
- *      > PART 4 : create a new array "myTagFilterMedias" according the url parameter "tag" selected for filter and display the right medias
- *      > PART 5 : condition to replace the myFilterMedias content by myTagFilterMedias content
- *      > PART 6 : display the photographer's medias with the myFilterMedias's array - use factory Method >> createPhotographerMedias
- *      > PART 7 : display the price per day, total likes
- *      > PART 8 : condiguration of the lightbox modal
- *      > PART 9 : functions for animate and displaying lightbox modal
+ *      >> PART 1 : display the photographer informations according the URL parameter "id" - use factory Method >> createPhotographer
+ *      >> PART 2 : create / filter array "myFilterMedias" to display the photographer's medias according the URL parameter "filt" 
+ *      >> PART 3 : reload page and replace the value of the tag utl parameter according the tag selected by the user
+ *      >> PART 4 : create a new array "myTagFilterMedias" according the url parameter "tag" selected for filter and display the right medias
+ *      >> PART 5 : condition to replace the myFilterMedias content by myTagFilterMedias content
+ *      >> PART 6 : display the photographer's medias with the myFilterMedias's array
+ *      >> PART 7 : display the price per day, total likes
+ *      >> PART 8 : condiguration of the lightbox modal
+ *      >> PART 9 : functions for animate and displaying lightbox modal
+ *      >> PART 10 : fill the photographer name for the contact form modal
  * ----------------------------------------------------------------------------------------------------------------------------
  */
 
@@ -246,8 +235,8 @@ function showAllDatas(obj) {
     // PART 1 -----------------------------------------------------------------------
     let photographerInfo = obj["photographers"];
     for (let info of photographerInfo) {
-        if (info.id == idWorker) {            
-            const newPhotographer = new Photographer(idWorker,info.tags,info.name,info.city,info.country,info.tagline,info.portrait,info.price);
+        if (info.id == idWorker) {    
+            const newPhotographer = new Photographer(idWorker,info);
             newPhotographer.getInfo();            
         }
     } 
@@ -258,9 +247,12 @@ function showAllDatas(obj) {
     myFilterMedias.splice(0,myFilterMedias.length);  
     for (let photographerMedia of photographerWork) {
         if (photographerMedia.photographerId == idWorker) {
-            const newFilterBy = new FilterBy(photographerMedia.id,photographerMedia.likes,photographerMedia.date,photographerMedia.title,photographerMedia.tags,filterType);
+            const newFilterBy = new ArrayFilterBy(photographerMedia,filterType);
             newFilterBy.getCreateArray();
-            newFilterBy.getMediasFilterBy(); 
+
+            // Factory Use
+            const filter = factoryFilterBy(filterType);
+            filter.filterBy();
         }           
     }
     // End >> PART 2 -----------------------------------------------------------------------
@@ -299,8 +291,7 @@ function showAllDatas(obj) {
     }
     // End >> PART 5 -----------------------------------------------------------------------
 
-    // PART 6 -----------------------------------------------------------------------    
-            
+    // PART 6 -----------------------------------------------------------------------                
     for (let filterMedia of myFilterMedias) {       
         for (let photographerMedia of photographerWork) {
             if((filterMedia.id === photographerMedia.id) && (photographerMedia.photographerId == idWorker)) {  
@@ -313,21 +304,18 @@ function showAllDatas(obj) {
                     sourceMedia = photographerMedia.video;
                 }
 
-                const newMedias = new Medias(idWorker,typeMedia,sourceMedia,photographerMedia.title,photographerMedia.likes,photographerMedia.price,cpt);
+                const newMedias = new Medias(idWorker,typeMedia,sourceMedia,photographerMedia,cpt);
                 newMedias.getMedias(); 
                 
                 cpt ++;
             }
         }         
     }
-    // End >> PART 5 -----------------------------------------------------------------------
+    // End >> PART 6 -----------------------------------------------------------------------
 
     // PART 7 -----------------------------------------------------------------------      
-    
     const newLikes = new Likes(aggLikes,dayPrice);
     newLikes.getTotal(); 
-    
-
     // End >> PART 7 -----------------------------------------------------------------------
 
     // PART 8 -----------------------------------------------------------------------  
@@ -362,7 +350,6 @@ function showAllDatas(obj) {
     }
     
     myLightModal.appendChild(myContentLight); 
-
     // End >> PART 8 -----------------------------------------------------------------------
 
     // PART 9 -----------------------------------------------------------------------  
@@ -370,7 +357,7 @@ function showAllDatas(obj) {
         media.addEventListener('click', function(e) {  
             e.preventDefault();
             openLightbox();
-            toSlide(parseInt(media.getAttribute("id")));
+            toSlide(parseInt(media.getAttribute("slide")));
         });
     }); 
 
@@ -411,12 +398,33 @@ function showAllDatas(obj) {
         
         mediaSlides[slideIndex - 1].style.display = 'block';    
     }
+    // End >> PART 9 -----------------------------------------------------------------------
 
 
-
-    // FORMULAIRE
+    // PART 10 -----------------------------------------------------------------------  
     for( let pInfo of photographerInfo)
     if (pInfo.id == idWorker) {
         frmPhotoName.textContent = pInfo.name;
     }
+    // End >> PART 10 -----------------------------------------------------------------------
+}
+
+/**
+ * FUNCTION updateLikes(object JSON)
+ * Description : 
+ *      >> 
+ * ----------------------------------------------------------------------------------------------------------------------------
+ */
+
+function updateLikes(obj) {
+    let medias = obj["media"];
+    console.log(medias);
+    let hearts = document.querySelectorAll(".fa-heart");
+
+    hearts.forEach(heart => {   
+        heart.addEventListener('click', function(e) {  
+            e.preventDefault();
+            console.log(heart.getAttribute("id"))
+        });
+    }); 
 }
