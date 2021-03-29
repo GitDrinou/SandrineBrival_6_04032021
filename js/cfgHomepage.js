@@ -6,7 +6,6 @@
 const photographersList = document.querySelector(".photographer");
 const navTags = document.querySelector(".navigation_tagg");
 const requestURL = "./js/json/FishEyeDataFR.json";
-const request = new XMLHttpRequest();
 let photographers;
 let parsedUrl = new URL(window.location.href);
 let filterTag = parsedUrl.searchParams.get("tag");
@@ -15,33 +14,40 @@ let myTagArray = [];
 let myTagFilter = [];
 
 /**
- * CALL JSON FILE
- * Description : 
- *      onload  > create object "photographer" for the JSON request response
- *              > call the function showAllDatas with the photographer object as parameter
+ * FETCH METHOD
  * -----------------------------------------------------------------------------------------------------
- */
+*/
 
-request.open("GET", requestURL);
-request.responseType = "json";
-request.send();
-request.onload = function() {
-    let photographer = request.response;
-    showAllTags(photographer);
-    showPhotographers(photographer);
-}
+fetch(requestURL)
+    .then(response => {
+        if (response.ok) {
+            response.json().then(datas => {
+                showAllTags(datas.photographers)
+                showPhotographers(datas.photographers)
+            })
+        }
+        else {
+            document.getElementById("error-json").style.display="block"
+            document.getElementById("error-json").innerHTML = "Erreur avec le fichier JSON<br>" + response.status + " " + response.statusText;
+        }
+    })
 
-// list of tags
+/**
+ * FUNCTION showAllTags()
+ * Description : create an array of tags and display them in a list
+ * Parameter : JSON object 'photographers'
+ * -----------------------------------------------------------------------------------------------------
+*/
+
 function showAllTags(obj) {
-    photographers = obj["photographers"];   
-
-    for (let i=0; i < photographers.length; i++) {
-        for(let tag of photographers[i].tags) {
+    for (let i=0; i < obj.length; i++) {
+        for(let tag of obj[i].tags) {
             if (myTagArray.indexOf(tag) == -1) {
                 myTagArray.push(tag);
             }
         }
     }
+
     for (let tags of myTagArray) {
         let myTag = document.createElement("li");
         let myTagLink = document.createElement("a");
@@ -53,10 +59,16 @@ function showAllTags(obj) {
     }
 }
 
+/**
+ * FUNCTION showPhotographers()
+ * Description : 
+ *      display the photographers's list
+ *      and by a tag's click, filtering the list * 
+ * Parameter : JSON object 'photographers'
+ * -----------------------------------------------------------------------------------------------------
+*/
 function showPhotographers(obj) {
-    photographers = obj["photographers"]; 
-
-    for (let item of photographers) {
+    for (let item of obj) {
         for (let tag of item.tags) {
             if (filterTag != null && tag == filterTag) {
                 myTagFilter.push(item);
@@ -64,15 +76,13 @@ function showPhotographers(obj) {
         }
     }
     
-    myTagFilter.length > 0 ? photographers = myTagFilter : photographers = photographers;
+    myTagFilter.length > 0 ? obj = myTagFilter : obj = obj;
    
-    // Part 2.1 ----------------------------------------------
-    for (let info of photographers) {
+    for (let info of obj) {
         const newPhotographer = new Photographer(info.id,info);
         newPhotographer.getHomeInfo();         
     }
 
-   // filter By Tags
     const tagItems = document.querySelectorAll(".photographer_tagg_link");
     
     tagItems.forEach(item => {
@@ -81,7 +91,7 @@ function showPhotographers(obj) {
             let myItem = valueTag.substring(1,valueTag.length);
             e.preventDefault();
           
-            for (let photographer of photographers) {
+            for (let photographer of obj) {
                 for (let j=0; j < photographer.tags.length; j++) {
                     if (myItem == photographer.tags[j]) {
                         document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("?tag=")),"?tag=" + myItem));

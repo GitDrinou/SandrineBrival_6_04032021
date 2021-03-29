@@ -140,7 +140,7 @@
 
 .b-pictureInfo {
     display: grid;
-    grid-template-columns: 2fr 0.7fr auto;
+    grid-template-columns: 2fr 0.7fr 0.2fr auto;
     padding: 0.5rem 0;
 }
 
@@ -151,7 +151,7 @@
     color: $primary;       
 }
 
-.mediaPrice, .mediaLikes {
+.mediaPrice, .mediaLikes, .mediaHeart {
     font-size: 1.5rem;
     font-weight: 500;
     font-style: normal;
@@ -159,6 +159,7 @@
 }
 
 .fa-heart {
+    padding-left: 0.5rem;
     &:active {
         transform: scale(0.5);
         color: $secondary;

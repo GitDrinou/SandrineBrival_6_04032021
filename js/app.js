@@ -1,3 +1,19 @@
+/**
+ * VARIABLES
+ */
+
+ const dropMenuItems = document.querySelector(".dropdown-items"); 
+const dropFilterLink = document.querySelector(".filter-dropdown_link");
+const dropFilterIcon = document.getElementById("filterIcon");
+const dropFilterItems = document.querySelectorAll(".dropdown-items_link");
+const dropFilterItem0 = document.getElementById("filter-0");
+const dropFilterItem1 = document.getElementById("filter-1");
+const dropFilterItem2 = document.getElementById("filter-2");
+const dropFilterSelected = document.getElementById("filter-selected");
+const closeBtn = document.querySelector(".close-lightbox");
+const btnContact = document.querySelector(".btn-contact");
+const myContactModal = document.getElementById("formContact");
+const closeBtnFrm = document.querySelector(".close-form");
 
 /**
  * EVENT LISTENER - Click

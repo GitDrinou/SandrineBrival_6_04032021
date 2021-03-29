@@ -1,3 +1,9 @@
+/**
+ * VARIABLES
+ */
+
+const photographerDetails = document.querySelector(".idDetails");
+const photographerPicture = document.querySelector(".idPicture");
 
 /**
  * CLASS PHOTOGRAOHER INFO
@@ -47,7 +53,7 @@ class Photographer {
             myTags.appendChild(myTagsLink);
         }
         
-        myIDPicLink.href = "pages/photographer.html?id=" + this.id + "&filt=Default&tag=off";
+        myIDPicLink.href = "pages/photographer.html?id=" + this.id + "&filt=Popular&tag=off";
         myIDPicture.src = "./images/IDPhotos/"+ this.portrait;
         myIDPicture.alt = "Photo de " + this.name + " - cliquez pour accéder à son travail.";
         myIDPicture.classList.add("photographer_photo--home");

@@ -30,15 +30,25 @@ class TitleFilter extends DoFilter {
 }
 
 
-function factoryFilterBy(type) {
+function factory(type, val) {
     switch (type) {
-        case "Popular" : 
-            return new PopularFilter;
-        case "Date" :
-            return new DateFilter;
-        case "Title" : 
-            return new TitleFilter;
-        default:
-            return new DoFilter;
+        case "filter" :
+            switch (val) {
+                case "Popular" : 
+                    return new PopularFilter;
+                case "Date" :
+                    return new DateFilter;
+                case "Title" : 
+                    return new TitleFilter;
+                default:
+                    return new DoFilter;
+            }
+        case "media" :
+            switch (val) {
+                case "image":  
+                    return new Image;          
+                case "video":  
+                   return new Video;
+            }
     }
 }

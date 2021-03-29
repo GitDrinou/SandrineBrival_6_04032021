@@ -1,89 +1,138 @@
-
 /**
  * VARIABLES Declaration
  * CONST and LET
  * -------------------------------------------------------------------------
 */
-const dropMenuItems = document.querySelector(".dropdown-items");
-const dropFilterLink = document.querySelector(".filter-dropdown_link");  
-const dropFilterIcon = document.getElementById("filterIcon");
-const dropFilterItems = document.querySelectorAll(".dropdown-items_link");
-const dropFilterItem0 = document.getElementById("filter-0");
-const dropFilterItem1 = document.getElementById("filter-1");
-const dropFilterItem2 = document.getElementById("filter-2");
-const dropFilterSelected = document.getElementById("filter-selected");
-const photographerDetails = document.querySelector(".idDetails");
-const photographerPicture = document.querySelector(".idPicture");
+const errorText = document.getElementById("error-json");
 const photographerWorks = document.querySelector(".b-works");
-const myMedias = document.querySelectorAll(".medias-card");
+//const myMedias = document.querySelectorAll(".medias-card");
 const myLightModal = document.getElementById("lightbox");
-const closeBtn = document.querySelector(".close-lightbox");
 const myContentLight = document.querySelector(".modalLight-content");
 const prevIcon = document.querySelector(".previous");
 const nextIcon = document.querySelector(".next");
-const btnContact = document.querySelector(".btn-contact");
 const frmPhotoName = document.querySelector(".photographerName");
-const myContactModal = document.getElementById("formContact"); 
-const closeBtnFrm = document.querySelector(".close-form");
-
 const requestURL = "../js/json/FishEyeDataFR.json";
-
-let cpt = 1;  
-let myList = document.createElement("ul"); 
-
-let parsedUrl = new URL(window.location.href);
-const request = new XMLHttpRequest();
-const idWorker = parsedUrl.searchParams.get("id")
+const parsedUrl = new URL(window.location.href);
+const loc = document.location;
+const url = document.URL;
+const idWorker = parsedUrl.searchParams.get("id");
 const filterType = parsedUrl.searchParams.get("filt");
+
+let cpt = 1;
+let myList = document.createElement("ul");
 let filterTag = parsedUrl.searchParams.get("tag");
 
-let photographer;
+//let photographer;
+let mediaVignette;
 let myFilterMedias = [];
 let myTagFilterMedias = [];
-let myContentModalMedias = [];
+//let myContentModalMedias = [];
 let aggLikes = 0;
-let lenTagArray = 0;
+//let lenTagArray = 0;
 let dayPrice;
+let srcType;
+
+/**
+ * FETCH METHOD
+ * ------------------------------------------------------------
+*/
+
+fetch(requestURL)
+    .then(function(resp) {
+        if (resp.ok) {
+            resp.json().then(function(datas) { showAllDatas(datas); });
+        }
+        else {
+            errorText.style.display="block";
+            errorText.innerHTML="Erreur<br>"+resp.status+" "+resp.statusText;
+        }
+    });
+
+/**
+ * FACTORY METHOD
+ * Use :Type of Media (image or video)
+ * -----------------------------------------------------------
+*/
+
+class Image {
+    getRender() {
+        mediaVignette = document.createElement("img");
+    }
+}
+
+class Video {
+    getRender() {
+        mediaVignette = document.createElement("video");
+    }
+}
+
+function factory(type) {
+    switch (type) {
+    case "image":
+        return new Image;
+    case "video":
+        return new Video;
+    }
+}
 
 
 /**
  * CREATE NEW ARRAY MEDIAS FILTERED
  * Class : ArrayFilterBy
- * Description : creating a new array of medias filtered by popularity, date, title according the URL parameters
+ * Description : creating a new array of medias filtered
  * Constructor :
  *      >> id : id of the media
  *      >> likes : number of likes
  *      >> date : the date of the media
  *      >> title : the media's title
  *      >> tags : array of tags linked to the media
- * Method : 
- *      >> getCreateArray() : create a new array of media's photographer
- * --------------------------------------------------------------------------------------------------------
+ * Method :
+ *       >> getCreateArray() : create a new array of media's photographer
+ *       >> getFilterBy() : sort the previous array according url parameter
+ * -----------------------------------------------------------------------------
  */
 
-class ArrayFilterBy {
+const ArrayFilterBy = class {
     constructor(medias,filter) {
         this.id = medias.id;
         this.likes = medias.likes;
         this.date = medias.date;
-        this.title = medias.title;
+        this.title = medias["alt-text"];
         this.tags = medias.tags;
         this.filter = filter;
     }
-
     getCreateArray() {
-        myFilterMedias.push(
-            { 
-                "id": this.id,
-                "likes": this.likes,
-                "date": this.date,
-                "title": this.title,
-                "tag" : this.tags
-            }
-        );  
+        myFilterMedias.push({
+            "id": this.id,
+            "likes": this.likes,
+            "date": this.date,
+            "title": this.title,
+            "tag" : this.tags
+        });
         aggLikes += this.likes;
     }
-}
+    getFilterBy(){
+        switch (this.filter) {
+        case "Popular":
+            myFilterMedias.sort((a,b)=>{
+                return b.likes - a.likes;
+            });
+            break;
+        case "Date" :
+            myFilterMedias.reverse((a,b)=>{
+                return a.date - b.date;
+            });
+            break;
+        case "Title" :
+            myFilterMedias.sort(function(a,b){                
+                let string1=a.title;
+                let string2=b.title;
+                return(string1.toString().localeCompare(string2.toString()));
+            });
+            break;
+        }
+    }
+};
 
 /**
  * MEDIAS LIST
@@ -97,69 +146,63 @@ class ArrayFilterBy {
  *      >> likes : number of likes
  *      >> price : media's price
  *      >> counter : index for the slideshow
- * Method : 
- *      >> getMedias() : display the medias's photographer
- * --------------------------------------------------------------------------------------------------------
+ * Method :
+ *       >> getMedias() : display the medias's photographer
+ * --------------------------------------------------------------
  */
-class Medias {
+const Medias = class {
     constructor(id,type,source,medias,counter) {
         this.id = id;
         this.type = type;
         this.source = source;
         this.medId = medias.id;
-        this.title = medias.title;
+        this.title = medias["alt-text"];
         this.likes = medias.likes;
         this.price = medias.price;
         this.counter = counter;
     }
 
     getMedias() {
-        let mediaCard = document.createElement("li"); 
+        let mediaCard = document.createElement("li");
         mediaCard.classList.add("medias-card");
-        switch (this.type) {
-            case "image" :    
-                let mediaImage = document.createElement("img");            
-                mediaImage.src = "../images/Medias/" + this.id + "/" + this.source ;
-                mediaImage.classList.add("vignette");
-                mediaImage.setAttribute("slide", this.counter);
-                mediaImage.setAttribute("id", this.medId);
-                mediaImage.setAttribute("title", this.title);
-                mediaCard.appendChild(mediaImage);
-                break;
-            case "video" :
-                let mediaVideo = document.createElement("video");
-                mediaVideo.src = "../images/Medias/" + this.id + "/" + this.source;
-                mediaVideo.classList.add("vignette");
-                mediaVideo.setAttribute("slide", this.counter)
-                mediaVideo.setAttribute("id", this.medId);
-                mediaVideo.setAttribute("title", this.title);
-                mediaCard.appendChild(mediaVideo);
-                break;
-        }
-        
+
+        // Factory Use ---------------------------        
+        const mediaType = factory(this.type);
+        mediaType.getRender();
+
+        mediaVignette.src = "../images/Medias/" + this.id + "/" + this.source ;
+        mediaVignette.classList.add("vignette");
+        mediaVignette.setAttribute("slide", this.counter);
+        mediaVignette.setAttribute("id", this.medId);
+        mediaVignette.setAttribute("title", this.title);
+        mediaCard.appendChild(mediaVignette);
+
         let mediaInfo = document.createElement("div");
         let mediaTitle = document.createElement("span");
         let mediaPrice = document.createElement("span");
         let mediaLikes = document.createElement("span");
-                
+        let mediaHeart = document.createElement("span");
+
         mediaTitle.textContent = this.title;
         mediaPrice.textContent = this.price + " €";
-        mediaLikes.innerHTML = this.likes + " <i class='fas fa-heart' id=" + this.medId + "></i>";
+        mediaLikes.textContent = this.likes;
+        mediaHeart.innerHTML="<i class='fas fa-heart' id="+this.medId+"></i>";
 
         mediaInfo.classList.add("b-pictureInfo");
         mediaTitle.classList.add("mediaText");
         mediaPrice.classList.add("mediaPrice");
         mediaLikes.classList.add("mediaLikes");
+        mediaHeart.classList.add("mediaHeart");
 
         mediaInfo.appendChild(mediaTitle);
         mediaInfo.appendChild(mediaPrice);
         mediaInfo.appendChild(mediaLikes);
-
+        mediaInfo.appendChild(mediaHeart);
         mediaCard.appendChild(mediaInfo);
         myList.appendChild(mediaCard);
         photographerWorks.appendChild(myList);
     }
-}
+};
 
 /**
  * FOR THE TOTAL LIKES
@@ -170,14 +213,14 @@ class Medias {
  *      >> pricePerDay : price per day
  * Method :
  *      >> getTotal() : display the total of likes and the price per day
- * --------------------------------------------------------------------------------------------------------
+ * ---------------------------------------------------------------------
  */
-class Likes {
+const Likes = class {
     constructor(total,price) {
         this.total = total;
         this.price = price;
     }
-    
+
     getTotal() {
         let infoLikes = document.createElement("div");
         let totalLikes = document.createElement("span");
@@ -194,172 +237,132 @@ class Likes {
         infoLikes.appendChild(pricePerDay);
         photographerWorks.appendChild(infoLikes);
     }
-}
-
-
-/**
- * CALL JSON FILE
- * Description : 
- *      onload  > create object "photographer" for the JSON request response
- *              > call the function showAllDatas with the photographer object as parameter
- * -----------------------------------------------------------------------------------------------------
- */
-       
-request.open("GET", requestURL);
-request.responseType = "json";
-request.send();
-request.onload = function() {
-    photographer = request.response;
-    showAllDatas(photographer);
-    updateLikes(photographer);
-}
+};
 
 /**
  * FUNCTION showAllDatas(object JSON)
- * Description : 
- *      >> PART 1 : display the photographer informations according the URL parameter "id" - use factory Method >> createPhotographer
- *      >> PART 2 : create / filter array "myFilterMedias" to display the photographer's medias according the URL parameter "filt" 
- *      >> PART 3 : reload page and replace the value of the tag utl parameter according the tag selected by the user
- *      >> PART 4 : create a new array "myTagFilterMedias" according the url parameter "tag" selected for filter and display the right medias
- *      >> PART 5 : condition to replace the myFilterMedias content by myTagFilterMedias content
- *      >> PART 6 : display the photographer's medias with the myFilterMedias's array
- *      >> PART 7 : display the price per day, total likes
- *      >> PART 8 : condiguration of the lightbox modal
- *      >> PART 9 : functions for animate and displaying lightbox modal
- *      >> PART 10 : fill the photographer name for the contact form modal
- * ----------------------------------------------------------------------------------------------------------------------------
+ * Description :
+ * >> P1 : display the photographer informations
+ * >> P2 : create/filter array to display the photographer's medias
+ * >> P3 : reload page and replace the tag url parameter
+ * >> P4 : create a new array
+ * >> P5 : condition to replace an array by another
+ * >> P6 : display medias with the myFilterMedias's array
+ * >> P7 : display the price per day, total likes
+ * >> P8 : configuration of the lightbox modal
+ * >> P9 : functions for animate and displaying lightbox modal
+ * >> P10 : fill the photographer name for the contact form modal
+ * ---------------------------------------------------------------------
  */
 
 function showAllDatas(obj) {
 
-    // PART 1 -----------------------------------------------------------------------
-    let photographerInfo = obj["photographers"];
+    // P1 -----------------------------------------------------------
+    let photographerInfo = obj.photographers;
     for (let info of photographerInfo) {
-        if (info.id == idWorker) {    
+        if (info.id == idWorker) {
             const newPhotographer = new Photographer(idWorker,info);
-            newPhotographer.getInfo();            
+            newPhotographer.getInfo();
         }
-    } 
-    // End >> PART 1 -----------------------------------------------------------------------
-    
-    // PART 2 -----------------------------------------------------------------------
-    let photographerWork = obj["media"];     
-    myFilterMedias.splice(0,myFilterMedias.length);  
+    }
+    // End P1 -------------------------------------------------------
+    // P2 -----------------------------------------------------------
+    let photographerWork = obj.media;
+    myFilterMedias.splice(0,myFilterMedias.length);
     for (let photographerMedia of photographerWork) {
         if (photographerMedia.photographerId == idWorker) {
-            const newFilterBy = new ArrayFilterBy(photographerMedia,filterType);
-            newFilterBy.getCreateArray();
-
-            // Factory Use
-            const filter = factoryFilterBy(filterType);
-            filter.filterBy();
-        }           
+            new ArrayFilterBy(photographerMedia,filterType).getCreateArray();
+            new ArrayFilterBy(photographerMedia,filterType).getFilterBy();
+        }
     }
-    // End >> PART 2 -----------------------------------------------------------------------
-
-    // PART 3 -----------------------------------------------------------------------   
+    // End P2 -------------------------------------------------------
+    // P3 -----------------------------------------------------------
     const tagItems = document.querySelectorAll(".idDetails_tagg_link");
-    
     tagItems.forEach(item => {
-        item.addEventListener('click', function(e) {  
+        item.addEventListener("click", function(e) {
             let valueTag = item.textContent;
             let myItem = (filterTag=="off") ? valueTag.substring(1,valueTag.length) : filterTag;
             e.preventDefault();
-       
-            for (let myMedia of myFilterMedias) {
-                for (let j=0; j < myMedia.tag.length; j++) {
-                    if (myItem == myMedia.tag[j] || filterTag == myMedia.tag[j]) {
-                        document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&tag=")),"&tag=" + myItem));
-                    }                   
+            for (let media of myFilterMedias) {
+                for (let j=0; j < media.tag.length; j++) {
+                    if (myItem == media.tag[j] || filterTag == media.tag[j]) {
+                        loc.assign(url.replace(url.substring(url.indexOf("&tag=")),"&tag=" + myItem));
+                    }
                 }
-            }                  
+            }
         });
-    }); 
-    // End >> PART 3 -----------------------------------------------------------------------
-
-    // PART 4 -----------------------------------------------------------------------   
+    });
+    // End P3 ------------------------------------------------
+    // P4 -------------------------------------------------------
     for (let tagMedia of myFilterMedias) {
-        if (filterTag !=null && filterTag !="off" && filterTag == tagMedia.tag) {
+        if (filterTag !="off" && filterTag == tagMedia.tag) {
             myTagFilterMedias.push(tagMedia);
         }
     }
-    // End >> PART 4 -----------------------------------------------------------------------
-
-    // PART 5 -----------------------------------------------------------------------   
+    // End P4 ------------------------------------------------
+    // P5 -------------------------------------------------------
     if (filterTag !=null && filterTag !="off") {
         myFilterMedias = myTagFilterMedias;
     }
-    // End >> PART 5 -----------------------------------------------------------------------
-
-    // PART 6 -----------------------------------------------------------------------                
-    for (let filterMedia of myFilterMedias) {       
-        for (let photographerMedia of photographerWork) {
-            if((filterMedia.id === photographerMedia.id) && (photographerMedia.photographerId == idWorker)) {  
+    // End P5 ------------------------------------------------
+    // P6 -------------------------------------------------------
+    for (let filterMedia of myFilterMedias) {
+        for (let media of photographerWork) {
+            if((filterMedia.id === media.id) && (media.photographerId == idWorker)) {
                 let typeMedia, sourceMedia;
-                if((photographerMedia.image !=null) && (photographerMedia.video == null)) {
+                if((media.image !=null) && (media.video == null)) {
                     typeMedia = "image";
-                    sourceMedia = photographerMedia.image;
-                } else if((photographerMedia.video !=null) && (photographerMedia.image == null)) {
+                    sourceMedia = media.image;
+                } else if((media.video !=null) && (media.image == null)) {
                     typeMedia = "video";
-                    sourceMedia = photographerMedia.video;
+                    sourceMedia = media.video;
                 }
 
-                const newMedias = new Medias(idWorker,typeMedia,sourceMedia,photographerMedia,cpt);
-                newMedias.getMedias(); 
-                
+                new Medias(idWorker,typeMedia,sourceMedia,media,cpt).getMedias();
                 cpt ++;
             }
-        }         
+        }
     }
-    // End >> PART 6 -----------------------------------------------------------------------
-
-    // PART 7 -----------------------------------------------------------------------      
-    const newLikes = new Likes(aggLikes,dayPrice);
-    newLikes.getTotal(); 
-    // End >> PART 7 -----------------------------------------------------------------------
-
-    // PART 8 -----------------------------------------------------------------------  
+    // End P6 ------------------------------------------------
+    // P7 -------------------------------------------------------
+    new Likes(aggLikes,dayPrice).getTotal();
+    // End P7 ------------------------------------------------
+    // P8 -------------------------------------------------------
     const mediaItems = document.querySelectorAll(".vignette");
-    let slideIndex = 1;     
-    
+    let slideIndex = 1;    
     for(let media of mediaItems) {
         let myContentSlide = document.createElement("div");
         let myFigure = document.createElement("figure");
         let myFigCaption = document.createElement("figcaption");
         myContentSlide.classList.add("slide");
-        switch (media.localName) {
-            case "video" :
-                let myVideoSlide = document.createElement("video");
-                myVideoSlide.src = media.src;
-                myVideoSlide.classList.add("media-slide");
-                myVideoSlide.setAttribute("controls", true);
-                myFigure.appendChild(myVideoSlide);
-                break;
-            case "img" :
-                let myImageSlide = document.createElement("img");
-                myImageSlide.src = media.src;
-                myImageSlide.classList.add("media-slide");
-                myFigure.appendChild(myImageSlide);
-                break;
-        }
-        myFigCaption.textContent = media.title;
+
+        // Factory Use ---------------------------
+        media.localName == "img" ? srcType = "image" : srcType = "video";
+        const mediaSlide = factory(srcType);
+        mediaSlide.getRender();
+
+        mediaVignette.src = media.src;
+        mediaVignette.classList.add("media-slide");
+        if(media.localName =="video") { mediaVignette.setAttribute("controls", true); }
+        myFigure.appendChild(mediaVignette);
+        
+        myFigCaption.textContent = media["alt-text"];
         myFigCaption.classList.add("mediaText");
         myFigure.appendChild(myFigCaption);
         myContentSlide.appendChild(myFigure);
-        myContentLight.appendChild(myContentSlide);        
+        myContentLight.appendChild(myContentSlide);
     }
-    
-    myLightModal.appendChild(myContentLight); 
-    // End >> PART 8 -----------------------------------------------------------------------
 
-    // PART 9 -----------------------------------------------------------------------  
-    mediaItems.forEach(media => {   
-        media.addEventListener('click', function(e) {  
+    myLightModal.appendChild(myContentLight);
+    // End >> PART 8 ------------------------------------------------
+    // PART 9 ------------------------------------------------------
+    mediaItems.forEach(media => {
+        media.addEventListener("click", function(e) {
             e.preventDefault();
             openLightbox();
             toSlide(parseInt(media.getAttribute("slide")));
         });
-    }); 
+    });
 
     prevIcon.addEventListener("click", function(e) {
         e.preventDefault();
@@ -369,62 +372,39 @@ function showAllDatas(obj) {
     nextIcon.addEventListener("click", function(e) {
         e.preventDefault();
         changeSlide(1);
-    })
+    });
 
-    showSlide(slideIndex);  
+    showSlide(slideIndex);
 
     function changeSlide(n) {
         showSlide(slideIndex += parseInt(n));
-    };
+    }
     
     function toSlide(n) {
         showSlide(slideIndex = n);
-    };
+    }
 
     function showSlide(n) {
         let mediaSlides = document.querySelectorAll(".slide");
-
         if (n > mediaSlides.length) {
-        slideIndex = 1;	
-        }
-    
+            slideIndex = 1;
+        }    
         if (n < 1) {
-        slideIndex = mediaSlides.length;
-        }
-    
+            slideIndex = mediaSlides.length;
+        }    
         for (let i = 0; i < mediaSlides.length; i++) {
             mediaSlides[i].style.display = "none";
-        }        
+        }
         
-        mediaSlides[slideIndex - 1].style.display = 'block';    
+        mediaSlides[slideIndex - 1].style.display = "block";
     }
-    // End >> PART 9 -----------------------------------------------------------------------
-
-
-    // PART 10 -----------------------------------------------------------------------  
-    for( let pInfo of photographerInfo)
-    if (pInfo.id == idWorker) {
-        frmPhotoName.textContent = pInfo.name;
+    // End P9 ------------------------------------------------
+    // P10 ------------------------------------------------------
+    for(let pInfo of photographerInfo) {
+        if (pInfo.id == idWorker) {
+            frmPhotoName.textContent = pInfo.name;
+        }
     }
-    // End >> PART 10 -----------------------------------------------------------------------
-}
-
-/**
- * FUNCTION updateLikes(object JSON)
- * Description : 
- *      >> 
- * ----------------------------------------------------------------------------------------------------------------------------
- */
-
-function updateLikes(obj) {
-    let medias = obj["media"];
-    console.log(medias);
-    let hearts = document.querySelectorAll(".fa-heart");
-
-    hearts.forEach(heart => {   
-        heart.addEventListener('click', function(e) {  
-            e.preventDefault();
-            console.log(heart.getAttribute("id"))
-        });
-    }); 
+        
+    // End P10 -----------------------------------------------
 }
