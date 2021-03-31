@@ -18,13 +18,12 @@
 .photographer { 
     text-align: center;  
     font-weight: 400;
-    //display: flex;
-    //flex-direction: row;
-    //justify-content: space-between;
-    //flex-wrap: wrap;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
+    & a {
+        text-decoration: none;
+    }
     &_photo, &_photo--home {
         width: 12.5rem;
         height: 12.5rem;
@@ -35,7 +34,12 @@
     &_name {
         font-size: 2.25rem;
         padding-bottom: 0.5rem;
-        color: $primary;
+        color: $primary;    
+    }
+    &_info {
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
     }
     &_city {
         font-size: 0.9rem;
@@ -55,8 +59,8 @@
         width: 100%; 
         height: 3.125rem;
         display: flex;
-        flex-direction: row;
-        justify-content: center;        
+        flex-direction:row;
+        justify-content: center;
         flex-wrap: wrap;
     }
 } 
@@ -77,7 +81,6 @@
     &:hover, &:focus {
         color: $font-link-hover;
         background-color: $primary;
-        cursor: pointer;
     }
 }
 

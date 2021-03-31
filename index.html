@@ -10,25 +10,24 @@
     <script src="https://kit.fontawesome.com/25333533ea.js" crossorigin="anonymous"></script>
 </head>
 <body>
+   <a href="#photographers" aria-label="Passer au contenu" class="accessibility">Passer au contenu</a> 
    <header class="header-banner">       
-       <a href="index.html">
-           <img src="images/logo/logo.svg" alt="Logo FishEye" class="header-banner_logo">
+       <a href="index.html" aria-label="FishEye" role="image link">
+           <img src="images/logo/logo.svg" alt="FishEye Home page" class="header-banner_logo">
        </a>     
-       <nav class="navigation">
-           <span class="navigation_accessible">Passer au contenu</span> 
+       <nav class="navigation" role="links">           
            <ul class="navigation_tagg"></ul>    
         </nav>
    </header> 
    <main>
-        <span id="error-json"></span>  
-       <h1 class="title-home">Nos photographes</h1>
-       <div class="b-photographers">
+        <h1 class="title-home" role="header"    >Nos photographes</h1>
+        <span id="error-json"></span>           
+       <div class="b-photographers" id="photographers">
             <ul class="photographer">                
                 
             </ul>
        </div>
    </main>
-   <script src="js/class.js"></script>
-   <script src="js/cfgHomepage.js"></script>            </ul>
+   <script src="js/homepage.js"></script>
 </body>
 </html>

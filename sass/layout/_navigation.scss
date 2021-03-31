@@ -1,18 +1,20 @@
-
+.accessibility {
+    text-align: center;
+    font-weight: bold;
+    height: 1.125rem;
+    width: 10rem;
+    position: absolute;
+    top: 1.125rem;
+    left: 50%;
+    background-color: $secondary;
+    visibility: hidden;
+    text-decoration: none;
+    color: $tertiary;
+}
 .navigation {
-    display: grid;
-    grid-template-rows: 1fr auto;
     width: 100%;
     height: auto;
-    &_accessible {
-        text-align: center;
-        font-weight: bold;
-        height: 1.25rem;
-        width: 10rem;
-        margin: 0 auto ;
-        background-color: $secondary;
-        visibility: hidden;
-    }
+    margin-top: 2rem;
     &_tagg {
         width: 100%; 
         height: 3.125rem;
@@ -20,8 +22,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
-        align-items: center;
-        margin-top: -0.7rem;
+        align-items: center;     
     }
     
     @media screen and (max-width: map-get($breakpoints, mobile )) {
@@ -37,7 +38,6 @@
             margin: 1rem 1.125rem;
         }
     }
-
 }
 
 .tagg_link > a {

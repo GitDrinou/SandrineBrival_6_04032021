@@ -14,6 +14,7 @@ body {
   max-width: 1440px;
   margin: 1.25rem auto;
   position: relative;
+  border: 1px dashed red;
 }
 @media screen and (max-width: 432px) {
   body {
@@ -173,6 +174,7 @@ video {
   width: 12.5rem;
   height: 3.125rem;
   outline: none;
+  border: none;
 }
 
 .title-home {
@@ -209,20 +211,24 @@ video {
   }
 }
 
-.navigation {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  width: 100%;
-  height: auto;
-}
-.navigation_accessible {
+.accessibility {
   text-align: center;
   font-weight: bold;
-  height: 1.25rem;
+  height: 1.125rem;
   width: 10rem;
-  margin: 0 auto;
+  position: absolute;
+  top: 1.125rem;
+  left: 50%;
   background-color: #D3573C;
   visibility: hidden;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.navigation {
+  width: 100%;
+  height: auto;
+  margin-top: 2rem;
 }
 .navigation_tagg {
   width: 100%;
@@ -232,7 +238,6 @@ video {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  margin-top: -0.7rem;
 }
 @media screen and (max-width: 432px) {
   .navigation {
@@ -534,6 +539,9 @@ textarea {
   grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
 }
+.photographer a {
+  text-decoration: none;
+}
 .photographer_photo, .photographer_photo--home {
   width: 12.5rem;
   height: 12.5rem;
@@ -545,6 +553,11 @@ textarea {
   font-size: 2.25rem;
   padding-bottom: 0.5rem;
   color: #901C1C;
+}
+.photographer_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .photographer_city {
   font-size: 0.9rem;
@@ -586,7 +599,6 @@ textarea {
 .photographer_tagg_link > a:hover, .photographer_tagg_link > a:focus {
   color: #FFFFFF;
   background-color: #901C1C;
-  cursor: pointer;
 }
 
 @media screen and (max-width: 432px) {
@@ -715,13 +727,15 @@ textarea {
 .b-works {
   margin-top: 4rem;
 }
-.b-works > ul {
+
+.mediasList {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   margin-bottom: 2rem;
+  width: 100%;
 }
 @media screen and (max-width: 432px) {
-  .b-works > ul {
+  .mediasList {
     grid-template-columns: 1fr;
   }
 }
@@ -751,7 +765,7 @@ textarea {
 
 .b-pictureInfo {
   display: grid;
-  grid-template-columns: 2fr 0.7fr 0.2fr auto;
+  grid-template-columns: 2.2fr 0.6fr 0.2fr auto;
   padding: 0.5rem 0;
 }
 

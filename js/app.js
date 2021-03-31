@@ -1,163 +1,27 @@
 /**
  * VARIABLES
  */
-
- const dropMenuItems = document.querySelector(".dropdown-items"); 
-const dropFilterLink = document.querySelector(".filter-dropdown_link");
-const dropFilterIcon = document.getElementById("filterIcon");
-const dropFilterItems = document.querySelectorAll(".dropdown-items_link");
-const dropFilterItem0 = document.getElementById("filter-0");
-const dropFilterItem1 = document.getElementById("filter-1");
-const dropFilterItem2 = document.getElementById("filter-2");
-const dropFilterSelected = document.getElementById("filter-selected");
-const closeBtn = document.querySelector(".close-lightbox");
 const btnContact = document.querySelector(".btn-contact");
 const myContactModal = document.getElementById("formContact");
 const closeBtnFrm = document.querySelector(".close-form");
 
 /**
- * EVENT LISTENER - Click
- * DOM Element : Filter button
- * Description : 
- * On click > display the list of filters .......   function toggleFilter()
- *          > reorder the content on selection ..   function moceToFirst(element-content)
- * -----------------------------------------------------------------------------------------------------
- */
-
-dropFilterSelected.addEventListener('click', function(e) {
-    e.preventDefault();
-    toggleFilter();
-    moveToFirst(this.innerHTML);   
-});
-
-/**
- * EVENT LISTENER - Click
- * DOM Element : filter list element
- * Description : 
- * On click > display the list of filters .......   function toggleFilter()
- *          > reorder the content on selection ..   function moceToFirst(element-content)
- *          > reload page and replace the value of the filter selected by the user
- * -----------------------------------------------------------------------------------------------------
- */
-
-dropFilterItems.forEach(item => {
-    item.addEventListener('click', function(e) {  
-        e.preventDefault();       
-        toggleFilter();
-        moveToFirst(this.innerHTML);  
-
-        switch (dropFilterSelected.textContent) {
-            case "Popularité" :
-                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Popular&tag=off"));
-                break;
-            case "Date" :
-                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Date&tag=off"));
-                break;
-            case "Titre" :
-                document.location.assign(document.URL.replace(document.URL.substring(document.URL.indexOf("&filt=")),"&filt=Title&tag=off"));
-                break;
-        }
-    });
-});
-
-/**
- * FUNCTION toggleFilter()
- * Description : 
- * display the filter menu with aria-expanded attribute
- * -----------------------------------------------------------------------------------------------------
- */
-
-function toggleFilter () {
-    if (!dropMenuItems.getAttribute('style') || dropMenuItems.getAttribute('style') === "display: none;" ) {
-        dropMenuItems.style.display = "block";
-        dropFilterSelected.setAttribute('aria-expanded', 'true');
-        dropFilterIcon.classList.remove("fa-chevron-down");
-        dropFilterIcon.classList.add("fa-chevron-up");
-    }
-    else {
-        dropMenuItems.style.display = 'none';
-        dropFilterSelected.setAttribute('aria-expanded', 'false');        
-        dropFilterIcon.classList.remove("fa-chevron-up");
-        dropFilterIcon.classList.add("fa-chevron-down");
-    }
-}
-
-/**
- * FUNCTION moveToFirst()
- * Parameter : element content (Popularité / Date / Titre)
- * Description : 
- * reorganize the menu according the user's choice
- * -----------------------------------------------------------------------------------------------------
- */
-
-function moveToFirst (valItem) {
-    switch (valItem) {
-        case "Popularité" :
-            dropFilterSelected.textContent = "Popularité";
-            dropFilterItem1.textContent = "Date";
-            dropFilterItem2.textContent = "Titre";
-            break;
-        case "Date" : 
-            dropFilterSelected.textContent = "Date";
-            dropFilterItem1.textContent = "Popularité";
-            dropFilterItem2.textContent = "Titre";
-            break;
-        case "Titre" :
-            dropFilterSelected.textContent = "Titre";
-            dropFilterItem1.textContent = "Date";
-            dropFilterItem2.textContent = "Popularité";
-            break;
-    }
-}
-
-/**
- * FILTER SELECTED VALUE  
- * Description : 
- * according the URL parameter "filt", change the filter selected
- * -----------------------------------------------------------------------------------------------------
- */
-switch (filterType) {
-    case "Popular" : 
-        dropFilterSelected.textContent = "Popularité"; 
-        break;
-    case "Date" :
-        dropFilterSelected.textContent = "Date";
-        break;
-    case "Title" :
-        dropFilterSelected.textContent = "Titre";
-        break;
-}
-
-closeBtn.addEventListener("click", function(e) {
-    e.preventDefault();
-    closeLightbox();
-});
-
-function openLightbox() {
-    myLightModal.style.display= "block";
-}
-
-function closeLightbox() {
-    myLightModal.style.display = 'none';
-};
-
-/**
  * FORMULARY ACTIONS
  */
-const frmContact = document.getElementById("frmContact");
+//const frmContact = document.getElementById("frmContact");
 const firstName = document.getElementById("fName");
 const lastName = document.getElementById("lName");
 const mail = document.getElementById("eMail");
 const message = document.getElementById("message");
 const btnSubmit = document.querySelector(".btn-submit");
-let mailReg = new RegExp(/^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
+let mailReg = new RegExp(/^([\w-.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
 let isStrReg = new RegExp(/[0-9]/g);
 
 
 btnContact.addEventListener("click", function(e) {
     e.preventDefault();
     onpenContact();
-})
+});
 
 btnSubmit.addEventListener("click",(e) => {
     e.preventDefault();
@@ -166,7 +30,7 @@ btnSubmit.addEventListener("click",(e) => {
         console.log("NOM : " + lastName.value);
         console.log("EMAIL : " + mail.value);
         console.log("MESSAGE : " + message.value);
-        myContactModal.style.display = 'none';
+        myContactModal.style.display = "none";
     } 
 });
 
@@ -184,14 +48,14 @@ closeBtnFrm.addEventListener("click", function(e) {
 });
 
 function closeFrmContact() {
-    myContactModal.style.display = 'none';
-};
+    myContactModal.style.display = "none";
+}
 
 function frmValidation() {
     let valid = true;
     let valFirstName = firstName.value;
     let valLastName = lastName.value;
-    let valMessage = message.value
+    let valMessage = message.value;
     let valMail = mail.value;
     let isStr_firstName, isStr_lastName;
 
