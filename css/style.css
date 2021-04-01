@@ -14,7 +14,6 @@ body {
   max-width: 1440px;
   margin: 1.25rem auto;
   position: relative;
-  border: 1px dashed red;
 }
 @media screen and (max-width: 432px) {
   body {

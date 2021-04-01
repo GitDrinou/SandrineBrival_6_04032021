@@ -27,7 +27,7 @@ const url = document.URL;
 const idWorker = parsedUrl.searchParams.get("id");
 const filterType = parsedUrl.searchParams.get("filt");
 
-let cpt = 1;
+let counter = 1;
 let filterTag = parsedUrl.searchParams.get("tag");
 
 let myFilterMedias = [];
@@ -35,9 +35,10 @@ let myTagFilterMedias = [];
 let aggLikes = 0;
 let dayPrice;
 let srcType;
+let slideIndex = 1;
 
 /**
- * FETCH METHOD
+ * FETCH
  * ------------------------------------------------------------
 */
 
@@ -55,7 +56,6 @@ fetch(requestURL)
             errorText.innerHTML="Erreur<br>"+resp.status+" "+resp.statusText;
         }
     });
-
 
 /**
  * CLASS PHOTOGRAOHER INFO
@@ -82,43 +82,17 @@ class Photographer {
         for (let tag in listTags) {
             textTag +=`<li class="idDetails_tagg_link"><a aria-label="tag" href="#">#${listTags[tag]}</a></li>`;
         }
-        photographerDetails.innerHTML += `<h1 class="title-photographer">${this.name}</h1>
-                                            <p class="idDetails_city">${this.city}, ${this.country}</p>
-                                            <p class="idDetails_slogan">${this.tagline}</p>                                            
-                                            <ul class="idDetails_tagg">
-                                                ${textTag}
-                                            </ul>
+            photographerDetails.innerHTML += `<h1 class="title-photographer">${this.name}</h1>
+                                                <p class="idDetails_city">${this.city}, ${this.country}</p>
+                                                <p class="idDetails_slogan">${this.tagline}</p>                                            
+                                                <ul class="idDetails_tagg">
+                                                    ${textTag}
+                                                </ul>
                                         `;    
-        photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" class="photographer_photo">`;           
+            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" class="photographer_photo">`;           
 
-        dayPrice = this.price;
-    }
-}
-
-/**
- * FACTORY METHOD
- * Use :Type of Media (image or video)
- * -----------------------------------------------------------
-*/
-
-class Image {
-    getRender() {
-        return "img";
-    }
-}
-
-class Video {
-    getRender() {
-       return "video";
-    }
-}
-
-function factory(type) {
-    switch (type) {
-    case "image":
-        return new Image();
-    case "video":
-        return new Video();
+            dayPrice = this.price;
+            frmPhotoName.textContent = this.name;
     }
 }
 
@@ -169,21 +143,21 @@ function toggleFilter () {
 
 function moveToFirst (valItem) {
     switch (valItem) {
-    case "Popularité" :
-        dropFilterSelected.textContent = "Popularité";
-        dropFilterItem1.textContent = "Date";
-        dropFilterItem2.textContent = "Titre";
-        break;
-    case "Date" : 
-        dropFilterSelected.textContent = "Date";
-        dropFilterItem1.textContent = "Popularité";
-        dropFilterItem2.textContent = "Titre";
-        break;
-    case "Titre" :
-        dropFilterSelected.textContent = "Titre";
-        dropFilterItem1.textContent = "Date";
-        dropFilterItem2.textContent = "Popularité";
-        break;
+        case "Popularité" :
+            dropFilterSelected.textContent = "Popularité";
+            dropFilterItem1.textContent = "Date";
+            dropFilterItem2.textContent = "Titre";
+            break;
+        case "Date" : 
+            dropFilterSelected.textContent = "Date";
+            dropFilterItem1.textContent = "Popularité";
+            dropFilterItem2.textContent = "Titre";
+            break;
+        case "Titre" :
+            dropFilterSelected.textContent = "Titre";
+            dropFilterItem1.textContent = "Date";
+            dropFilterItem2.textContent = "Popularité";
+            break;
     }
 }
 
@@ -246,24 +220,35 @@ dropFilterItems.forEach(item => {
  */
 
 const ArrayFilterBy = class {
-    constructor(medias,filter) {
+    constructor(medias,filter,type,source,counter) {
         this.id = medias.id;
+        this.photographId = medias.photographerId;
         this.likes = medias.likes;
         this.date = medias.date;
         this.title = medias["alt-text"];
         this.tags = medias.tags;
+        this.price = medias.price;
         this.filter = filter;
+        this.type = type;
+        this.source = source;
+        this.counter = counter;
     }
+    
     getCreateArray() {
         myFilterMedias.push({
             "id": this.id,
+            "photographerId": this.photographId,
+            "type": this.type,
+            "source": this.source,
             "likes": this.likes,
             "date": this.date,
-            "title": this.title,
+            "alt-text": this.title,
+            "price": this.price,
             "tag" : this.tags
         });
         aggLikes += this.likes;
     }
+
     getFilterBy(){
         switch (this.filter) {
         case "Popular":
@@ -278,49 +263,29 @@ const ArrayFilterBy = class {
             break;
         case "Title" :
             myFilterMedias.sort(function(a,b){                
-                let string1=a.title;
-                let string2=b.title;
+                let string1=a["alt-text"];
+                let string2=b["alt-text"];
                 return(string1.toString().localeCompare(string2.toString()));
             });
             break;
         }
     }
-};
 
-/**
- * MEDIAS LIST
- * Class : Medias
- * Description : display the list of the photographer's medias
- * Method :
- *       >> getMedias() : display the medias's photographer
- * --------------------------------------------------------------
- */
-const Medias = class {
-    constructor(id,type,source,medias,counter) {
-        this.id = id;
-        this.type = type;
-        this.source = source;
-        this.medId = medias.id;
-        this.title = medias["alt-text"];
-        this.likes = medias.likes;
-        this.price = medias.price;
-        this.counter = counter;
-    }
+    getMedias(){
 
-    getMedias() {
         // Factory Use ---------------------------        
         const mediaType = factory(this.type);
         let medType = mediaType.getRender();
 
         mediaList.innerHTML += `<li class="medias-card">
-                                            <${medType} src="../images/Medias/${this.id}/${this.source}" class="vignette" slide="${this.counter}" id="${this.medId}" title="${this.title}"></${medType}> 
-                                            <div class="b-pictureInfo">
-                                                <span class="mediaText">${this.title}</span>
-                                                <span class="mediaPrice">${this.price}€</span>
-                                                <span class="mediaLikes">${this.likes}</span>
-                                                <span class="mediaHeart"><i class='fas fa-heart' name="mediaHeart" id="${this.medId}"></i></span>
-                                            </div>
-                                        </li>`;
+                                    <${medType} src="../images/Medias/${this.photographId}/${this.source}" class="vignette" slide="${this.counter}" title="${this.title}"></${medType}> 
+                                    <div class="b-pictureInfo">
+                                        <span class="mediaText">${this.title}</span>
+                                        <span class="mediaPrice">${this.price}€</span>
+                                        <span class="mediaLikes">${this.likes}</span>
+                                        <span class="mediaHeart"><i class='fas fa-heart' name="mediaHeart" data-id="${this.medId}"></i></span>
+                                    </div>
+                                </li>`;        
     }
 };
 
@@ -351,42 +316,69 @@ const Likes = class {
     }
 };
 
+
+/**
+ * FACTORY METHOD
+ * Use :Type of Media (image or video)
+ * -----------------------------------------------------------
+*/
+
+class Image {
+    getRender() {
+        return "img";
+    }
+}
+
+class Video {
+    getRender() {
+       return "video";
+    }
+}
+
+function factory(type) {
+    switch (type) {
+    case "image":
+        return new Image();
+    case "video":
+        return new Video();
+    }
+}
+
+
 /**
  * FUNCTION showAllDatas(object JSON)
- * Description :
- * >> P1 : display the photographer informations
- * >> P2 : create/filter array to display the photographer's medias
- * >> P3 : reload page and replace the tag url parameter
- * >> P4 : create a new array
- * >> P5 : condition to replace an array by another
- * >> P6 : display medias with the myFilterMedias's array
- * >> P7 : display the price per day, total likes
- * >> P8 : configuration of the lightbox modal
- * >> P9 : functions for animate and displaying lightbox modal
- * >> P10 : fill the photographer name for the contact form modal
  * ---------------------------------------------------------------------
  */
 
 function showAllDatas(obj) {
 
-    // P1 -----------------------------------------------------------
+    // display the photographer info
     let photographerInfo = obj.photographers;
     for (let info of photographerInfo) {
         if (info.id == idWorker) {
             new Photographer(idWorker,info).getInfo();
         }
     }
-    // P2 -----------------------------------------------------------
+    // create and do filter of medias
     let photographerWork = obj.media;
     myFilterMedias.splice(0,myFilterMedias.length);
-    for (let photographerMedia of photographerWork) {
-        if (photographerMedia.photographerId == idWorker) {
-            new ArrayFilterBy(photographerMedia,filterType).getCreateArray();
-            new ArrayFilterBy(photographerMedia,filterType).getFilterBy();
+    for (let media of photographerWork) {
+        if (media.photographerId == idWorker) {
+            let type, source;
+            if((media.image !=null) && (media.video == null)) {
+                type = "image";
+                source = media.image;
+            } else if((media.video !=null) && (media.image == null)) {
+                type = "video";
+                source = media.video;
+            }
+            new ArrayFilterBy(media,filterType,type,source,counter).getCreateArray();
+            new ArrayFilterBy(media,filterType,type,source,counter).getFilterBy();
+          
         }
     }
     
-    // P3 -----------------------------------------------------------
+    // do filter by tag
     const tagItems = document.querySelectorAll(".idDetails_tagg_link");
     tagItems.forEach(item => {
         item.addEventListener("click", function(e) {
@@ -404,22 +396,25 @@ function showAllDatas(obj) {
         });
     });
     
-    // P4 -------------------------------------------------------
     for (let tagMedia of myFilterMedias) {
         if (filterTag !="off" && filterTag == tagMedia.tag) {
             myTagFilterMedias.push(tagMedia);
         }
     }
-    
-    // P5 -------------------------------------------------------
     if (filterTag !=null && filterTag !="off") {
         myFilterMedias = myTagFilterMedias;
     }
     
-    // P6 ------------------------------------------------------
-    for (let filterMedia of myFilterMedias) {
-        for (let media of photographerWork) {
-            if((filterMedia.id === media.id) && (media.photographerId == idWorker)) {
+    // display medias filtered or by default
+    for (let media of myFilterMedias) {
+        new ArrayFilterBy(media,media.filterType,media.type,media.source,counter).getMedias();
+        counter ++;
+    }
+    /*
+    
+            
+    for (let media of photographerWork) {
+            if(media.photographerId == myFilterMedias[item].photographId) {  
                 let typeMedia, sourceMedia;
                 if((media.image !=null) && (media.video == null)) {
                     typeMedia = "image";
@@ -429,33 +424,33 @@ function showAllDatas(obj) {
                     sourceMedia = media.video;
                 }
 
-                new Medias(idWorker,typeMedia,sourceMedia,media,cpt).getMedias();
-                cpt ++;
+                new Medias(idWorker,typeMedia,sourceMedia,media,counter).getMedias();
+                counter ++;
+                
             }
         }
-    }
-
-    // P7 -------------------------------------------------------
+*/
+    // display the total of likes
     new Likes(aggLikes,dayPrice).getTotal();
     
-    
-    // P10 ------------------------------------------------------
-    for(let pInfo of photographerInfo) {
-        if (pInfo.id == idWorker) {
-            frmPhotoName.textContent = pInfo.name;
-        }
-    }
-    // End P10 -----------------------------------------------
 } 
 
-function carrousel(listMedia) {
-    let slideIndex = 1;
+/**
+ * FUNCTIONS FOR LIGHTBOX
+ * Description: 
+ *      > carrousel : modal lightbox calling next functions :
+ *              >> openLightbox : open the modal
+ *              >> closeLightbox : close the modal
+ *              >> showSlide : display media as slide
+ *              >> changeSlide : navigate on slide
+ *              >> toSlide : display the media clicked
+ */
+
+function carrousel(listMedia) {    
     let slideContent = ``;
     let videoAttribute; 
     
-    for(let media of listMedia) {
-        
-        // Factory Use ---------------------------
+    for(let media of listMedia) {      
         media.localName == "img" ? srcType = "image" : srcType = "video";
         const mediaType = factory(srcType).getRender();
 
@@ -474,20 +469,16 @@ function carrousel(listMedia) {
     listMedia.forEach(media => {
         media.addEventListener("click", function(e) {
             e.preventDefault();
-            openLightbox();
+            openLightbox(myLightModal);
             toSlide(parseInt(media.getAttribute("slide")));
         });
     });
 
     showSlide(slideIndex);
     
-    function openLightbox() {
-        myLightModal.style.display= "block";
-    }
-
     closeBtn.addEventListener("click", function(e) {
         e.preventDefault();
-        closeLightbox();
+        closeLightbox(myLightModal);
     });
 
     prevIcon.addEventListener("click", function(e) {
@@ -498,43 +489,48 @@ function carrousel(listMedia) {
     nextIcon.addEventListener("click", function(e) {
         e.preventDefault();
         changeSlide(1);
-    });
+    });    
+}
 
-    function closeLightbox() {
-        myLightModal.style.display = "none";
-    }
+function openLightbox(modal) {
+    modal.style.display= "block";
+}
 
-    function changeSlide(n) {
-        showSlide(slideIndex += parseInt(n));
+function closeLightbox(modal) {
+    modal.style.display = "none";
+}
+
+function showSlide(n) {
+    let mediaSlides = document.querySelectorAll(".slide");
+    if (n > mediaSlides.length) {
+        slideIndex = 1;
+    }    
+    if (n < 1) {
+        slideIndex = mediaSlides.length;
+    }    
+    for (let i = 0; i < mediaSlides.length; i++) {
+        mediaSlides[i].style.display = "none";
     }
     
-    function toSlide(n) {
-        showSlide(slideIndex = n);
-    }
+    mediaSlides[slideIndex - 1].style.display = "block";
+}
 
-    function showSlide(n) {
-        let mediaSlides = document.querySelectorAll(".slide");
-        if (n > mediaSlides.length) {
-            slideIndex = 1;
-        }    
-        if (n < 1) {
-            slideIndex = mediaSlides.length;
-        }    
-        for (let i = 0; i < mediaSlides.length; i++) {
-            mediaSlides[i].style.display = "none";
-        }
-        
-        mediaSlides[slideIndex - 1].style.display = "block";
-    }
+function changeSlide(n) {
+    showSlide(slideIndex += parseInt(n));
+}
+
+function toSlide(n) {
+    showSlide(slideIndex = n);
 }
 
 function addLikes(likes) {
-    console.log(likes);
+    //console.log(likes);
     likes.forEach(like => {
         like.addEventListener("click", (e) => {
             e.preventDefault();
-            console.log(like.id);
+            //console.log(like.id);
         });
     });
 }
-console.log(localStorage);
+//console.log(localStorage);
+
