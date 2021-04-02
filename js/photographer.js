@@ -48,7 +48,7 @@ fetch(requestURL)
             resp.json().then(function(datas) { 
                 showAllDatas(datas); 
                 carrousel(document.querySelectorAll(".vignette"));
-                addLikes(document.querySelectorAll(".fa-heart"));
+                updateLikes(document.querySelectorAll(".like"));
             });
         }
         else {
@@ -278,12 +278,12 @@ const ArrayFilterBy = class {
         let medType = mediaType.getRender();
 
         mediaList.innerHTML += `<li class="medias-card">
-                                    <${medType} src="../images/Medias/${this.photographId}/${this.source}" class="vignette" slide="${this.counter}" title="${this.title}"></${medType}> 
+                                    <${medType} src="../images/Medias/${this.photographId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}> 
                                     <div class="b-pictureInfo">
                                         <span class="mediaText">${this.title}</span>
                                         <span class="mediaPrice">${this.price}€</span>
                                         <span class="mediaLikes">${this.likes}</span>
-                                        <span class="mediaHeart"><i class='fas fa-heart' name="mediaHeart" data-id="${this.medId}"></i></span>
+                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}" data-likes="${this.likes}"></i></span>
                                     </div>
                                 </li>`;        
     }
@@ -410,26 +410,7 @@ function showAllDatas(obj) {
         new ArrayFilterBy(media,media.filterType,media.type,media.source,counter).getMedias();
         counter ++;
     }
-    /*
     
-            
-    for (let media of photographerWork) {
-            if(media.photographerId == myFilterMedias[item].photographId) {  
-                let typeMedia, sourceMedia;
-                if((media.image !=null) && (media.video == null)) {
-                    typeMedia = "image";
-                    sourceMedia = media.image;
-                } else if((media.video !=null) && (media.image == null)) {
-                    typeMedia = "video";
-                    sourceMedia = media.video;
-                }
-
-                new Medias(idWorker,typeMedia,sourceMedia,media,counter).getMedias();
-                counter ++;
-                
-            }
-        }
-*/
     // display the total of likes
     new Likes(aggLikes,dayPrice).getTotal();
     
@@ -523,14 +504,47 @@ function toSlide(n) {
     showSlide(slideIndex = n);
 }
 
-function addLikes(likes) {
-    //console.log(likes);
-    likes.forEach(like => {
-        like.addEventListener("click", (e) => {
+
+/**
+ * FUNCTIONS/EVENTLISTENER FOR LIKES
+ * Description: 
+ *      > upgrade the total of likes and the number of likes
+ */
+
+function updateLikes(likes) {
+    
+   likes.forEach(like => {
+        like.addEventListener("click", function(e) {
             e.preventDefault();
-            //console.log(like.id);
+            //console.log(this.dataset.id);
+            //console.log(this.dataset.likes);
+            addLikes(this.dataset.id, this.dataset.likes);
         });
     });
+                
 }
-//console.log(localStorage);
 
+function addLikes(id,likes) {
+    //console.log(id);
+    //console.log(likes);
+
+    let listOfLikes = getLikes();
+    listOfLikes.push(new Array(id, likes));
+    saveLikes(listOfLikes);   
+   
+}
+function getLikes() {
+    let listId = localStorage.getItem("newLikes");
+    if (listId == null) { 
+        return [];
+    }
+    else {
+        return JSON.parse(listId);
+    }
+}
+function saveLikes(list) {
+    localStorage.setItem("newLikes",JSON.stringify(list));
+}
+
+//localStorage.clear();
+console.log(JSON.parse(localStorage.getItem("newLikes")));
