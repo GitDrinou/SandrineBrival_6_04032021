@@ -126,6 +126,7 @@
 }
 
 .vignette {
+    text-decoration: none;
     width: 21.875rem;
     height: 18.75rem;
     object-fit: cover;
@@ -155,6 +156,7 @@
     color: $primary;
 }
 
+
 .fa-heart {
     padding-left: 0.5rem;
     &:active {
@@ -169,6 +171,10 @@
             transition: all 350ms;
         }
     } 
+}
+
+.liked{
+    color: $secondary;
 }
 
 .b-likes-price {

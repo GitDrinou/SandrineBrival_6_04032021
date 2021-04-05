@@ -48,7 +48,7 @@ fetch(requestURL)
             resp.json().then(function(datas) { 
                 showAllDatas(datas); 
                 carrousel(document.querySelectorAll(".vignette"));
-                updateLikes(document.querySelectorAll(".like"));
+                updateLikes(document.querySelectorAll(".fa-heart"), document.querySelectorAll(".mediaLikes"));                
             });
         }
         else {
@@ -82,14 +82,14 @@ class Photographer {
         for (let tag in listTags) {
             textTag +=`<li class="idDetails_tagg_link"><a aria-label="tag" href="#">#${listTags[tag]}</a></li>`;
         }
-            photographerDetails.innerHTML += `<h1 class="title-photographer">${this.name}</h1>
-                                                <p class="idDetails_city">${this.city}, ${this.country}</p>
-                                                <p class="idDetails_slogan">${this.tagline}</p>                                            
-                                                <ul class="idDetails_tagg">
+            photographerDetails.innerHTML += `<h1 class="title-photographer" role="header" tabindex="2">${this.name}</h1>
+                                                <p class="idDetails_city" role="text" tabindex="3">${this.city}, ${this.country}</p>
+                                                <p class="idDetails_slogan" role="text" tabindex="3">${this.tagline}</p>                                            
+                                                <ul class="idDetails_tagg" tabindex="4">
                                                     ${textTag}
                                                 </ul>
                                         `;    
-            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" class="photographer_photo">`;           
+            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" tabindex="6" aria-label="${this.name}" alt="" class="photographer_photo">`;           
 
             dayPrice = this.price;
             frmPhotoName.textContent = this.name;
@@ -208,6 +208,30 @@ dropFilterItems.forEach(item => {
         }
     });
 });
+
+
+
+function addLikes(id) {
+    let listOfLikes = getLikes(); 
+    listOfLikes.push(id);
+    saveLikes(listOfLikes);   
+}
+
+function getLikes() {
+    let listId = localStorage.getItem("newLikes");
+    
+    if (listId == null) { 
+        return [];
+    }
+    else {
+       return JSON.parse(listId);
+    }
+}
+
+function saveLikes(list) {
+    localStorage.setItem("newLikes",JSON.stringify(list));
+}
+
     
 /**
  * CREATE NEW ARRAY MEDIAS FILTERED
@@ -275,15 +299,15 @@ const ArrayFilterBy = class {
 
         // Factory Use ---------------------------        
         const mediaType = factory(this.type);
-        let medType = mediaType.getRender();
+        let medType = mediaType.getRender();            
 
         mediaList.innerHTML += `<li class="medias-card">
-                                    <${medType} src="../images/Medias/${this.photographId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}> 
+                                    <a href="#"><${medType} src="../images/Medias/${this.photographId}/${this.source}"  tabindex="10" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}></a> 
                                     <div class="b-pictureInfo">
                                         <span class="mediaText">${this.title}</span>
                                         <span class="mediaPrice">${this.price}€</span>
-                                        <span class="mediaLikes">${this.likes}</span>
-                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}" data-likes="${this.likes}"></i></span>
+                                        <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
+                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
                                     </div>
                                 </li>`;        
     }
@@ -307,7 +331,7 @@ const Likes = class {
     }
 
     getTotal() {
-        photographerWorks.innerHTML += `<div class="b-likes-price">
+        photographerWorks.innerHTML += `<div class="b-likes-price" tabindex="7">
                                             <span class="b-likes-price_content">${this.total} <i class="fas fa-heart"></i></span>
                                             <xpan class="b-likes-price_content">${this.price}€ / jour</span>
                                         </div
@@ -410,7 +434,7 @@ function showAllDatas(obj) {
         new ArrayFilterBy(media,media.filterType,media.type,media.source,counter).getMedias();
         counter ++;
     }
-    
+
     // display the total of likes
     new Likes(aggLikes,dayPrice).getTotal();
     
@@ -504,47 +528,44 @@ function toSlide(n) {
     showSlide(slideIndex = n);
 }
 
-
 /**
  * FUNCTIONS/EVENTLISTENER FOR LIKES
  * Description: 
  *      > upgrade the total of likes and the number of likes
  */
-
-function updateLikes(likes) {
-    
-   likes.forEach(like => {
+//localStorage.clear();
+ function updateLikes(likes,nbLikes) {
+    likes.forEach(like => {
         like.addEventListener("click", function(e) {
             e.preventDefault();
-            //console.log(this.dataset.id);
-            //console.log(this.dataset.likes);
-            addLikes(this.dataset.id, this.dataset.likes);
+            if(!like.classList.contains("liked")) {
+                console.log(aggLikes);
+                addLikes(this.dataset.id, this.dataset.likes);             
+                like.classList.add("liked");
+                aggLikes+=1;
+
+                nbLikes.forEach(nb => {
+                    if (nb.dataset.id == like.dataset.id) {
+                        nb.textContent = parseInt(nb.textContent) + 1;                      
+                        document.querySelector(".b-likes-price_content").textContent = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1;
+                    }
+                });  
+            }                
         });
-    });
-                
+        
+        if(localStorage.getItem("newLikes") !=null) {
+            for(let i of JSON.parse(localStorage.getItem("newLikes"))) {
+               if (i == like.dataset.id ) {
+                like.classList.add("liked");
+                nbLikes.forEach(nb => {
+                    if (nb.dataset.id == like.dataset.id) {
+                        nb.textContent = parseInt(nb.textContent) + 1;
+                        document.querySelector(".b-likes-price_content").textContent = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1;
+                    }
+                });  
+               }
+            }
+        }
+        
+    });     
 }
-
-function addLikes(id,likes) {
-    //console.log(id);
-    //console.log(likes);
-
-    let listOfLikes = getLikes();
-    listOfLikes.push(new Array(id, likes));
-    saveLikes(listOfLikes);   
-   
-}
-function getLikes() {
-    let listId = localStorage.getItem("newLikes");
-    if (listId == null) { 
-        return [];
-    }
-    else {
-        return JSON.parse(listId);
-    }
-}
-function saveLikes(list) {
-    localStorage.setItem("newLikes",JSON.stringify(list));
-}
-
-//localStorage.clear();
-console.log(JSON.parse(localStorage.getItem("newLikes")));

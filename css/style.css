@@ -751,6 +751,7 @@ textarea {
 }
 
 .vignette {
+  text-decoration: none;
   width: 21.875rem;
   height: 18.75rem;
   object-fit: cover;
@@ -796,6 +797,10 @@ textarea {
     color: #D3573C;
     transition: all 350ms;
   }
+}
+
+.liked {
+  color: #D3573C;
 }
 
 .b-likes-price {

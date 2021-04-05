@@ -10,21 +10,20 @@
     <script src="https://kit.fontawesome.com/25333533ea.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header class="header-banner">       
-        <a href="../index.html">
-            <img src="../images/logo/logo.svg" alt="Logo FishEye" class="header-banner_logo">
+    <header class="header-banner" tabindex="1">       
+        <a href="../index.html" aria-label="FishEye" role="image link">
+            <img src="../images/logo/logo.svg" alt="FishEye Home page" class="header-banner_logo">
         </a>  
     </header> 
     <main>        
-        <span id="error-json"></span>  
-        <button name="contact" class="btn-contact">Contactez-moi</button>
+        <button name="contact" class="btn-contact" role="buttons" tabindex="5">Contactez-moi</button>
         <section class="b-idPhotographer">
             <div class="idDetails"></div>                 
             <div class="idPicture"></div>            
         </section> 
         <section class="b-filter">
-            <p>Trier par :</p>            
-            <div class="filter-dropdown">
+            <p tabindex="8">Trier par :</p>            
+            <div class="filter-dropdown" tabindex="9">
                 <button id="filter-0" class="filter-dropdown_link" aria-haspopup="true" aria-expanded="false">
                     <span id="filter-selected" class="filter-dropdown_link--content">Popularité</span>
                     <i id="filterIcon" class="fas fa-chevron-down"></i>                    
