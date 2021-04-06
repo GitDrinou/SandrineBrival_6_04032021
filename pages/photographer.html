@@ -10,28 +10,28 @@
     <script src="https://kit.fontawesome.com/25333533ea.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header class="header-banner" tabindex="1">       
-        <a href="../index.html" aria-label="FishEye" role="image link">
+    <header class="header-banner">       
+        <a href="../index.html" aria-label="FishEye" role="image link" tabindex="1">
             <img src="../images/logo/logo.svg" alt="FishEye Home page" class="header-banner_logo">
         </a>  
     </header> 
-    <main>        
-        <button name="contact" class="btn-contact" role="buttons" tabindex="5">Contactez-moi</button>
+    <main class="js-document">        
         <section class="b-idPhotographer">
-            <div class="idDetails"></div>                 
-            <div class="idPicture"></div>            
-        </section> 
+            <div class="idDetails"></div>  
+            <button name="contact" class="btn-contact" aria-haspopup="dialog" aria-controls="formContact" tabindex="5">Contactez-moi</button>               
+            <div class="idPicture" tabindex="6"></div>            
+        </section>         
         <section class="b-filter">
             <p tabindex="8">Trier par :</p>            
-            <div class="filter-dropdown" tabindex="9">
-                <button id="filter-0" class="filter-dropdown_link" aria-haspopup="true" aria-expanded="false">
+            <div class="filter-dropdown">
+                <button id="filter-0" class="filter-dropdown_link" aria-haspopup="true" aria-expanded="false" tabindex="9">
                     <span id="filter-selected" class="filter-dropdown_link--content">Popularité</span>
                     <i id="filterIcon" class="fas fa-chevron-down"></i>                    
                 </button>
                 <div class="dropdown-items">
                     <div class="dropdown-items_content">
-                        <button id="filter-1" class="dropdown-items_link">Date</button>
-                        <button id="filter-2" class="dropdown-items_link">Titre</button>
+                        <button id="filter-1" class="dropdown-items_link" tabindex="10">Date</button>
+                        <button id="filter-2" class="dropdown-items_link" tabindex="11">Titre</button>
                     </div>
                 </div>
             </div>            
@@ -44,39 +44,41 @@
             <div class="modalLight-content"></div>
             <a class="previous"><i class="fas fa-chevron-left"></i></a>
             <a class="next"><i class="fas fa-chevron-right"></i></a>
-        </section>
-        <section id="formContact" class="modal-contact">
-            <div class="modal-contact_content">
-                <span class="close-form"><i class="fas fa-times"></i></span>
-                <h1>Contactez-moi</h1>
-                <span class="photographerName"></span>
-                <form id="frmContact" novalidate>
-                    <div>
-                        <label for="fName">Prénom</label>
-                        <input type="text" name="fName" id="fName" required autofocus title="Entrez votre prénom">
-                        <span class="error"></span>
-                    </div>
-                    <div>
-                        <label for="lName">Nom</label>
-                        <input type="text" name="lName" id="lName" requiredtitle="Entrez votre nom">
-                        <span class="error"></span>
-                    </div>
-                    <div>
-                        <label for="eMail">E-mail</label>
-                        <input type="email" name="eMail" id="eMail" required title="Entrez votre e-mail">
-                        <span class="error"></span>
-                    </div>
-                    <div>
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" required title="Entrez votre message"></textarea>
-                        <span class="error"></span>
-                    </div>
-                    <button type="button" class="btn-submit">Envoyer</button>                
-                </form>
-            </div>            
-        </section>
-        <script src="../js/photographer.js"></script>              
-        <script src="../js/app.js"></script>       
-    </main>    
+        </section>   
+                 
+    </main>  
+    <section id="formContact" class="modal-contact" role="dialog" aria-labelledby="Contact">
+        <div class="modal-contact_content" id="modal-content" role="document">
+            <span class="close-form"><i class="fas fa-times" aria-label="Fermer" title="Fermer le formualire"></i></span>
+            <h1 id="Contact" role="heading">Contactez-moi</h1>
+            <span class="photographerName"></span>
+            <form id="frmContact" novalidate>
+                <div>
+                    <label for="fName">Prénom</label>
+                    <input type="text" name="fName" id="fName" required aria-labelledby="fName" title="Entrez votre prénom">
+                    <span class="error"></span>
+                </div>
+                <div>
+                    <label for="lName">Nom</label>
+                    <input type="text" name="lName" id="lName" required aria-labelledby="lName" title="Entrez votre nom">
+                    <span class="error"></span>
+                </div>
+                <div>
+                    <label for="eMail">E-mail</label>
+                    <input type="email" name="eMail" id="eMail" required aria-labelledby="eMail" title="Entrez votre e-mail">
+                    <span class="error"></span>
+                </div>
+                <div>
+                    <label for="message">Votre message</label>
+                    <textarea name="message" id="message" required aria-labelledby="message" title="Entrez votre message"></textarea>
+                    <span class="error"></span>
+                </div>
+                <button type="button" class="btn-submit" aria-label="Envoi">Envoyer</button>                
+            </form>
+        </div>            
+    </section>    
+    
+    <script src="../js/photographer.js"></script>              
+    <script src="../js/app.js"></script>     
 </body>
 </html>

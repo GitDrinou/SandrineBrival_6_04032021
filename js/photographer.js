@@ -19,6 +19,7 @@ const closeBtn = document.querySelector(".close-lightbox");
 const myContentLight = document.querySelector(".modalLight-content");
 const prevIcon = document.querySelector(".previous");
 const nextIcon = document.querySelector(".next");
+const frmContact = document.getElementById("frmContact");
 const frmPhotoName = document.querySelector(".photographerName");
 const requestURL = "../js/json/FishEyeDataFR.json";
 const parsedUrl = new URL(window.location.href);
@@ -26,6 +27,7 @@ const loc = document.location;
 const url = document.URL;
 const idWorker = parsedUrl.searchParams.get("id");
 const filterType = parsedUrl.searchParams.get("filt");
+
 
 let counter = 1;
 let filterTag = parsedUrl.searchParams.get("tag");
@@ -80,19 +82,21 @@ class Photographer {
         let listTags = this.tags;
         let textTag=``;
         for (let tag in listTags) {
-            textTag +=`<li class="idDetails_tagg_link"><a aria-label="tag" href="#">#${listTags[tag]}</a></li>`;
+            textTag +=`<li class="idDetails_tagg_link"><a aria-label="tag" href="#" tabindex="4">#${listTags[tag]}</a></li>`;
         }
             photographerDetails.innerHTML += `<h1 class="title-photographer" role="header" tabindex="2">${this.name}</h1>
-                                                <p class="idDetails_city" role="text" tabindex="3">${this.city}, ${this.country}</p>
+                                                <p class="idDetails_city" role="text" tabindex=3>${this.city}, ${this.country}</p>
                                                 <p class="idDetails_slogan" role="text" tabindex="3">${this.tagline}</p>                                            
-                                                <ul class="idDetails_tagg" tabindex="4">
+                                                <ul class="idDetails_tagg">
                                                     ${textTag}
                                                 </ul>
                                         `;    
-            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" tabindex="6" aria-label="${this.name}" alt="" class="photographer_photo">`;           
+            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" tabindex="19" class="photographer_photo">`;           
 
             dayPrice = this.price;
+            frmContact.setAttribute("aria-labelledby", "Contact-" + this.name);
             frmPhotoName.textContent = this.name;
+            frmPhotoName.setAttribute("id", "Contact-" + this.name);
     }
 }
 
@@ -142,6 +146,7 @@ function toggleFilter () {
  */
 
 function moveToFirst (valItem) {
+    console.log(valItem);
     switch (valItem) {
         case "Popularité" :
             dropFilterSelected.textContent = "Popularité";
@@ -299,15 +304,20 @@ const ArrayFilterBy = class {
 
         // Factory Use ---------------------------        
         const mediaType = factory(this.type);
-        let medType = mediaType.getRender();            
+        let medType = mediaType.getRender();  
+        let indeximg = this.counter + 10;
+        let indexTitle = this.counter + 20;
+        let indexPrice = this.counter + 30;
+        let indexLikes = this.counter + 40;        
+        let indexHeart = this.counter + 50;
 
         mediaList.innerHTML += `<li class="medias-card">
-                                    <a href="#"><${medType} src="../images/Medias/${this.photographId}/${this.source}"  tabindex="10" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}></a> 
+                                    <a href="#" onkeypress="openLightbox(myLightModal)"><${medType} src="../images/Medias/${this.photographId}/${this.source}" tabindex="${indeximg}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}></a> 
                                     <div class="b-pictureInfo">
-                                        <span class="mediaText">${this.title}</span>
-                                        <span class="mediaPrice">${this.price}€</span>
-                                        <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
-                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
+                                        <span class="mediaText" tabindex="${indexTitle}">${this.title}</span>
+                                        <span class="mediaPrice" tabindex="${indexPrice}">${this.price}€</span>
+                                        <span class="mediaLikes" data-id="${this.id}" tabindex="${indexLikes}">${this.likes}</span>
+                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}" tabindex="${indexHeart}"></i></span>
                                     </div>
                                 </li>`;        
     }
@@ -560,7 +570,7 @@ function toSlide(n) {
                 nbLikes.forEach(nb => {
                     if (nb.dataset.id == like.dataset.id) {
                         nb.textContent = parseInt(nb.textContent) + 1;
-                        document.querySelector(".b-likes-price_content").textContent = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1;
+                        document.querySelector(".b-likes-price_content").innerHTML = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1 +" <i class='fas fa-heart'></i>";
                     }
                 });  
                }
@@ -569,3 +579,27 @@ function toSlide(n) {
         
     });     
 }
+
+/**
+ * KEYEVENT CONFIGURATION
+ */
+
+ window.addEventListener("keydown", function(e) {
+    if(e.defaultPrevented){
+        return;     // comportement par défaut inhibé
+    }
+    if (e.key === "Escape" || e.key === "Esc") {
+        closeLightbox(myLightModal);
+    } 
+    if ((e.key==="ArrowDown") && (dropMenuItems.getAttribute("style") === "display: none;")) {
+        toggleFilter();
+        moveToFirst(dropFilterSelected.textContent);
+    } 
+    if (e.key==="ArrowRight" && myLightModal.style.display=="block") {
+        changeSlide(1);
+    }   
+    
+    if (e.key==="ArrowLeft" && myLightModal.style.display=="block") {
+        changeSlide(-1);
+    }   
+});

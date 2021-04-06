@@ -1,14 +1,16 @@
 /**
  * VARIABLES
  */
+
 const btnContact = document.querySelector(".btn-contact");
 const myContactModal = document.getElementById("formContact");
 const closeBtnFrm = document.querySelector(".close-form");
+const focusElts = "input,label,button,h1,span";
+let listFocus = [];
 
 /**
  * FORMULARY ACTIONS
  */
-//const frmContact = document.getElementById("frmContact");
 const firstName = document.getElementById("fName");
 const lastName = document.getElementById("lName");
 const mail = document.getElementById("eMail");
@@ -17,11 +19,34 @@ const btnSubmit = document.querySelector(".btn-submit");
 let mailReg = new RegExp(/^([\w-.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})/i);
 let isStrReg = new RegExp(/[0-9]/g);
 
-
 btnContact.addEventListener("click", function(e) {
     e.preventDefault();
-    onpenContact();
+    openContact();
 });
+       
+function openContact() {
+    myContactModal.style.display= "block";
+    myContactModal.setAttribute("aria-hidden", false);
+    myContactModal.setAttribute("aria-modal",true); 
+    listFocus = Array.from(myContactModal.querySelectorAll(focusElts));
+    firstName.value="";
+    lastName.value="";
+    mail.value="";
+    message.value="";  
+}
+
+    
+
+
+function focusModal() {
+    let index = listFocus.findIndex(f => f === myContactModal.querySelector(":focus"));
+    index++;
+    if(index >= listFocus.length) {
+        index = 0;
+    }
+    listFocus[index].focus();
+}
+
 
 btnSubmit.addEventListener("click",(e) => {
     e.preventDefault();
@@ -34,13 +59,6 @@ btnSubmit.addEventListener("click",(e) => {
     } 
 });
 
-function onpenContact() {
-    myContactModal.style.display= "block"; 
-    firstName.value="";
-    lastName.value="";
-    mail.value="";
-    message.value="";   
-}
 
 closeBtnFrm.addEventListener("click", function(e) {
     e.preventDefault();
@@ -104,4 +122,27 @@ function frmValidation() {
     return valid;
     
 }
+
+/**
+ * KEYBOARD NAVIAGATION - CONFIGURATION 
+ * Description :  contact form configuration 
+ * Keys :
+ *      >> ESCAPE : close the form
+ *      >> ENTER : submit the form
+ *      >> TAB : navigate on fields
+ * ------------------------------------------------
+ *
+ */ 
+
+window.addEventListener("keydown", function(e) {
+    if(e.defaultPrevented){
+        return;     // comportement par défaut inhibé
+    }
+    if (e.key === "Escape" || e.key === "Esc") {
+        closeFrmContact();
+    } 
+    if (e.key==="Tab" && myContactModal.style.display=="block") {
+        focusModal();
+    }   
+});
 

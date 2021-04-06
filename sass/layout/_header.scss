@@ -29,6 +29,7 @@
 
 .title-photographer {
     @include title($marge : 0 0 0 3rem, $size : 4rem, $weight: 400);
+    order: 2;
     @media screen and (max-width: map-get($breakpoints, mobile )) {
         @include title($marge : 0, $size : 2rem, $weight: 400);
         width: 70%;

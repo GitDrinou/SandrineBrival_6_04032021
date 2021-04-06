@@ -9,6 +9,10 @@
     
 }
 
+*:focus {
+    box-shadow: 0 0 0.5rem blue;
+}
+
 body {
     font-family: "DM Sans", Arial, Helvetica, sans-serif;  
     box-sizing: inherit;
