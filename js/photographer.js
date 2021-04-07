@@ -473,7 +473,7 @@ function carrousel(listMedia) {
 
         slideContent +=`<div class="slide">
                             <figure>
-                                <${mediaType} src="${media.src}" class="media-slide" ${videoAttribute}></${mediaType}>
+                                <${mediaType} src="${media.src}" alt="${media.title}" class="media-slide" ${videoAttribute}></${mediaType}>
                                 <figcaption class="mediaText">${media.title}</figcaption>
                             </figure>
                         </div>`;
