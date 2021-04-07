@@ -15,7 +15,7 @@
             <img src="../images/logo/logo.svg" alt="FishEye Home page" class="header-banner_logo">
         </a>  
     </header> 
-    <main class="js-document">        
+    <main>        
         <section class="b-idPhotographer">
             <div class="idDetails"></div>  
             <button name="contact" class="btn-contact" aria-haspopup="dialog" aria-controls="formContact" tabindex="5">Contactez-moi</button>               
@@ -44,10 +44,9 @@
             <div class="modalLight-content"></div>
             <a class="previous"><i class="fas fa-chevron-left"></i></a>
             <a class="next"><i class="fas fa-chevron-right"></i></a>
-        </section>   
-                 
-    </main>  
-    <section id="formContact" class="modal-contact" role="dialog" aria-labelledby="Contact">
+        </section>           
+    </main>      
+    <dialog id="formContact" class="modal-contact" role="dialog" aria-labelledby="Contact">
         <div class="modal-contact_content" id="modal-content" role="document">
             <span class="close-form"><i class="fas fa-times" aria-label="Fermer" title="Fermer le formualire"></i></span>
             <h1 id="Contact" role="heading">Contactez-moi</h1>
@@ -76,9 +75,9 @@
                 <button type="button" class="btn-submit" aria-label="Envoi">Envoyer</button>                
             </form>
         </div>            
-    </section>    
-    
+    </dialog>       
+    <script src="../js/app.js"></script>
     <script src="../js/photographer.js"></script>              
-    <script src="../js/app.js"></script>     
+         
 </body>
 </html>

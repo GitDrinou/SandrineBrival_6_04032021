@@ -224,9 +224,9 @@ video {
   top: 1.125rem;
   left: 50%;
   background-color: #D3573C;
-  visibility: hidden;
   text-decoration: none;
   color: #FFFFFF;
+  visibility: hidden;
 }
 
 .navigation {
@@ -390,16 +390,15 @@ video {
 .modal-contact {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 50;
   padding: 1.35rem;
   left: 30rem;
   top: 3.2rem;
-  width: 100%;
-  height: 100%;
   overflow: auto;
   padding: 1.25rem 2rem;
-  background-color: rgba(255, 255, 255, 0.8);
   transition: 200ms;
+  outline: none;
+  border: none;
 }
 .modal-contact_content {
   width: 40rem;

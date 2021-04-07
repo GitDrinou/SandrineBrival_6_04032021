@@ -3,7 +3,7 @@
  * CONST and LET
  * -------------------------------------------------------------------------
 */
-//const accesslink = document.querySelector(".accessibility");
+const accesslink = document.getElementById("accessible");
 const photographersList = document.querySelector(".photographer");
 const navTags = document.querySelector(".navigation_tagg");
 const requestURL = "./js/json/FishEyeDataFR.json";
@@ -33,30 +33,19 @@ fetch(requestURL)
     });
 
 /**
- * EVENT LISTENER 
- * Description: configuration des touches clavier
-
+ * KEYBOARD EVENT 
+ * Keyboard navigation
+ */
 
 window.addEventListener("keydown", function(e) {
     if(e.defaultPrevented) {
         return;       
     }
-    console.log(e.key);
-    switch (e.key) {
-    case "ArrowDown":
+    if(e.key==="Tab" && accesslink.getAttribute("style")==null){
         accesslink.style.visibility = "visible";
-        break;  
-    case "ArrowUp":
-        accesslink.style.visibility = "hidden";
-        break;  
-    case "ArrowRight":
-        document.nextSibling;
-        break;    
-    default:
-        break;
     }
 });   
- */
+
 
 
 /**

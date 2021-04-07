@@ -5,8 +5,6 @@
 const btnContact = document.querySelector(".btn-contact");
 const myContactModal = document.getElementById("formContact");
 const closeBtnFrm = document.querySelector(".close-form");
-const focusElts = "input,label,button,h1,span";
-let listFocus = [];
 
 /**
  * FORMULARY ACTIONS
@@ -28,7 +26,6 @@ function openContact() {
     myContactModal.style.display= "block";
     myContactModal.setAttribute("aria-hidden", false);
     myContactModal.setAttribute("aria-modal",true); 
-    listFocus = Array.from(myContactModal.querySelectorAll(focusElts));
     firstName.value="";
     lastName.value="";
     mail.value="";
@@ -36,18 +33,6 @@ function openContact() {
 }
 
     
-
-
-function focusModal() {
-    let index = listFocus.findIndex(f => f === myContactModal.querySelector(":focus"));
-    index++;
-    if(index >= listFocus.length) {
-        index = 0;
-    }
-    listFocus[index].focus();
-}
-
-
 btnSubmit.addEventListener("click",(e) => {
     e.preventDefault();
     if(frmValidation()) {
@@ -141,8 +126,5 @@ window.addEventListener("keydown", function(e) {
     if (e.key === "Escape" || e.key === "Esc") {
         closeFrmContact();
     } 
-    if (e.key==="Tab" && myContactModal.style.display=="block") {
-        focusModal();
-    }   
 });
 
