@@ -35,6 +35,7 @@ let filterTag = parsedUrl.searchParams.get("tag");
 let myFilterMedias = [];
 let myTagFilterMedias = [];
 let aggLikes = 0;
+let slideContent = ``;
 let dayPrice;
 let srcType;
 let slideIndex = 1;
@@ -250,6 +251,7 @@ function saveLikes(list) {
 
 const ArrayFilterBy = class {
     constructor(medias,filter,type,source,counter) {
+        this.medias = medias;
         this.id = medias.id;
         this.photographId = medias.photographerId;
         this.likes = medias.likes;
@@ -302,16 +304,11 @@ const ArrayFilterBy = class {
 
     getMedias(){
 
-        // Factory Use ---------------------------        
-        const mediaType = factory(this.type);
-        let medType = mediaType.getRender();  
-        let indeximg = this.counter + 10;
-        let indexTitle = this.counter + 20;
-        let indexPrice = this.counter + 30;
-        let indexLikes = this.counter + 40;        
-        let indexHeart = this.counter + 50;
+        // Factory Use ---------------------------      
+        let mediaType = factory(this.type,this.medias,this.counter);
+        mediaType.getRender_Page();  
 
-        mediaList.innerHTML += `<li class="medias-card">
+        /*mediaList.innerHTML += `<li class="medias-card">
                                     <a href="#" onkeypress="openLightbox(myLightModal)"><${medType} src="../images/Medias/${this.photographId}/${this.source}" tabindex="${indeximg}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}></a> 
                                     <div class="b-pictureInfo">
                                         <span class="mediaText" tabindex="${indexTitle}">${this.title}</span>
@@ -319,7 +316,7 @@ const ArrayFilterBy = class {
                                         <span class="mediaLikes" data-id="${this.id}" tabindex="${indexLikes}">${this.likes}</span>
                                         <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}" tabindex="${indexHeart}"></i></span>
                                     </div>
-                                </li>`;        
+                                </li>`;*/       
     }
 };
 
@@ -349,34 +346,6 @@ const Likes = class {
 
     }
 };
-
-
-/**
- * FACTORY METHOD
- * Use :Type of Media (image or video)
- * -----------------------------------------------------------
-*/
-
-class Image {
-    getRender() {
-        return "img";
-    }
-}
-
-class Video {
-    getRender() {
-       return "video";
-    }
-}
-
-function factory(type) {
-    switch (type) {
-    case "image":
-        return new Image();
-    case "video":
-        return new Video();
-    }
-}
 
 
 /**
@@ -451,6 +420,87 @@ function showAllDatas(obj) {
 } 
 
 /**
+ * FACTORY METHOD
+ * Use :Type of Media (image or video)
+ * -----------------------------------------------------------
+*/
+
+class MediasType {
+    constructor(obj,counter) {    
+        this.photographerId = obj.photographerId;
+        this.id = obj.id;
+        this.source = obj.source;
+        this.src = obj.src;
+        this.title = obj["alt-text"];
+        this.slidTitle = obj.title;
+        this.price = obj.price;
+        this.likes = obj.likes;
+        this.counter = counter;
+    }
+    getRender_Page() {
+        mediaList.innerHTML += ``;
+    }
+    getRender_Slide() {
+        slideContent +=``;
+    }
+}
+
+class Image extends MediasType {
+       
+    getRender_Page() {      
+        mediaList.innerHTML += `<li class="medias-card">
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><img src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></a> 
+                                <div class="b-pictureInfo">
+                                    <span class="mediaText">${this.title}</span>
+                                    <span class="mediaPrice">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
+                                    <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
+                                </div>
+                            </li>`;    
+    }
+    getRender_Slide() {
+        slideContent +=`<div class="slide">
+                            <img src="${this.src}" alt="${this.slidTitle}" class="media-slide">
+                            <span class="mediaText">${this.slidTitle}</span>
+                        </div>`;
+    }
+}
+
+class Video extends MediasType {
+    getRender_Page() {        
+        mediaList.innerHTML += `<li class="medias-card">
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><video src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></video></a> 
+                                <div class="b-pictureInfo">
+                                    <span class="mediaText">${this.title}</span>
+                                    <span class="mediaPrice">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
+                                    <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
+                                </div>
+                            </li>`;    
+    }
+    getRender_Slide() {
+        let source = this.src;
+        let extension = source.substring(source.length-3);
+        slideContent +=`<div class="slide">
+                            <video controls id="video">
+                                <source src="${this.src}" alt="${this.slidTitle}" type="video/${extension}" class="media-slide" controls> 
+                                Votre navigateur ne prend pas en charge ce type de vidéo (${extension})                               
+                            </video>
+                            <span class="mediaText">${this.slidTitle}</span>
+                        </div>`;
+    }
+}
+
+function factory(type,obj,counter) {
+    switch (type) {
+    case "image":
+        return new Image(obj,counter);
+    case "video":
+        return new Video(obj,counter);
+    }
+}
+
+/**
  * FUNCTIONS FOR LIGHTBOX
  * Description: 
  *      > carrousel : modal lightbox calling next functions :
@@ -462,21 +512,11 @@ function showAllDatas(obj) {
  */
 
 function carrousel(listMedia) {    
-    let slideContent = ``;
-    let videoAttribute; 
     
     for(let media of listMedia) {      
         media.localName == "img" ? srcType = "image" : srcType = "video";
-        const mediaType = factory(srcType).getRender();
-
-        media.localName =="video" ? videoAttribute="controls" : videoAttribute = "";
-
-        slideContent +=`<div class="slide">
-                            <figure>
-                                <${mediaType} src="${media.src}" alt="${media.title}" class="media-slide" ${videoAttribute}></${mediaType}>
-                                <figcaption class="mediaText">${media.title}</figcaption>
-                            </figure>
-                        </div>`;
+        const mediaType = factory(srcType,media,counter);
+        mediaType.getRender_Slide();
     }
 
     myContentLight.innerHTML += slideContent;
@@ -598,8 +638,14 @@ function toSlide(n) {
     if (e.key==="ArrowRight" && myLightModal.style.display=="block") {
         changeSlide(1);
     }   
-    
     if (e.key==="ArrowLeft" && myLightModal.style.display=="block") {
         changeSlide(-1);
     }   
+    if (e.key==="Enter" && myLightModal.style.display=="block") {
+        document.getElementById("video").play();
+    }       
+    if (e.key==="p" && myLightModal.style.display=="block") {
+        document.getElementById("video").pause();
+    } 
+
 });
