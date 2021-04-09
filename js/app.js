@@ -5,12 +5,13 @@
 const btnContact = document.querySelector(".btn-contact");
 const myContactModal = document.getElementById("formContact");
 const closeBtnFrm = document.querySelector(".close-form");
+const formItems = document.querySelectorAll("input,textarea");
 
 /**
  * FORMULARY ACTIONS
  */
-const firstName = document.getElementById("fName");
-const lastName = document.getElementById("lName");
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
 const mail = document.getElementById("eMail");
 const message = document.getElementById("message");
 const btnSubmit = document.querySelector(".btn-submit");
@@ -24,12 +25,14 @@ btnContact.addEventListener("click", function(e) {
        
 function openContact() {
     myContactModal.style.display= "block";
+    firstName.focus();
     myContactModal.setAttribute("aria-hidden", false);
     myContactModal.setAttribute("aria-modal",true); 
-    firstName.value="";
-    lastName.value="";
-    mail.value="";
-    message.value="";  
+    for (let item of formItems) {
+        if (item.value !=null) {
+            item.value = "";
+        }
+    }
 }
 
     
@@ -42,6 +45,9 @@ btnSubmit.addEventListener("click",(e) => {
         console.log("MESSAGE : " + message.value);
         myContactModal.style.display = "none";
     } 
+    else {
+        firstName.focus();
+    }
 });
 
 
@@ -125,6 +131,15 @@ window.addEventListener("keydown", function(e) {
     }
     if (e.key === "Escape" || e.key === "Esc") {
         closeFrmContact();
+    }     
+    if (e.key === "Enter") {
+        if(frmValidation()) {
+            console.log("PRENOM : " + firstName.value);
+            console.log("NOM : " + lastName.value);
+            console.log("EMAIL : " + mail.value);
+            console.log("MESSAGE : " + message.value);
+            myContactModal.style.display = "none";
+        } 
     } 
 });
 

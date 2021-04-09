@@ -51,7 +51,7 @@ fetch(requestURL)
             resp.json().then(function(datas) { 
                 showAllDatas(datas); 
                 carrousel(document.querySelectorAll(".vignette"));
-                updateLikes(document.querySelectorAll(".fa-heart"), document.querySelectorAll(".mediaLikes"));                
+                updateLikes(document.querySelectorAll(".fa-heart"), document.querySelectorAll(".mediaLikes"));                    
             });
         }
         else {
@@ -92,7 +92,7 @@ class Photographer {
                                                     ${textTag}
                                                 </ul>
                                         `;    
-            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" tabindex="19" class="photographer_photo">`;           
+            photographerPicture.innerHTML += `<img src="../images/IDPhotos/${this.portrait}" aria-label="${this.name}" alt="" class="photographer_photo">`;           
 
             dayPrice = this.price;
             frmContact.setAttribute("aria-labelledby", "Contact-" + this.name);
@@ -307,16 +307,7 @@ const ArrayFilterBy = class {
         // Factory Use ---------------------------      
         let mediaType = factory(this.type,this.medias,this.counter);
         mediaType.getRender_Page();  
-
-        /*mediaList.innerHTML += `<li class="medias-card">
-                                    <a href="#" onkeypress="openLightbox(myLightModal)"><${medType} src="../images/Medias/${this.photographId}/${this.source}" tabindex="${indeximg}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></${medType}></a> 
-                                    <div class="b-pictureInfo">
-                                        <span class="mediaText" tabindex="${indexTitle}">${this.title}</span>
-                                        <span class="mediaPrice" tabindex="${indexPrice}">${this.price}€</span>
-                                        <span class="mediaLikes" data-id="${this.id}" tabindex="${indexLikes}">${this.likes}</span>
-                                        <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}" tabindex="${indexHeart}"></i></span>
-                                    </div>
-                                </li>`;*/       
+           
     }
 };
 
@@ -449,19 +440,19 @@ class Image extends MediasType {
        
     getRender_Page() {      
         mediaList.innerHTML += `<li class="medias-card">
-                                <a href="#" onkeypress="openLightbox(myLightModal)"><img src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></a> 
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><img src="../images/Medias/${this.photographerId}/${this.source}" aria-label="${this.title}" class="vignette" tabindex="${this.counter}0" id="${this.id}" slide="${this.counter}" title="${this.title}" role="image link"></a> 
                                 <div class="b-pictureInfo">
-                                    <span class="mediaText">${this.title}</span>
-                                    <span class="mediaPrice">${this.price}€</span>
-                                    <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
-                                    <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
+                                    <span class="mediaText" tabindex="${this.counter}1" aria-label="${this.title}" role="text">${this.title}</span>
+                                    <span class="mediaPrice" tabindex="${this.counter}2" aria-label="Prix" role="text">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}" aria-label="Nombre de likes" role="text">${this.likes}</span>
+                                    <span class="mediaHeart" tabindex="${this.counter}3"><i class="fas fa-heart like" data-id="${this.id}" aria-label="likes" role="image"></i></span>
                                 </div>
                             </li>`;    
     }
     getRender_Slide() {
         slideContent +=`<div class="slide">
-                            <img src="${this.src}" alt="${this.slidTitle}" class="media-slide">
-                            <span class="mediaText">${this.slidTitle}</span>
+                            <img src="${this.src}" alt="${this.slidTitle}" class="media-slide" role="image" aria-label="${this.slidTitle}">
+                            <span class="mediaText" role="text" aria-label="${this.slidTitle}">${this.slidTitle}</span>
                         </div>`;
     }
 }
@@ -469,12 +460,12 @@ class Image extends MediasType {
 class Video extends MediasType {
     getRender_Page() {        
         mediaList.innerHTML += `<li class="medias-card">
-                                <a href="#" onkeypress="openLightbox(myLightModal)"><video src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" id="${this.id}" slide="${this.counter}" title="${this.title}"></video></a> 
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><video src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" tabindex="${this.counter}0" id="${this.id}" slide="${this.counter}" title="${this.title}" role="image link"></video></a> 
                                 <div class="b-pictureInfo">
-                                    <span class="mediaText">${this.title}</span>
-                                    <span class="mediaPrice">${this.price}€</span>
-                                    <span class="mediaLikes" data-id="${this.id}">${this.likes}</span>
-                                    <span class="mediaHeart"><i class="fas fa-heart like" data-id="${this.id}"></i></span>
+                                    <span class="mediaText" tabindex="${this.counter}1" aria-label="${this.title}" role="text">${this.title}</span>
+                                    <span class="mediaPrice" tabindex="${this.counter}2" aria-label="Prix" role="text">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}" aria-label="Nombre de likes" role="text">${this.likes}</span>
+                                    <span class="mediaHeart" tabindex="${this.counter}3" onkeypress=""><i class="fas fa-heart like" data-id="${this.id}" aria-label="likes" role="image"></i></span>
                                 </div>
                             </li>`;    
     }
@@ -483,10 +474,10 @@ class Video extends MediasType {
         let extension = source.substring(source.length-3);
         slideContent +=`<div class="slide">
                             <video controls id="video">
-                                <source src="${this.src}" alt="${this.slidTitle}" type="video/${extension}" class="media-slide" controls> 
+                                <source src="${this.src}" alt="${this.slidTitle}" type="video/${extension}" class="media-slide" controls role="image" aria-label="${this.slidTitle}"> 
                                 Votre navigateur ne prend pas en charge ce type de vidéo (${extension})                               
                             </video>
-                            <span class="mediaText">${this.slidTitle}</span>
+                            <span class="mediaText" aria-label="${this.slidTitle}">${this.slidTitle}</span>
                         </div>`;
     }
 }
@@ -597,7 +588,7 @@ function toSlide(n) {
                 nbLikes.forEach(nb => {
                     if (nb.dataset.id == like.dataset.id) {
                         nb.textContent = parseInt(nb.textContent) + 1;                      
-                        document.querySelector(".b-likes-price_content").textContent = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1;
+                        document.querySelector(".b-likes-price_content").innerHTML = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1 +" <i class='fas fa-heart'></i>";
                     }
                 });  
             }                
