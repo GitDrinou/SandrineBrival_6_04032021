@@ -622,7 +622,7 @@ function toSlide(n) {
     if (e.key === "Escape" || e.key === "Esc") {
         closeLightbox(myLightModal);
     } 
-    if ((e.key==="ArrowDown") && (dropMenuItems.getAttribute("style") === "display: none;")) {
+    if ((e.key==="ArrowDown") && (dropMenuItems.getAttribute("style") === "display: none;" || dropMenuItems.getAttribute("style") === null) ) {
         toggleFilter();
         moveToFirst(dropFilterSelected.textContent);
     } 
@@ -640,3 +640,5 @@ function toSlide(n) {
     } 
 
 });
+
+
