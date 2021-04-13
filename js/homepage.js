@@ -71,7 +71,7 @@ class Photographer {
         let listTags = this.tags; 
         let textTag=``;
         for (let tag in listTags) {
-            textTag +=`<li class="photographer_tagg_link"><a aria-label="tag" href="index.html?tag=${listTags[tag]}">#${listTags[tag]}</a></li>`;                 
+            textTag +=`<li class="photographer_tagg_link"><a href="index.html?tag=${listTags[tag]}"><span aria-label="tag">#${listTags[tag]}</span></a></li>`;                 
         }
         photographersList.innerHTML += `<li class="space-card">
                                             <a href="pages/photographer.html?id=${this.id}&filt=Popular&tag=off" aria-label="${this.name}">

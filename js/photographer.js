@@ -440,16 +440,16 @@ class Image extends MediasType {
        
     getRender_Page() {      
         mediaList.innerHTML += `<li class="medias-card">
-                                <a href="#" onkeypress="openLightbox(myLightModal)"><img src="../images/Medias/${this.photographerId}/${this.source}" aria-label="${this.title}" class="vignette" tabindex="${this.counter}0" id="${this.id}" slide="${this.counter}" title="${this.title}" role="image link"></a> 
-                                <div class="b-pictureInfo">
-                                    <span class="mediaText" tabindex="${this.counter}1" aria-label="${this.title}" role="text">${this.title}</span>
-                                    <span class="mediaPrice" tabindex="${this.counter}2" aria-label="Prix" role="text">${this.price}€</span>
-                                    <span class="mediaLikes" data-id="${this.id}" aria-label="Nombre de likes" role="text">${this.likes}</span>
-                                    <span class="mediaHeart" tabindex="${this.counter}3"><i class="fas fa-heart like" data-id="${this.id}" aria-label="likes" role="image"></i></span>
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><img src="../images/Medias/${this.photographerId}/${this.source}" aria-label="${this.title} agrandissement"  alt="" class="vignette" tabindex="${this.counter}0"  title="${this.title}" id="${this.id}" slide="${this.counter}" role="image link"></a> 
+                                <div class="b-pictureInfo" aria-label="Information média">
+                                    <span class="mediaText" tabindex="${this.counter}1" role="text">${this.title}</span>
+                                    <span class="mediaPrice" tabindex="${this.counter}2" role="text">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}" role="text">${this.likes}<i class="fas fa-heart like mediaHeart" tabindex="${this.counter}3" data-id="${this.id}" aria-label="likes" role="image"></i></span>
                                 </div>
                             </li>`;    
     }
     getRender_Slide() {
+        console.log(this.slidTitle)
         slideContent +=`<div class="slide">
                             <img src="${this.src}" alt="${this.slidTitle}" class="media-slide" role="image" aria-label="${this.slidTitle}">
                             <span class="mediaText" role="text" aria-label="${this.slidTitle}">${this.slidTitle}</span>
@@ -460,12 +460,11 @@ class Image extends MediasType {
 class Video extends MediasType {
     getRender_Page() {        
         mediaList.innerHTML += `<li class="medias-card">
-                                <a href="#" onkeypress="openLightbox(myLightModal)"><video src="../images/Medias/${this.photographerId}/${this.source}" class="vignette" tabindex="${this.counter}0" id="${this.id}" slide="${this.counter}" title="${this.title}" role="image link"></video></a> 
+                                <a href="#" onkeypress="openLightbox(myLightModal)"><video src="../images/Medias/${this.photographerId}/${this.source}" aria-label="${this.title} agrandissement" class="vignette" tabindex="${this.counter}0" id="${this.id}" slide="${this.counter}" title="${this.title}" role="image link"></video></a> 
                                 <div class="b-pictureInfo">
-                                    <span class="mediaText" tabindex="${this.counter}1" aria-label="${this.title}" role="text">${this.title}</span>
-                                    <span class="mediaPrice" tabindex="${this.counter}2" aria-label="Prix" role="text">${this.price}€</span>
-                                    <span class="mediaLikes" data-id="${this.id}" aria-label="Nombre de likes" role="text">${this.likes}</span>
-                                    <span class="mediaHeart" tabindex="${this.counter}3" onkeypress=""><i class="fas fa-heart like" data-id="${this.id}" aria-label="likes" role="image"></i></span>
+                                    <span class="mediaText" tabindex="${this.counter}1" role="text">${this.title}</span>
+                                    <span class="mediaPrice" tabindex="${this.counter}2" role="text">${this.price}€</span>
+                                    <span class="mediaLikes" data-id="${this.id}" role="text">${this.likes}<i class="fas fa-heart like mediaHeart" tabindex="${this.counter}3" data-id="${this.id}" aria-label="likes" role="image"></i></span>
                                 </div>
                             </li>`;    
     }
@@ -473,7 +472,7 @@ class Video extends MediasType {
         let source = this.src;
         let extension = source.substring(source.length-3);
         slideContent +=`<div class="slide">
-                            <video controls id="video">
+                            <video controls id="video" aria-label="lancer la vidéo">
                                 <source src="${this.src}" alt="${this.slidTitle}" type="video/${extension}" class="media-slide" controls role="image" aria-label="${this.slidTitle}"> 
                                 Votre navigateur ne prend pas en charge ce type de vidéo (${extension})                               
                             </video>
