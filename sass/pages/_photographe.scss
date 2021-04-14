@@ -151,7 +151,7 @@ main {
     color: $primary;       
 }
 
-.mediaPrice, .mediaLikes, .mediaHeart {
+.mediaPrice, .mediaLikes {
     font-size: 1.5rem;
     font-weight: 500;
     font-style: normal;
@@ -161,12 +161,14 @@ main {
 
 .fa-heart {
     padding-left: 0.5rem;
+    color: $primary;
     &:active {
         transform: scale(0.5);
         color: $secondary;
         transition: all 350ms ease-in-out ;
     }
     @media screen and (max-width: map-get($breakpoints, mobile )) {
+        color: $primary;
         &:hover {
             transform: scale(0.5);
             color: $secondary;
@@ -202,7 +204,7 @@ main {
 }
 
 @media screen and (max-width: map-get($breakpoints, mobile )) {
-    .mediaText, .mediaLikes {
+    .mediaText, .mediaLikes, .mediaHeart {
         font-size: 0.9rem;
     }
     .mediaPrice {

@@ -29,6 +29,7 @@ const idWorker = parsedUrl.searchParams.get("id");
 const filterType = parsedUrl.searchParams.get("filt");
 
 
+
 let counter = 1;
 let filterTag = parsedUrl.searchParams.get("tag");
 
@@ -147,7 +148,6 @@ function toggleFilter () {
  */
 
 function moveToFirst (valItem) {
-    console.log(valItem);
     switch (valItem) {
         case "Popularité" :
             dropFilterSelected.textContent = "Popularité";
@@ -449,7 +449,6 @@ class Image extends MediasType {
                             </li>`;    
     }
     getRender_Slide() {
-        console.log(this.slidTitle)
         slideContent +=`<div class="slide">
                             <img src="${this.src}" alt="${this.slidTitle}" class="media-slide" role="image" aria-label="${this.slidTitle}">
                             <span class="mediaText" role="text" aria-label="${this.slidTitle}">${this.slidTitle}</span>
@@ -579,14 +578,13 @@ function toSlide(n) {
         like.addEventListener("click", function(e) {
             e.preventDefault();
             if(!like.classList.contains("liked")) {
-                console.log(aggLikes);
                 addLikes(this.dataset.id, this.dataset.likes);             
                 like.classList.add("liked");
                 aggLikes+=1;
 
                 nbLikes.forEach(nb => {
                     if (nb.dataset.id == like.dataset.id) {
-                        nb.textContent = parseInt(nb.textContent) + 1;                      
+                        nb.innerHTML = (parseInt(nb.textContent) + 1) +" <i class='fas fa-heart liked mediaHeart'></i>";                     
                         document.querySelector(".b-likes-price_content").innerHTML = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1 +" <i class='fas fa-heart'></i>";
                     }
                 });  
@@ -599,7 +597,7 @@ function toSlide(n) {
                 like.classList.add("liked");
                 nbLikes.forEach(nb => {
                     if (nb.dataset.id == like.dataset.id) {
-                        nb.textContent = parseInt(nb.textContent) + 1;
+                        nb.innerHTML = (parseInt(nb.textContent) + 1) +" <i class='fas fa-heart liked mediaHeart'></i>"; 
                         document.querySelector(".b-likes-price_content").innerHTML = parseInt(document.querySelector(".b-likes-price_content").textContent) + 1 +" <i class='fas fa-heart'></i>";
                     }
                 });  

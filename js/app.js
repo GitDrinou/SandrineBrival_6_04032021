@@ -131,7 +131,7 @@ window.addEventListener("keydown", function(e) {
     }
     if (e.key === "Escape" || e.key === "Esc") {
         closeFrmContact();
-    }     
+    }  
     if (e.key === "Enter") {
         if(frmValidation()) {
             console.log("PRENOM : " + firstName.value);
